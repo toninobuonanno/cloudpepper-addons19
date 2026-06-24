@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class VolontariatoTipoCertVolontario(models.Model):
@@ -13,3 +14,13 @@ class VolontariatoTipoCertVolontario(models.Model):
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'Questo tipo di certificazione esiste già.'),
     ]
+
+    @api.constrains('name')
+    def _check_name_unique(self):
+        for record in self:
+            duplicate = self.search([
+                ('name', '=', record.name),
+                ('id', '!=', record.id),
+            ], limit=1)
+            if duplicate:
+                raise ValidationError('Questo tipo di certificazione esiste già: "%s"' % record.name)
