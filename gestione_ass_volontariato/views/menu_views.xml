@@ -7,6 +7,13 @@
               sequence="50"
               web_icon="gestione_ass_volontariato,static/description/icon.svg"/>
 
+    <!-- Registro Interventi: voce principale, subito visibile -->
+    <menuitem id="menu_volontariato_interventi"
+              name="Registro Interventi"
+              parent="menu_volontariato_root"
+              action="action_volontariato_intervento"
+              sequence="10"/>
+
     <!-- Sotto-menu Configurazione -->
     <menuitem id="menu_volontariato_config"
               name="Configurazione"

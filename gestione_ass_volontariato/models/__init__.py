@@ -6,3 +6,7 @@ from . import tipo_contratto
 from . import certificazione_volontario
 from . import hr_employee
 from . import fleet_vehicle
+from . import intervento_squadra
+from . import intervento_paziente
+from . import intervento_consenso
+from . import intervento
