@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
-# Man mano che creeremo i modelli, li importeremo qui. Esempio:
-# from . import intervento
-# from . import qualifica
+from . import qualifica
+from . import tipo_cert_volontario
+from . import tipo_cert_attrezzatura
+from . import tipo_contratto

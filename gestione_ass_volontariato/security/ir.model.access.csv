@@ -1,1 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_volontariato_qualifica,volontariato.qualifica.user,model_volontariato_qualifica,base.group_user,1,1,1,1
+access_volontariato_tipo_cert_volontario,volontariato.tipo.cert.volontario.user,model_volontariato_tipo_cert_volontario,base.group_user,1,1,1,1
+access_volontariato_tipo_cert_attrezzatura,volontariato.tipo.cert.attrezzatura.user,model_volontariato_tipo_cert_attrezzatura,base.group_user,1,1,1,1
+access_volontariato_tipo_contratto,volontariato.tipo.contratto.user,model_volontariato_tipo_contratto,base.group_user,1,1,1,1

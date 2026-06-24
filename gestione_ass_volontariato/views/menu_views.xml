@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu radice del modulo -->
+    <menuitem id="menu_volontariato_root"
+              name="Volontariato"
+              sequence="50"
+              web_icon="gestione_ass_volontariato,static/description/icon.svg"/>
+
+    <!-- Sotto-menu Configurazione -->
+    <menuitem id="menu_volontariato_config"
+              name="Configurazione"
+              parent="menu_volontariato_root"
+              sequence="90"/>
+
+    <menuitem id="menu_volontariato_qualifica"
+              name="Qualifiche Volontari"
+              parent="menu_volontariato_config"
+              action="action_volontariato_qualifica"
+              sequence="10"/>
+
+    <menuitem id="menu_volontariato_tipo_cert_volontario"
+              name="Tipi Certificazione Volontari"
+              parent="menu_volontariato_config"
+              action="action_volontariato_tipo_cert_volontario"
+              sequence="20"/>
+
+    <menuitem id="menu_volontariato_tipo_cert_attrezzatura"
+              name="Tipi Certificazione Attrezzature"
+              parent="menu_volontariato_config"
+              action="action_volontariato_tipo_cert_attrezzatura"
+              sequence="30"/>
+
+    <menuitem id="menu_volontariato_tipo_contratto"
+              name="Tipi Contratto / Assicurazione"
+              parent="menu_volontariato_config"
+              action="action_volontariato_tipo_contratto"
+              sequence="40"/>
+
+</odoo>

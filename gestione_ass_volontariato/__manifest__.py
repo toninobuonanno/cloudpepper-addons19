@@ -26,6 +26,11 @@ e assistenza con ambulanza. Funzionalità principali:
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/qualifica_views.xml',
+        'views/tipo_cert_volontario_views.xml',
+        'views/tipo_cert_attrezzatura_views.xml',
+        'views/tipo_contratto_views.xml',
+        'views/menu_views.xml',
     ],
     'installable': True,
     'application': True,

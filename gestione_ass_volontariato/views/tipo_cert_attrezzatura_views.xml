@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_volontariato_tipo_cert_attrezzatura_list" model="ir.ui.view">
+        <field name="name">volontariato.tipo.cert.attrezzatura.list</field>
+        <field name="model">volontariato.tipo.cert.attrezzatura</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_volontariato_tipo_cert_attrezzatura" model="ir.actions.act_window">
+        <field name="name">Tipi Certificazione Attrezzature</field>
+        <field name="res_model">volontariato.tipo.cert.attrezzatura</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

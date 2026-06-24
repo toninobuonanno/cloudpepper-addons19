@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_volontariato_tipo_contratto_list" model="ir.ui.view">
+        <field name="name">volontariato.tipo.contratto.list</field>
+        <field name="model">volontariato.tipo.contratto</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_volontariato_tipo_contratto" model="ir.actions.act_window">
+        <field name="name">Tipi Contratto / Assicurazione</field>
+        <field name="res_model">volontariato.tipo.contratto</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>
