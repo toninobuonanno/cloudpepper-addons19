@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_fleet_vehicle_form_volontariato" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.volontariato</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Inserisce un gruppo dedicato in cima al sheet, prima di tutto il resto.
+                 Ancorare sul tag <sheet> (sempre presente) è più robusto che ancorare
+                 su un campo specifico la cui posizione esatta può variare tra versioni. -->
+            <xpath expr="//sheet" position="inside">
+                <group string="Dati Associazione Volontariato" name="volontariato_group">
+                    <field name="volontariato_sigla"/>
+                    <field name="volontariato_tipo_mezzo"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

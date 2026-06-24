@@ -3,3 +3,6 @@ from . import qualifica
 from . import tipo_cert_volontario
 from . import tipo_cert_attrezzatura
 from . import tipo_contratto
+from . import certificazione_volontario
+from . import hr_employee
+from . import fleet_vehicle

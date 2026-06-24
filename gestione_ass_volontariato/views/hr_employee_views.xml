@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Aggiunge una pagina dedicata ai dati volontariato, più robusta di un xpath su un campo
+         specifico che potrebbe non essere sempre presente nel form (es. employee_type
+         è in una tab condizionata dai permessi HR) -->
+    <record id="view_employee_form_volontariato" model="ir.ui.view">
+        <field name="name">hr.employee.form.volontariato</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Dati Volontariato" name="volontariato_dati">
+                    <group>
+                        <group string="Qualifica e Identificazione">
+                            <field name="volontariato_qualifica_id"/>
+                            <field name="volontariato_nr_primis"/>
+                        </group>
+                    </group>
+                    <separator string="Certificazioni"/>
+                    <field name="volontariato_cert_ids">
+                        <list editable="bottom">
+                            <field name="tipo_cert_id"/>
+                            <field name="data_conseguimento"/>
+                            <field name="data_scadenza"
+                                   decoration-danger="stato_scadenza == 'expired'"
+                                   decoration-warning="stato_scadenza == 'warn'"/>
+                            <field name="stato_scadenza" widget="badge"
+                                   decoration-danger="stato_scadenza == 'expired'"
+                                   decoration-warning="stato_scadenza == 'warn'"
+                                   decoration-success="stato_scadenza == 'ok'"
+                                   decoration-muted="stato_scadenza == 'none'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

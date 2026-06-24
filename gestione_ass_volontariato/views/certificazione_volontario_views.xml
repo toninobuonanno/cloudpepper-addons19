@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_certificazione_volontario_list" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.volontario.list</field>
+        <field name="model">volontariato.certificazione.volontario</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="tipo_cert_id"/>
+                <field name="data_conseguimento"/>
+                <field name="data_scadenza"
+                       decoration-danger="stato_scadenza == 'expired'"
+                       decoration-warning="stato_scadenza == 'warn'"
+                       decoration-success="stato_scadenza == 'ok'"/>
+                <field name="stato_scadenza" widget="badge"
+                       decoration-danger="stato_scadenza == 'expired'"
+                       decoration-warning="stato_scadenza == 'warn'"
+                       decoration-success="stato_scadenza == 'ok'"
+                       decoration-muted="stato_scadenza == 'none'"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>
