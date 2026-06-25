@@ -121,6 +121,24 @@
               action="action_volontariato_contratto"
               sequence="50"/>
 
+    <!-- Dashboard: cruscotti statistiche con filtro data -->
+    <menuitem id="menu_volontariato_dashboard"
+              name="Dashboard"
+              parent="menu_volontariato_root"
+              sequence="60"/>
+
+    <menuitem id="menu_volontariato_dashboard_interventi"
+              name="Interventi"
+              parent="menu_volontariato_dashboard"
+              action="action_volontariato_dashboard_interventi"
+              sequence="10"/>
+
+    <menuitem id="menu_volontariato_dashboard_volontari"
+              name="Volontari"
+              parent="menu_volontariato_dashboard"
+              action="action_volontariato_dashboard_volontari"
+              sequence="20"/>
+
     <menuitem id="menu_volontariato_qualifica"
               name="Qualifiche Volontari"
               parent="menu_volontariato_config"

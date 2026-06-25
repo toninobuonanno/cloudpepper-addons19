@@ -23,6 +23,9 @@ class VolontariatoInterventoSquadra(models.Model):
     employee_id = fields.Many2one(
         'hr.employee', string='Volontario', required=True,
     )
+    data_intervento = fields.Date(
+        related='intervento_id.data', string='Data Intervento', store=True,
+    )
 
     # Comodo per liste raggruppate o stampe: nome leggibile del ruolo + persona
     display_name_squadra = fields.Char(

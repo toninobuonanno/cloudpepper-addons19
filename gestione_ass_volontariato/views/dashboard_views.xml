@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════ PIVOT VIEW: Interventi per Automezzo / Tipo / Mese ═══════════ -->
+    <record id="view_volontariato_intervento_pivot" model="ir.ui.view">
+        <field name="name">volontariato.intervento.pivot</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="arch" type="xml">
+            <pivot string="Statistiche Interventi">
+                <field name="vehicle_id" type="row"/>
+                <field name="tipo_intervento" type="col"/>
+                <field name="km_totali" type="measure"/>
+                <field name="numero_volontari" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ═══════════ GRAPH VIEW: Km per Automezzo ═══════════ -->
+    <record id="view_volontariato_intervento_graph_km" model="ir.ui.view">
+        <field name="name">volontariato.intervento.graph.km</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="arch" type="xml">
+            <graph string="Km per Automezzo" type="bar">
+                <field name="vehicle_id"/>
+                <field name="km_totali" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ═══════════ GRAPH VIEW: Interventi per Mese ═══════════ -->
+    <record id="view_volontariato_intervento_graph_mese" model="ir.ui.view">
+        <field name="name">volontariato.intervento.graph.mese</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="arch" type="xml">
+            <graph string="Interventi per Mese" type="bar">
+                <field name="data" interval="month"/>
+                <field name="km_totali" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ═══════════ GRAPH VIEW: Interventi per Tipo ═══════════ -->
+    <record id="view_volontariato_intervento_graph_tipo" model="ir.ui.view">
+        <field name="name">volontariato.intervento.graph.tipo</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="arch" type="xml">
+            <graph string="Interventi per Tipo" type="pie">
+                <field name="tipo_intervento"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ═══════════ SEARCH VIEW DASHBOARD con filtro data da/a ═══════════ -->
+    <record id="view_volontariato_intervento_search_dashboard" model="ir.ui.view">
+        <field name="name">volontariato.intervento.search.dashboard</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vehicle_id"/>
+                <field name="data"/>
+                <filter string="Data" name="filter_data" date="data"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter string="Automezzo" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                    <filter string="Tipo Intervento" name="group_tipo" context="{'group_by': 'tipo_intervento'}"/>
+                    <filter string="Mese" name="group_mese" context="{'group_by': 'data:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══════════ ACTION: Dashboard Statistiche Interventi ═══════════ -->
+    <record id="action_volontariato_dashboard_interventi" model="ir.actions.act_window">
+        <field name="name">Dashboard Interventi</field>
+        <field name="res_model">volontariato.intervento</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id" ref="view_volontariato_intervento_search_dashboard"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_volontariato_intervento_graph_km')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_volontariato_intervento_pivot')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_volontariato_intervento_list')})]"/>
+        <field name="context">{'search_default_filter_data': 1}</field>
+    </record>
+
+    <!-- ═══════════ PIVOT VIEW: Squadra (volontari attivi) ═══════════ -->
+    <record id="view_volontariato_intervento_squadra_pivot" model="ir.ui.view">
+        <field name="name">volontariato.intervento.squadra.pivot</field>
+        <field name="model">volontariato.intervento.squadra</field>
+        <field name="arch" type="xml">
+            <pivot string="Volontari Attivi">
+                <field name="employee_id" type="row"/>
+                <field name="ruolo" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_volontariato_intervento_squadra_graph" model="ir.ui.view">
+        <field name="name">volontariato.intervento.squadra.graph</field>
+        <field name="model">volontariato.intervento.squadra</field>
+        <field name="arch" type="xml">
+            <graph string="Interventi per Volontario" type="bar">
+                <field name="employee_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_volontariato_intervento_squadra_search" model="ir.ui.view">
+        <field name="name">volontariato.intervento.squadra.search</field>
+        <field name="model">volontariato.intervento.squadra</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="data_intervento"/>
+                <filter string="Data Intervento" name="filter_data" date="data_intervento"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_volontariato_dashboard_volontari" model="ir.actions.act_window">
+        <field name="name">Dashboard Volontari</field>
+        <field name="res_model">volontariato.intervento.squadra</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id" ref="view_volontariato_intervento_squadra_search"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_volontariato_intervento_squadra_graph')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_volontariato_intervento_squadra_pivot')})]"/>
+    </record>
+
+</odoo>
