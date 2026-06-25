@@ -44,10 +44,39 @@
         </field>
     </record>
 
+    <record id="view_certificazione_attrezzatura_list_global" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.attrezzatura.list.global</field>
+        <field name="model">volontariato.certificazione.attrezzatura</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="equipment_id" string="Dispositivo"/>
+                <field name="tipo_cert_id" string="Tipo Certificazione"/>
+                <field name="data_conseguimento" string="Data Certificazione"/>
+                <field name="data_scadenza"/>
+                <field name="stato_scadenza" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_certificazione_attrezzatura_search" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.attrezzatura.search</field>
+        <field name="model">volontariato.certificazione.attrezzatura</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="equipment_id"/>
+                <field name="tipo_cert_id"/>
+                <filter string="Scadute" name="cert_expired" domain="[('stato_scadenza', '=', 'expired')]"/>
+                <filter string="In Scadenza" name="cert_warn" domain="[('stato_scadenza', '=', 'warn')]"/>
+                <filter string="Valide" name="cert_ok" domain="[('stato_scadenza', '=', 'ok')]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_volontariato_certificazione_attrezzatura_global" model="ir.actions.act_window">
         <field name="name">Certificazioni / Revisioni Dispositivi</field>
         <field name="res_model">volontariato.certificazione.attrezzatura</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_certificazione_attrezzatura_list_global"/>
     </record>
 
     <record id="view_maintenance_equipment_list_volontariato" model="ir.ui.view">

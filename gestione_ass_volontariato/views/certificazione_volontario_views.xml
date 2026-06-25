@@ -6,6 +6,7 @@
         <field name="model">volontariato.certificazione.volontario</field>
         <field name="arch" type="xml">
             <list editable="bottom">
+                <field name="employee_id" string="Volontario"/>
                 <field name="tipo_cert_id"/>
                 <field name="data_conseguimento"/>
                 <field name="data_scadenza"/>
@@ -14,10 +15,25 @@
         </field>
     </record>
 
+    <record id="view_certificazione_volontario_search" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.volontario.search</field>
+        <field name="model">volontariato.certificazione.volontario</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="tipo_cert_id"/>
+                <filter string="Scadute" name="cert_expired" domain="[('stato_scadenza', '=', 'expired')]"/>
+                <filter string="In Scadenza" name="cert_warn" domain="[('stato_scadenza', '=', 'warn')]"/>
+                <filter string="Valide" name="cert_ok" domain="[('stato_scadenza', '=', 'ok')]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_volontariato_certificazione_volontario_global" model="ir.actions.act_window">
         <field name="name">Certificazioni Volontari</field>
         <field name="res_model">volontariato.certificazione.volontario</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_certificazione_volontario_list"/>
     </record>
 
 </odoo>
