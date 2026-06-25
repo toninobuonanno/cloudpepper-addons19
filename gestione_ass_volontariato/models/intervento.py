@@ -14,6 +14,15 @@ class VolontariatoIntervento(models.Model):
         string='Codice', required=True, copy=False, readonly=True,
         default=lambda self: 'Nuovo',
     )
+    state = fields.Selection(
+        [
+            ('draft', 'Bozza'),
+            ('confirmed', 'Confermato'),
+            ('cancelled', 'Annullato'),
+        ],
+        string='Stato', default='draft', required=True, copy=False,
+        tracking=True,
+    )
 
     # ───────── SEZIONE 1 — Dati Intervento ─────────
     vehicle_id = fields.Many2one(
@@ -155,6 +164,25 @@ class VolontariatoIntervento(models.Model):
                 raise ValidationError(
                     'Non è possibile assegnare più di un Autista allo stesso intervento.'
                 )
+
+    # ───────── Workflow ─────────
+    def action_confirm(self):
+        for record in self:
+            if record.state != 'draft':
+                raise ValidationError(
+                    'Solo gli interventi in stato Bozza possono essere confermati.'
+                )
+            record.state = 'confirmed'
+
+    def action_cancel(self):
+        for record in self:
+            if record.state == 'cancelled':
+                continue
+            record.state = 'cancelled'
+
+    def action_set_draft(self):
+        for record in self:
+            record.state = 'draft'
 
     # ───────── Numerazione automatica ─────────
     @api.model_create_multi

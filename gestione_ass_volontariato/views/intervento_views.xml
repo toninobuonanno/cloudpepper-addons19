@@ -7,6 +7,15 @@
         <field name="model">volontariato.intervento</field>
         <field name="arch" type="xml">
             <form string="Foglio di Viaggio">
+                <header>
+                    <button name="action_confirm" type="object" string="Conferma"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annulla"
+                            invisible="state == 'cancelled'"/>
+                    <button name="action_set_draft" type="object" string="Imposta a Bozza"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -110,7 +119,7 @@
         <field name="name">volontariato.intervento.list</field>
         <field name="model">volontariato.intervento</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="state == 'cancelled'" decoration-success="state == 'confirmed'">
                 <field name="codice"/>
                 <field name="data"/>
                 <field name="vehicle_id"/>
@@ -118,6 +127,10 @@
                 <field name="richiedente"/>
                 <field name="luogo"/>
                 <field name="km_totali"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -132,6 +145,9 @@
                 <field name="vehicle_id"/>
                 <field name="richiedente"/>
                 <field name="luogo"/>
+                <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confermato" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Annullato" name="state_cancelled" domain="[('state', '=', 'cancelled')]"/>
             </search>
         </field>
     </record>
