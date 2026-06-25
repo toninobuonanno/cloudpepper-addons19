@@ -86,6 +86,14 @@
             <list>
                 <field name="name"/>
                 <field name="category_id"/>
+                <field name="serial_no" optional="show"/>
+                <field name="effective_date" optional="hide" string="Data Acquisto"/>
+                <field name="warranty_date" optional="hide"/>
+                <field name="employee_id" optional="show"/>
+                <field name="department_id" optional="hide"/>
+                <field name="technician_user_id" optional="hide"/>
+                <field name="partner_id" optional="hide" string="Fornitore"/>
+                <field name="cost" optional="hide"/>
                 <field name="volontariato_cert_count" optional="show" string="Numero Certificazioni"/>
             </list>
         </field>
