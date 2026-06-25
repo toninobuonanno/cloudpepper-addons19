@@ -23,7 +23,7 @@
                         </h1>
                     </div>
 
-                    <group>
+                    <group invisible="state != 'draft'">
                         <group string="Sezione 1 - Dati Intervento">
                             <field name="vehicle_id"/>
                             <field name="tipo_intervento"/>
@@ -42,33 +42,52 @@
                         </group>
                     </group>
 
+                    <group invisible="state == 'draft'">
+                        <group string="Sezione 1 - Dati Intervento">
+                            <field name="vehicle_id" readonly="1"/>
+                            <field name="tipo_intervento" readonly="1"/>
+                            <field name="data" readonly="1"/>
+                            <field name="ora_inizio" widget="float_time" readonly="1"/>
+                            <field name="ora_fine" widget="float_time" readonly="1"/>
+                            <field name="km_iniziali" readonly="1"/>
+                            <field name="km_finali" readonly="1"/>
+                            <field name="km_totali" readonly="1"/>
+                        </group>
+                        <group string="Orari sul Luogo">
+                            <field name="ora_arrivo_luogo" widget="float_time" readonly="1"/>
+                            <field name="ora_partenza_luogo" widget="float_time" readonly="1"/>
+                            <field name="ora_arrivo_dest" widget="float_time" readonly="1"/>
+                            <field name="durata_ore" widget="float_time" readonly="1"/>
+                        </group>
+                    </group>
+
                     <group>
                         <group string="Richiedente">
-                            <field name="richiedente"/>
-                            <field name="richiedente_citta"/>
-                            <field name="richiedente_provincia"/>
+                            <field name="richiedente" readonly="state != 'draft'"/>
+                            <field name="richiedente_citta" readonly="state != 'draft'"/>
+                            <field name="richiedente_provincia" readonly="state != 'draft'"/>
                         </group>
                         <group string="Luogo">
-                            <field name="luogo"/>
-                            <field name="luogo_citta"/>
-                            <field name="luogo_provincia"/>
-                            <field name="luogo_destinazione"/>
+                            <field name="luogo" readonly="state != 'draft'"/>
+                            <field name="luogo_citta" readonly="state != 'draft'"/>
+                            <field name="luogo_provincia" readonly="state != 'draft'"/>
+                            <field name="luogo_destinazione" readonly="state != 'draft'"/>
                         </group>
                     </group>
 
                     <group string="Rifornimento, Pulizia, Offerta">
-                        <field name="rifornimento"/>
-                        <field name="rifornimento_euro"/>
-                        <field name="rifornimento_litri"/>
-                        <field name="pulizia"/>
-                        <field name="offerta"/>
-                        <field name="offerta_euro"/>
-                        <field name="offerta_ricevuta"/>
+                        <field name="rifornimento" readonly="state != 'draft'"/>
+                        <field name="rifornimento_euro" readonly="state != 'draft'"/>
+                        <field name="rifornimento_litri" readonly="state != 'draft'"/>
+                        <field name="pulizia" readonly="state != 'draft'"/>
+                        <field name="offerta" readonly="state != 'draft'"/>
+                        <field name="offerta_euro" readonly="state != 'draft'"/>
+                        <field name="offerta_ricevuta" readonly="state != 'draft'"/>
                     </group>
 
                     <notebook>
                         <page string="Squadra" name="squadra">
-                            <field name="squadra_ids">
+                            <field name="squadra_ids" readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="ruolo"/>
@@ -80,12 +99,14 @@
 
                         <page string="Modalità e Annotazioni" name="annotazioni">
                             <group>
-                                <field name="note" nolabel="1" placeholder="Modalità di svolgimento e annotazioni..."/>
+                                <field name="note" nolabel="1"
+                                       placeholder="Modalità di svolgimento e annotazioni..."
+                                       readonly="state != 'draft'"/>
                             </group>
                         </page>
 
                         <page string="Paziente" name="paziente">
-                            <field name="paziente_ids">
+                            <field name="paziente_ids" readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="cognome_nome"/>
                                     <field name="nato_a"/>
@@ -100,7 +121,7 @@
                         </page>
 
                         <page string="Consensi" name="consensi">
-                            <field name="consenso_ids">
+                            <field name="consenso_ids" readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="consenso_fornito"/>
                                     <field name="rifiuto_ricovero"/>

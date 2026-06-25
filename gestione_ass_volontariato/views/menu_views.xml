@@ -20,6 +20,49 @@
               parent="menu_volontariato_root"
               sequence="90"/>
 
+    <!-- Automezzi: azione propria che punta al modello fleet.vehicle nativo -->
+    <record id="action_volontariato_automezzi" model="ir.actions.act_window">
+        <field name="name">Automezzi</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+    <menuitem id="menu_volontariato_automezzi"
+              name="Automezzi"
+              parent="menu_volontariato_root"
+              action="action_volontariato_automezzi"
+              sequence="20"/>
+
+    <!-- Volontari: azione propria che punta al modello hr.employee nativo,
+         filtrato sulla Posizione Lavorativa (job_id) con nome "Volontario".
+         Questo richiede che esista una hr.job con nome esatto "Volontario";
+         se non esiste ancora, crearla da Dipendenti > Reclutamento > Posizioni Lavorative,
+         oppure aprire un dipendente e scrivere "Volontario" nel campo Posizione Lavorativa. -->
+    <record id="action_volontariato_volontari" model="ir.actions.act_window">
+        <field name="name">Volontari</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('job_id.name', '=', 'Volontario')]</field>
+    </record>
+    <menuitem id="menu_volontariato_volontari"
+              name="Volontari"
+              parent="menu_volontariato_root"
+              action="action_volontariato_volontari"
+              sequence="30"/>
+
+    <!-- Azione secondaria, senza filtro, per vedere TUTTI i dipendenti
+         (utile se la posizione "Volontario" non è ancora configurata o
+         per gestire anche dipendenti non-volontari dalla stessa app) -->
+    <record id="action_volontariato_dipendenti_tutti" model="ir.actions.act_window">
+        <field name="name">Tutti i Dipendenti</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <menuitem id="menu_volontariato_dipendenti_tutti"
+              name="Tutti i Dipendenti"
+              parent="menu_volontariato_root"
+              action="action_volontariato_dipendenti_tutti"
+              sequence="31"/>
+
     <menuitem id="menu_volontariato_qualifica"
               name="Qualifiche Volontari"
               parent="menu_volontariato_config"
