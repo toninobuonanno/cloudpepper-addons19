@@ -147,7 +147,16 @@
                 <field name="tipo_intervento"/>
                 <field name="richiedente"/>
                 <field name="luogo"/>
+                <field name="luogo_citta" optional="hide"/>
+                <field name="luogo_provincia" optional="hide"/>
                 <field name="km_totali"/>
+                <field name="durata_ore" widget="float_time" optional="hide"/>
+                <field name="caposquadra_id" optional="show"/>
+                <field name="autista_id" optional="hide"/>
+                <field name="numero_volontari" optional="hide"/>
+                <field name="rifornimento" optional="hide"/>
+                <field name="pulizia" optional="hide"/>
+                <field name="offerta" optional="hide"/>
                 <field name="state" widget="badge"
                        decoration-info="state == 'draft'"
                        decoration-success="state == 'confirmed'"

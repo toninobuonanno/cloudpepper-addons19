@@ -47,5 +47,80 @@
             </xpath>
         </field>
     </record>
+    <!-- ═══════════ VISTA TRASVERSALE: tutte le certificazioni di tutti i dispositivi ═══════════ -->
+    <record id="view_certificazione_attrezzatura_list_global" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.attrezzatura.list.global</field>
+        <field name="model">volontariato.certificazione.attrezzatura</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="stato_scadenza == 'expired'" decoration-warning="stato_scadenza == 'warn'">
+                <field name="equipment_id" string="Dispositivo"/>
+                <field name="tipo_cert_id" string="Tipo Certificazione"/>
+                <field name="data_conseguimento" string="Data Certificazione"/>
+                <field name="data_scadenza"/>
+                <field name="stato_scadenza" widget="badge"
+                       decoration-danger="stato_scadenza == 'expired'"
+                       decoration-warning="stato_scadenza == 'warn'"
+                       decoration-success="stato_scadenza == 'ok'"
+                       decoration-muted="stato_scadenza == 'none'"
+                       optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_certificazione_attrezzatura_search_global" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.attrezzatura.search.global</field>
+        <field name="model">volontariato.certificazione.attrezzatura</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="equipment_id"/>
+                <field name="tipo_cert_id"/>
+                <filter string="Scadute" name="cert_expired" domain="[('stato_scadenza', '=', 'expired')]"/>
+                <filter string="In Scadenza" name="cert_warn" domain="[('stato_scadenza', '=', 'warn')]"/>
+                <filter string="Valide" name="cert_ok" domain="[('stato_scadenza', '=', 'ok')]"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter string="Dispositivo" name="group_equipment" context="{'group_by': 'equipment_id'}"/>
+                    <filter string="Tipo Certificazione" name="group_tipo" context="{'group_by': 'tipo_cert_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_volontariato_certificazione_attrezzatura_global" model="ir.actions.act_window">
+        <field name="name">Certificazioni / Revisioni Dispositivi</field>
+        <field name="res_model">volontariato.certificazione.attrezzatura</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_certificazione_attrezzatura_list_global"/>
+        <field name="search_view_id" ref="view_certificazione_attrezzatura_search_global"/>
+    </record>
+    <!-- Vista lista personalizzata per Dispositivi con colonne opzionali,
+         incluso il conteggio certificazioni custom del nostro modulo -->
+    <record id="view_maintenance_equipment_list_volontariato" model="ir.ui.view">
+        <field name="name">maintenance.equipment.list.volontariato</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="serial_number" optional="show"/>
+                <field name="effective_date" optional="hide" string="Data Acquisto"/>
+                <field name="warranty_date" optional="hide"/>
+                <field name="employee_id" optional="show"/>
+                <field name="department_id" optional="hide"/>
+                <field name="location" optional="hide"/>
+                <field name="volontariato_cert_count" optional="show" string="N° Certificazioni"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Aggiorna l'azione del menu Dispositivi per usare questa vista list -->
+    <record id="action_volontariato_dispositivi" model="ir.actions.act_window">
+        <field name="name">Dispositivi e Attrezzature</field>
+        <field name="res_model">maintenance.equipment</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_maintenance_equipment_list_volontariato')}),
+            (0, 0, {'view_mode': 'kanban'}),
+            (0, 0, {'view_mode': 'form'})]"/>
+    </record>
 
 </odoo>
