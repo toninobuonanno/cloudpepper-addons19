@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class VolontariatoCertificazioneVolontario(models.Model):
@@ -25,8 +25,10 @@ class VolontariatoCertificazioneVolontario(models.Model):
         ],
         string='Stato',
         compute='_compute_stato_scadenza',
+        store=True,
     )
 
+    @api.depends('data_scadenza')
     def _compute_stato_scadenza(self):
         today = fields.Date.context_today(self)
         for record in self:
@@ -38,3 +40,11 @@ class VolontariatoCertificazioneVolontario(models.Model):
                 record.stato_scadenza = 'warn'
             else:
                 record.stato_scadenza = 'ok'
+
+    @api.model
+    def _cron_aggiorna_stati_scadenza(self):
+        """Ricalcola lo stato scadenza di tutte le certificazioni.
+        Necessario perché il campo è 'store=True' e altrimenti non si
+        aggiornerebbe automaticamente con il solo passare dei giorni."""
+        records = self.search([])
+        records._compute_stato_scadenza()

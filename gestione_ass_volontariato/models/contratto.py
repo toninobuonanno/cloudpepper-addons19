@@ -74,3 +74,8 @@ class VolontariatoContratto(models.Model):
                 record.stato_scadenza = 'warn'
             else:
                 record.stato_scadenza = 'ok'
+
+    @api.model
+    def _cron_aggiorna_stati_scadenza(self):
+        records = self.search([])
+        records._compute_stato_scadenza()
