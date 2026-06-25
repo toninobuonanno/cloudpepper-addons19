@@ -75,6 +75,13 @@
               action="action_volontariato_dispositivi"
               sequence="40"/>
 
+    <!-- Contratti generali: modello custom proprio del modulo -->
+    <menuitem id="menu_volontariato_contratti"
+              name="Contratti e Assicurazioni"
+              parent="menu_volontariato_root"
+              action="action_volontariato_contratto"
+              sequence="50"/>
+
     <menuitem id="menu_volontariato_qualifica"
               name="Qualifiche Volontari"
               parent="menu_volontariato_config"

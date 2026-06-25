@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════ FORM VIEW ═══════════ -->
+    <record id="view_volontariato_contratto_form" model="ir.ui.view">
+        <field name="name">volontariato.contratto.form</field>
+        <field name="model">volontariato.contratto</field>
+        <field name="arch" type="xml">
+            <form string="Contratto / Assicurazione">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="tipo_id"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Dati Contratto">
+                            <field name="fornitore"/>
+                            <field name="numero_contratto"/>
+                            <field name="periodicita"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Date e Importo">
+                            <field name="data_contratto"/>
+                            <field name="data_scadenza"/>
+                            <field name="stato_scadenza" widget="badge"
+                                   decoration-danger="stato_scadenza == 'expired'"
+                                   decoration-warning="stato_scadenza == 'warn'"
+                                   decoration-success="stato_scadenza == 'ok'"
+                                   decoration-muted="stato_scadenza == 'none'"/>
+                            <field name="importo"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Rate e Pagamenti" name="rate">
+                            <group>
+                                <field name="totale_pagato" readonly="1"/>
+                                <field name="totale_in_attesa" readonly="1"/>
+                            </group>
+                            <field name="rata_ids">
+                                <list editable="bottom">
+                                    <field name="data_rata"/>
+                                    <field name="importo"/>
+                                    <field name="scadenza"/>
+                                    <field name="note"/>
+                                    <field name="pagato"/>
+                                    <field name="stato_scadenza" widget="badge"
+                                           decoration-danger="stato_scadenza == 'expired'"
+                                           decoration-warning="stato_scadenza == 'warn'"
+                                           decoration-success="stato_scadenza == 'paid'"
+                                           decoration-muted="stato_scadenza == 'none'"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Note" name="note">
+                            <field name="note" nolabel="1" placeholder="Note aggiuntive sul contratto..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════ LIST VIEW ═══════════ -->
+    <record id="view_volontariato_contratto_list" model="ir.ui.view">
+        <field name="name">volontariato.contratto.list</field>
+        <field name="model">volontariato.contratto</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="not active">
+                <field name="tipo_id"/>
+                <field name="fornitore"/>
+                <field name="numero_contratto"/>
+                <field name="periodicita"/>
+                <field name="data_scadenza"/>
+                <field name="importo"/>
+                <field name="totale_pagato"/>
+                <field name="totale_in_attesa"/>
+                <field name="stato_scadenza" widget="badge"
+                       decoration-danger="stato_scadenza == 'expired'"
+                       decoration-warning="stato_scadenza == 'warn'"
+                       decoration-success="stato_scadenza == 'ok'"
+                       decoration-muted="stato_scadenza == 'none'"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══════════ SEARCH VIEW ═══════════ -->
+    <record id="view_volontariato_contratto_search" model="ir.ui.view">
+        <field name="name">volontariato.contratto.search</field>
+        <field name="model">volontariato.contratto</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="tipo_id"/>
+                <field name="fornitore"/>
+                <field name="numero_contratto"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══════════ ACTION ═══════════ -->
+    <record id="action_volontariato_contratto" model="ir.actions.act_window">
+        <field name="name">Contratti e Assicurazioni</field>
+        <field name="res_model">volontariato.contratto</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

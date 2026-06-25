@@ -8,6 +8,8 @@ from . import certificazione_attrezzatura
 from . import hr_employee
 from . import fleet_vehicle
 from . import maintenance_equipment
+from . import contratto_rata
+from . import contratto
 from . import intervento_squadra
 from . import intervento_paziente
 from . import intervento_consenso
