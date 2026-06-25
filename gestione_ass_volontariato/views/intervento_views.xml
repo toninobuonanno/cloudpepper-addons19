@@ -7,7 +7,6 @@
         <field name="model">volontariato.intervento</field>
         <field name="arch" type="xml">
             <form string="Foglio di Viaggio">
-                <header/>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -15,26 +14,26 @@
                         </h1>
                     </div>
 
-                    <!-- ═══ SEZIONE 1 — Dati Intervento ═══ -->
-                    <group string="Sezione 1 — Dati dell'Intervento">
-                        <group>
+                    <group>
+                        <group string="Sezione 1 - Dati Intervento">
                             <field name="vehicle_id"/>
                             <field name="tipo_intervento"/>
                             <field name="data"/>
-                            <field name="km_totali"/>
-                        </group>
-                        <group>
                             <field name="ora_inizio" widget="float_time"/>
                             <field name="ora_fine" widget="float_time"/>
                             <field name="km_iniziali"/>
                             <field name="km_finali"/>
+                            <field name="km_totali" readonly="1"/>
                         </group>
-                        <group>
+                        <group string="Orari sul Luogo">
                             <field name="ora_arrivo_luogo" widget="float_time"/>
                             <field name="ora_partenza_luogo" widget="float_time"/>
                             <field name="ora_arrivo_dest" widget="float_time"/>
                             <field name="durata_ore" widget="float_time" readonly="1"/>
                         </group>
+                    </group>
+
+                    <group>
                         <group string="Richiedente">
                             <field name="richiedente"/>
                             <field name="richiedente_citta"/>
@@ -48,25 +47,18 @@
                         </group>
                     </group>
 
-                    <group string="Rifornimento / Pulizia / Offerta">
-                        <group>
-                            <field name="rifornimento"/>
-                            <field name="rifornimento_euro" invisible="not rifornimento"/>
-                            <field name="rifornimento_litri" invisible="not rifornimento"/>
-                        </group>
-                        <group>
-                            <field name="pulizia"/>
-                        </group>
-                        <group>
-                            <field name="offerta"/>
-                            <field name="offerta_euro" invisible="not offerta"/>
-                            <field name="offerta_ricevuta" invisible="not offerta"/>
-                        </group>
+                    <group string="Rifornimento, Pulizia, Offerta">
+                        <field name="rifornimento"/>
+                        <field name="rifornimento_euro"/>
+                        <field name="rifornimento_litri"/>
+                        <field name="pulizia"/>
+                        <field name="offerta"/>
+                        <field name="offerta_euro"/>
+                        <field name="offerta_ricevuta"/>
                     </group>
 
                     <notebook>
-                        <!-- ═══ SEZIONE 2 — Squadra ═══ -->
-                        <page string="Sezione 2 — Squadra" name="squadra">
+                        <page string="Squadra" name="squadra">
                             <field name="squadra_ids">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -74,15 +66,11 @@
                                     <field name="employee_id"/>
                                 </list>
                             </field>
-                            <group>
-                                <field name="numero_volontari" readonly="1"/>
-                            </group>
-                            <separator string="Note"/>
-                            <field name="note" placeholder="Modalità di svolgimento e annotazioni..."/>
+                            <field name="numero_volontari" readonly="1"/>
+                            <field name="note"/>
                         </page>
 
-                        <!-- ═══ SEZIONE 3 — Paziente ═══ -->
-                        <page string="Sezione 3 — Dati Anagrafici Paziente" name="paziente">
+                        <page string="Paziente" name="paziente">
                             <field name="paziente_ids">
                                 <list editable="bottom">
                                     <field name="cognome_nome"/>
@@ -97,22 +85,16 @@
                             </field>
                         </page>
 
-                        <!-- ═══ SEZIONE 4 — Consensi ═══ -->
-                        <page string="Sezione 4 — Consensi" name="consensi">
+                        <page string="Consensi" name="consensi">
                             <field name="consenso_ids">
                                 <list editable="bottom">
-                                    <field name="consenso_fornito" widget="boolean_toggle"/>
-                                    <field name="rifiuto_ricovero" widget="boolean_toggle"/>
+                                    <field name="consenso_fornito"/>
+                                    <field name="rifiuto_ricovero"/>
                                 </list>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
@@ -129,8 +111,7 @@
                 <field name="tipo_intervento"/>
                 <field name="richiedente"/>
                 <field name="luogo"/>
-                <field name="km_totali" sum="Km Totali"/>
-                <field name="caposquadra_id"/>
+                <field name="km_totali"/>
             </list>
         </field>
     </record>
@@ -145,18 +126,6 @@
                 <field name="vehicle_id"/>
                 <field name="richiedente"/>
                 <field name="luogo"/>
-                <field name="caposquadra_id"/>
-                <filter string="Oggi" name="oggi" domain="[('data', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                <separator/>
-                <filter string="Emergenza" name="emergenza" domain="[('tipo_intervento', '=', 'emergenza')]"/>
-                <filter string="Assistenza" name="assistenza" domain="[('tipo_intervento', '=', 'assistenza')]"/>
-                <filter string="Trasporto" name="trasporto" domain="[('tipo_intervento', '=', 'trasporto')]"/>
-                <group expand="0" string="Raggruppa per">
-                    <filter string="Automezzo" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
-                    <filter string="Tipo Intervento" name="group_tipo" context="{'group_by': 'tipo_intervento'}"/>
-                    <filter string="Caposquadra" name="group_capo" context="{'group_by': 'caposquadra_id'}"/>
-                    <filter string="Data" name="group_data" context="{'group_by': 'data'}"/>
-                </group>
             </search>
         </field>
     </record>
@@ -166,12 +135,6 @@
         <field name="name">Registro Interventi</field>
         <field name="res_model">volontariato.intervento</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_volontariato_intervento_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Crea il tuo primo Foglio di Viaggio
-            </p>
-        </field>
     </record>
 
 </odoo>
