@@ -29,8 +29,13 @@
     <menuitem id="menu_volontariato_automezzi"
               name="Automezzi"
               parent="menu_volontariato_root"
-              action="action_volontariato_automezzi"
               sequence="20"/>
+
+    <menuitem id="menu_volontariato_automezzi_lista"
+              name="Veicoli"
+              parent="menu_volontariato_automezzi"
+              action="action_volontariato_automezzi"
+              sequence="5"/>
 
     <!-- Contratti Automezzi: punta al modello nativo fleet.vehicle.log.contract,
          senza specificare view_id così Odoo usa le viste native di Fleet
@@ -60,8 +65,13 @@
     <menuitem id="menu_volontariato_volontari"
               name="Volontari"
               parent="menu_volontariato_root"
-              action="action_volontariato_volontari"
               sequence="30"/>
+
+    <menuitem id="menu_volontariato_volontari_lista"
+              name="Elenco"
+              parent="menu_volontariato_volontari"
+              action="action_volontariato_volontari"
+              sequence="5"/>
 
     <!-- Certificazioni Volontari: vista trasversale di tutte le certificazioni -->
     <menuitem id="menu_volontariato_certificazioni_volontari"
@@ -89,8 +99,13 @@
     <menuitem id="menu_volontariato_dispositivi"
               name="Dispositivi"
               parent="menu_volontariato_root"
-              action="action_volontariato_dispositivi"
               sequence="40"/>
+
+    <menuitem id="menu_volontariato_dispositivi_lista"
+              name="Elenco"
+              parent="menu_volontariato_dispositivi"
+              action="action_volontariato_dispositivi"
+              sequence="5"/>
 
     <!-- Certificazioni/Revisioni Dispositivi: vista trasversale -->
     <menuitem id="menu_volontariato_certificazioni_dispositivi"

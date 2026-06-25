@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Gestione Associazione Volontariato',
-    'version': '19.0.1.7.6',
+    'version': '19.0.1.7.7',
     'category': 'Volontariato',
     'summary': 'Gestione interventi, automezzi, volontari e dispositivi per associazioni di volontariato',
     'description': """
