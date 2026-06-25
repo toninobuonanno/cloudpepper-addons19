@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ═══════════ FORM VIEW ═══════════ -->
+    <!-- FORM VIEW -->
     <record id="view_volontariato_intervento_form" model="ir.ui.view">
         <field name="name">volontariato.intervento.form</field>
         <field name="model">volontariato.intervento</field>
@@ -135,7 +135,7 @@
         </field>
     </record>
 
-    <!-- ═══════════ LIST VIEW ═══════════ -->
+    <!-- LIST VIEW -->
     <record id="view_volontariato_intervento_list" model="ir.ui.view">
         <field name="name">volontariato.intervento.list</field>
         <field name="model">volontariato.intervento</field>
@@ -165,7 +165,7 @@
         </field>
     </record>
 
-    <!-- ═══════════ SEARCH VIEW ═══════════ -->
+    <!-- SEARCH VIEW -->
     <record id="view_volontariato_intervento_search" model="ir.ui.view">
         <field name="name">volontariato.intervento.search</field>
         <field name="model">volontariato.intervento</field>
@@ -182,7 +182,7 @@
         </field>
     </record>
 
-    <!-- ═══════════ ACTION ═══════════ -->
+    <!-- ACTION -->
     <record id="action_volontariato_intervento" model="ir.actions.act_window">
         <field name="name">Registro Interventi</field>
         <field name="res_model">volontariato.intervento</field>

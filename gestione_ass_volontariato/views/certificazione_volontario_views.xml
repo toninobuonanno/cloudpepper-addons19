@@ -21,7 +21,6 @@
         </field>
     </record>
 
-    <!-- ═══════════ VISTA TRASVERSALE: tutte le certificazioni di tutti i volontari ═══════════ -->
     <record id="view_certificazione_volontario_list_global" model="ir.ui.view">
         <field name="name">volontariato.certificazione.volontario.list.global</field>
         <field name="model">volontariato.certificazione.volontario</field>
