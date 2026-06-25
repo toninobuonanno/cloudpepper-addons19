@@ -14,6 +14,13 @@
               action="action_volontariato_intervento"
               sequence="10"/>
 
+    <!-- Registro Esercitazioni -->
+    <menuitem id="menu_volontariato_esercitazioni"
+              name="Registro Esercitazioni"
+              parent="menu_volontariato_root"
+              action="action_volontariato_esercitazione"
+              sequence="15"/>
+
     <!-- Sotto-menu Configurazione -->
     <menuitem id="menu_volontariato_config"
               name="Configurazione"
@@ -144,6 +151,12 @@
               parent="menu_volontariato_config"
               action="action_volontariato_qualifica"
               sequence="10"/>
+
+    <menuitem id="menu_volontariato_tipo_esercitazione"
+              name="Tipologie Esercitazione"
+              parent="menu_volontariato_config"
+              action="action_volontariato_tipo_esercitazione"
+              sequence="15"/>
 
     <menuitem id="menu_volontariato_tipo_cert_volontario"
               name="Tipi Certificazione Volontari"

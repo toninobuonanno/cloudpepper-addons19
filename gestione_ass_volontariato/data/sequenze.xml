@@ -8,5 +8,13 @@
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <record id="seq_volontariato_esercitazione" model="ir.sequence">
+            <field name="name">Numerazione Esercitazioni</field>
+            <field name="code">volontariato.esercitazione</field>
+            <field name="prefix">ESE-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>
