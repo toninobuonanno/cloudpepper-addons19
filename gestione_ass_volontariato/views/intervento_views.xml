@@ -147,8 +147,6 @@
                 <field name="luogo"/>
                 <field name="caposquadra_id"/>
                 <filter string="Oggi" name="oggi" domain="[('data', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Questo Mese" name="mese_corrente"
-                        domain="[('data', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
                 <separator/>
                 <filter string="Emergenza" name="emergenza" domain="[('tipo_intervento', '=', 'emergenza')]"/>
                 <filter string="Assistenza" name="assistenza" domain="[('tipo_intervento', '=', 'assistenza')]"/>
@@ -169,7 +167,6 @@
         <field name="res_model">volontariato.intervento</field>
         <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_volontariato_intervento_search"/>
-        <field name="context">{'search_default_mese_corrente': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Crea il tuo primo Foglio di Viaggio
