@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista certificazioni - lista riusabile -->
+    <record id="view_certificazione_attrezzatura_list" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.attrezzatura.list</field>
+        <field name="model">volontariato.certificazione.attrezzatura</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="tipo_cert_id"/>
+                <field name="data_conseguimento"/>
+                <field name="data_scadenza"/>
+                <field name="stato_scadenza" widget="badge"
+                       decoration-danger="stato_scadenza == 'expired'"
+                       decoration-warning="stato_scadenza == 'warn'"
+                       decoration-success="stato_scadenza == 'ok'"
+                       decoration-muted="stato_scadenza == 'none'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Estensione form maintenance.equipment con tab certificazioni.
+         Ancorato su <notebook> (sempre presente) per massima compatibilità,
+         seguendo lo stesso pattern usato con successo su hr.employee. -->
+    <record id="view_maintenance_equipment_form_volontariato" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.volontariato</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Certificazioni / Revisioni" name="volontariato_certificazioni">
+                    <field name="volontariato_cert_ids">
+                        <list editable="bottom">
+                            <field name="tipo_cert_id"/>
+                            <field name="data_conseguimento"/>
+                            <field name="data_scadenza"
+                                   decoration-danger="stato_scadenza == 'expired'"
+                                   decoration-warning="stato_scadenza == 'warn'"/>
+                            <field name="stato_scadenza" widget="badge"
+                                   decoration-danger="stato_scadenza == 'expired'"
+                                   decoration-warning="stato_scadenza == 'warn'"
+                                   decoration-success="stato_scadenza == 'ok'"
+                                   decoration-muted="stato_scadenza == 'none'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

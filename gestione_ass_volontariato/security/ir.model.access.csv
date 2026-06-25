@@ -4,6 +4,7 @@ access_volontariato_tipo_cert_volontario,volontariato.tipo.cert.volontario.user,
 access_volontariato_tipo_cert_attrezzatura,volontariato.tipo.cert.attrezzatura.user,model_volontariato_tipo_cert_attrezzatura,base.group_user,1,1,1,1
 access_volontariato_tipo_contratto,volontariato.tipo.contratto.user,model_volontariato_tipo_contratto,base.group_user,1,1,1,1
 access_volontariato_certificazione_volontario,volontariato.certificazione.volontario.user,model_volontariato_certificazione_volontario,base.group_user,1,1,1,1
+access_volontariato_certificazione_attrezzatura,volontariato.certificazione.attrezzatura.user,model_volontariato_certificazione_attrezzatura,base.group_user,1,1,1,1
 access_volontariato_intervento,volontariato.intervento.user,model_volontariato_intervento,base.group_user,1,1,1,1
 access_volontariato_intervento_squadra,volontariato.intervento.squadra.user,model_volontariato_intervento_squadra,base.group_user,1,1,1,1
 access_volontariato_intervento_paziente,volontariato.intervento.paziente.user,model_volontariato_intervento_paziente,base.group_user,1,1,1,1

@@ -63,6 +63,18 @@
               action="action_volontariato_dipendenti_tutti"
               sequence="31"/>
 
+    <!-- Dispositivi: azione propria che punta al modello maintenance.equipment nativo -->
+    <record id="action_volontariato_dispositivi" model="ir.actions.act_window">
+        <field name="name">Dispositivi e Attrezzature</field>
+        <field name="res_model">maintenance.equipment</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <menuitem id="menu_volontariato_dispositivi"
+              name="Dispositivi"
+              parent="menu_volontariato_root"
+              action="action_volontariato_dispositivi"
+              sequence="40"/>
+
     <menuitem id="menu_volontariato_qualifica"
               name="Qualifiche Volontari"
               parent="menu_volontariato_config"
