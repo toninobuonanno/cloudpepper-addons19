@@ -67,7 +67,12 @@
                                 </list>
                             </field>
                             <field name="numero_volontari" readonly="1"/>
-                            <field name="note"/>
+                        </page>
+
+                        <page string="Modalità e Annotazioni" name="annotazioni">
+                            <group>
+                                <field name="note" nolabel="1" placeholder="Modalità di svolgimento e annotazioni..."/>
+                            </group>
                         </page>
 
                         <page string="Paziente" name="paziente">
@@ -95,6 +100,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
