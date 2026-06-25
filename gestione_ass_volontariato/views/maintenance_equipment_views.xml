@@ -86,7 +86,6 @@
             <list>
                 <field name="name"/>
                 <field name="category_id"/>
-                <field name="employee_id" optional="show"/>
                 <field name="volontariato_cert_count" optional="show" string="Numero Certificazioni"/>
             </list>
         </field>
