@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="calendar_event_type_turno" model="calendar.event.type">
+            <field name="name">Turno Volontari</field>
+        </record>
+
+        <record id="calendar_event_type_esercitazione" model="calendar.event.type">
+            <field name="name">Esercitazione</field>
+        </record>
+
+    </data>
+</odoo>

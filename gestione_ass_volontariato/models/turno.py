@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, time, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -16,6 +17,15 @@ class VolontariatoTurno(models.Model):
     )
 
     evento = fields.Char(string='Evento', required=True, help="Es. Calcetto / Volley, Assistenza Parrocchia...")
+    tipo_intervento = fields.Selection(
+        [
+            ('emergenza', 'Emergenza'),
+            ('assistenza', 'Assistenza'),
+            ('trasporto', 'Trasporto'),
+            ('altro', 'Altro'),
+        ],
+        string='Tipo Intervento', default='emergenza',
+    )
     luogo = fields.Char(string='Luogo')
     data = fields.Date(string='Data', required=True, default=fields.Date.context_today)
     ora_inizio = fields.Float(string='Ora Inizio', required=True)
@@ -24,6 +34,10 @@ class VolontariatoTurno(models.Model):
         string='Durata (ore)', compute='_compute_durata_ore', store=True,
     )
     note = fields.Text(string='Note')
+
+    calendar_event_id = fields.Many2one(
+        'calendar.event', string='Evento Calendario', copy=False,
+    )
 
     squadra_ids = fields.One2many(
         'volontariato.turno.squadra', 'turno_id', string='Volontari Partecipanti',
@@ -75,6 +89,53 @@ class VolontariatoTurno(models.Model):
                     raise ValidationError(
                         'Non è possibile assegnare più di un "%s" allo stesso turno.' % ruolo.name
                     )
+
+    def action_add_to_calendar(self):
+        self.ensure_one()
+        CalendarEvent = self.env['calendar.event']
+        categ = self.env.ref('gestione_ass_volontariato.calendar_event_type_turno', raise_if_not_found=False)
+
+        start = datetime.combine(self.data, time()) + timedelta(hours=self.ora_inizio)
+        stop = datetime.combine(self.data, time()) + timedelta(hours=(self.ora_fine or self.ora_inizio + 1))
+
+        tipo_label = dict(self._fields['tipo_intervento'].selection).get(self.tipo_intervento, '')
+        titolo = '%s%s' % (self.evento, ' (%s)' % tipo_label if tipo_label else '')
+
+        descrizione = 'Turno %s\nTipo Intervento: %s\nPartecipanti: %s' % (
+            self.codice,
+            tipo_label or 'Non specificato',
+            ', '.join(self.squadra_ids.mapped('employee_id.name')) or 'Nessuno',
+        )
+
+        if self.calendar_event_id:
+            self.calendar_event_id.write({
+                'name': titolo,
+                'start': start,
+                'stop': stop,
+                'location': self.luogo or '',
+                'description': descrizione,
+            })
+            event = self.calendar_event_id
+        else:
+            vals = {
+                'name': titolo,
+                'start': start,
+                'stop': stop,
+                'location': self.luogo or '',
+                'description': descrizione,
+            }
+            if categ:
+                vals['categ_ids'] = [(6, 0, [categ.id])]
+            event = CalendarEvent.create(vals)
+            self.calendar_event_id = event
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'calendar.event',
+            'res_id': event.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, time, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -39,6 +40,10 @@ class VolontariatoEsercitazione(models.Model):
         string='Numero Partecipanti', compute='_compute_numero_partecipanti', store=True,
     )
 
+    calendar_event_id = fields.Many2one(
+        'calendar.event', string='Evento Calendario', copy=False,
+    )
+
     @api.depends('ora_inizio', 'ora_fine')
     def _compute_durata_ore(self):
         for record in self:
@@ -52,6 +57,49 @@ class VolontariatoEsercitazione(models.Model):
     def _compute_numero_partecipanti(self):
         for record in self:
             record.numero_partecipanti = len(record.partecipante_ids)
+
+    def action_add_to_calendar(self):
+        self.ensure_one()
+        CalendarEvent = self.env['calendar.event']
+        categ = self.env.ref('gestione_ass_volontariato.calendar_event_type_esercitazione', raise_if_not_found=False)
+
+        start = datetime.combine(self.data, time()) + timedelta(hours=self.ora_inizio)
+        stop = datetime.combine(self.data, time()) + timedelta(hours=(self.ora_fine or self.ora_inizio + 1))
+
+        descrizione = 'Esercitazione %s\nTipologia: %s\nDescrizione: %s\nPartecipanti: %s' % (
+            self.codice,
+            self.tipo_id.name or 'Non specificata',
+            self.descrizione or 'Nessuna',
+            ', '.join(self.partecipante_ids.mapped('name')) or 'Nessuno',
+        )
+
+        if self.calendar_event_id:
+            self.calendar_event_id.write({
+                'name': '%s - %s' % (self.tipo_id.name or 'Esercitazione', self.descrizione or ''),
+                'start': start,
+                'stop': stop,
+                'description': descrizione,
+            })
+            event = self.calendar_event_id
+        else:
+            vals = {
+                'name': '%s - %s' % (self.tipo_id.name or 'Esercitazione', self.descrizione or ''),
+                'start': start,
+                'stop': stop,
+                'description': descrizione,
+            }
+            if categ:
+                vals['categ_ids'] = [(6, 0, [categ.id])]
+            event = CalendarEvent.create(vals)
+            self.calendar_event_id = event
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'calendar.event',
+            'res_id': event.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     @api.model_create_multi
     def create(self, vals_list):
