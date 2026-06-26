@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_volontariato_turno_report_wizard_form" model="ir.ui.view">
+        <field name="name">volontariato.turno.report.wizard.form</field>
+        <field name="model">volontariato.turno.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Report Turni per Periodo">
+                <group invisible="stato == 'done'">
+                    <field name="data_da"/>
+                    <field name="data_a"/>
+                </group>
+                <group invisible="stato != 'done'">
+                    <field name="file_xlsx" filename="file_xlsx_name" readonly="1"/>
+                    <field name="file_xlsx_name" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" type="object" string="Stampa PDF"
+                            class="btn-primary" invisible="stato == 'done'"/>
+                    <button name="action_generate_xlsx" type="object" string="Genera Excel"
+                            class="btn-primary" invisible="stato == 'done'"/>
+                    <button string="Chiudi" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_volontariato_turno_report_wizard" model="ir.actions.act_window">
+        <field name="name">Report Turni per Periodo</field>
+        <field name="res_model">volontariato.turno.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

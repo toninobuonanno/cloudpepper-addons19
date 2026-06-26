@@ -16,3 +16,6 @@ from . import intervento_consenso
 from . import intervento
 from . import tipo_esercitazione
 from . import esercitazione
+from . import turno_squadra
+from . import turno
+from . import turno_report_wizard

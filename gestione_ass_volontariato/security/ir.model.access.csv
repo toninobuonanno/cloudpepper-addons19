@@ -13,3 +13,6 @@ access_volontariato_intervento_paziente,volontariato.intervento.paziente.user,mo
 access_volontariato_intervento_consenso,volontariato.intervento.consenso.user,model_volontariato_intervento_consenso,base.group_user,1,1,1,1
 access_volontariato_tipo_esercitazione,volontariato.tipo.esercitazione.user,model_volontariato_tipo_esercitazione,base.group_user,1,1,1,1
 access_volontariato_esercitazione,volontariato.esercitazione.user,model_volontariato_esercitazione,base.group_user,1,1,1,1
+access_volontariato_turno,volontariato.turno.user,model_volontariato_turno,base.group_user,1,1,1,1
+access_volontariato_turno_squadra,volontariato.turno.squadra.user,model_volontariato_turno_squadra,base.group_user,1,1,1,1
+access_volontariato_turno_report_wizard,volontariato.turno.report.wizard.user,model_volontariato_turno_report_wizard,base.group_user,1,1,1,1

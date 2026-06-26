@@ -21,6 +21,19 @@
               action="action_volontariato_esercitazione"
               sequence="15"/>
 
+    <!-- Gestione Turni -->
+    <menuitem id="menu_volontariato_turni"
+              name="Gestione Turni"
+              parent="menu_volontariato_root"
+              action="action_volontariato_turno"
+              sequence="17"/>
+
+    <menuitem id="menu_volontariato_turno_report"
+              name="Report Turni per Periodo"
+              parent="menu_volontariato_root"
+              action="action_volontariato_turno_report_wizard"
+              sequence="18"/>
+
     <!-- Sotto-menu Configurazione -->
     <menuitem id="menu_volontariato_config"
               name="Configurazione"

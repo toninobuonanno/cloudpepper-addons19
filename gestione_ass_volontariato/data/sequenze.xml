@@ -16,5 +16,13 @@
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <record id="seq_volontariato_turno" model="ir.sequence">
+            <field name="name">Numerazione Turni</field>
+            <field name="code">volontariato.turno</field>
+            <field name="prefix">TUR-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_volontariato_turno_form" model="ir.ui.view">
+        <field name="name">volontariato.turno.form</field>
+        <field name="model">volontariato.turno</field>
+        <field name="arch" type="xml">
+            <form string="Turno">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="codice" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Dati Turno">
+                            <field name="evento"/>
+                            <field name="luogo"/>
+                            <field name="data"/>
+                        </group>
+                        <group string="Orario">
+                            <field name="ora_inizio" widget="float_time"/>
+                            <field name="ora_fine" widget="float_time"/>
+                            <field name="durata_ore" widget="float_time" readonly="1"/>
+                            <field name="stato_completo" widget="badge"
+                                   decoration-success="stato_completo == 'completo'"
+                                   decoration-warning="stato_completo == 'parziale'"
+                                   decoration-danger="stato_completo == 'vuoto'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Volontari Partecipanti" name="squadra">
+                            <field name="squadra_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="ruolo"/>
+                                    <field name="employee_id"/>
+                                    <field name="qualifica_id"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="numero_partecipanti" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Note" name="note">
+                            <field name="note" nolabel="1" placeholder="Note aggiuntive sul turno..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_volontariato_turno_list" model="ir.ui.view">
+        <field name="name">volontariato.turno.list</field>
+        <field name="model">volontariato.turno</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="stato_completo == 'vuoto'" decoration-warning="stato_completo == 'parziale'">
+                <field name="codice"/>
+                <field name="data"/>
+                <field name="evento"/>
+                <field name="luogo"/>
+                <field name="ora_inizio" widget="float_time"/>
+                <field name="ora_fine" widget="float_time"/>
+                <field name="numero_partecipanti"/>
+                <field name="stato_completo" widget="badge"
+                       decoration-success="stato_completo == 'completo'"
+                       decoration-warning="stato_completo == 'parziale'"
+                       decoration-danger="stato_completo == 'vuoto'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_volontariato_turno_search" model="ir.ui.view">
+        <field name="name">volontariato.turno.search</field>
+        <field name="model">volontariato.turno</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="codice"/>
+                <field name="evento"/>
+                <field name="luogo"/>
+                <field name="data"/>
+                <field name="squadra_ids"/>
+                <filter string="Da Completare" name="filter_parziale" domain="[('stato_completo', '=', 'parziale')]"/>
+                <filter string="Senza Volontari" name="filter_vuoto" domain="[('stato_completo', '=', 'vuoto')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_volontariato_turno" model="ir.actions.act_window">
+        <field name="name">Gestione Turni</field>
+        <field name="res_model">volontariato.turno</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_volontariato_turno_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea il tuo primo Turno
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_turni_periodo_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div style="background-color:#0d2438; color:white; padding:20px; border-radius:6px; margin-bottom:16px;">
+                        <h1 style="color:white; margin:0;">Turni Volontari</h1>
+                        <p style="color:#e8a020; font-size:14px; margin:4px 0 0 0;">
+                            Programma attivit&#224; settimanale
+                        </p>
+                    </div>
+
+                    <t t-foreach="docs" t-as="turno">
+                        <div style="border:1px solid #ccc; border-left:6px solid #0d2438; border-radius:4px; padding:12px 16px; margin-bottom:14px; page-break-inside: avoid;">
+                            <h3 style="margin:0 0 4px 0;">
+                                <span t-field="turno.evento"/>
+                                <t t-if="turno.luogo"> | <span t-field="turno.luogo"/></t>
+                            </h3>
+                            <p style="color:#888; margin:0 0 8px 0;">
+                                <span t-field="turno.data" t-options='{"widget": "date"}'/>
+                                &#8212;
+                                <span t-field="turno.ora_inizio" t-options='{"widget": "float_time"}'/>
+                                -
+                                <span t-field="turno.ora_fine" t-options='{"widget": "float_time"}'/>
+                            </p>
+
+                            <table style="width:100%;">
+                                <t t-if="turno.squadra_ids">
+                                    <t t-foreach="turno.squadra_ids" t-as="riga">
+                                        <tr>
+                                            <td style="width:120px; padding:2px 0;">
+                                                <span style="background-color:#e0e0e0; padding:2px 8px; border-radius:3px; font-size:11px; font-weight:bold;">
+                                                    <span t-field="riga.ruolo"/>
+                                                </span>
+                                            </td>
+                                            <td style="padding:2px 0;">
+                                                <span t-esc="riga.employee_id.name"/>
+                                                <t t-if="riga.qualifica_id">
+                                                    (<span t-esc="riga.qualifica_id.name"/>)
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <tr>
+                                        <td style="color:#c0272d; font-weight:bold;">
+                                            Nessun volontario assegnato
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+
+                            <t t-if="turno.note">
+                                <p style="margin-top:8px; font-style:italic; color:#555;">
+                                    <span t-field="turno.note"/>
+                                </p>
+                            </t>
+                        </div>
+                    </t>
+
+                    <p style="text-align:center; color:#888; margin-top:20px;">
+                        Grazie a tutti i volontari per il vostro impegno!
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_turni_periodo" model="ir.actions.report">
+        <field name="name">Turni Periodo - Poster</field>
+        <field name="model">volontariato.turno</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato.report_turni_periodo_document</field>
+        <field name="report_file">gestione_ass_volontariato.report_turni_periodo_document</field>
+        <field name="print_report_name">'Turni_Periodo'</field>
+    </record>
+
+</odoo>
