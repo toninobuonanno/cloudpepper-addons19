@@ -12,13 +12,9 @@ class VolontariatoTurnoSquadra(models.Model):
         required=True, ondelete='cascade',
     )
     sequence = fields.Integer(string='Sequenza', default=10)
-    ruolo = fields.Selection(
-        [
-            ('caposquadra', 'Caposquadra'),
-            ('autista', 'Autista'),
-            ('volontario', 'Volontario'),
-        ],
-        string='Ruolo', required=True, default='volontario',
+    ruolo_id = fields.Many2one(
+        'volontariato.ruolo', string='Ruolo', required=True,
+        default=lambda self: self.env.ref('gestione_ass_volontariato.ruolo_volontario', raise_if_not_found=False),
     )
     employee_id = fields.Many2one(
         'hr.employee', string='Volontario', required=True,
@@ -42,4 +38,7 @@ class VolontariatoTurnoSquadra(models.Model):
     )
     ora_fine = fields.Float(
         related='turno_id.ora_fine', string='Ora Fine', readonly=True, store=True,
+    )
+    durata_ore = fields.Float(
+        related='turno_id.durata_ore', string='Durata (ore)', readonly=True, store=True,
     )

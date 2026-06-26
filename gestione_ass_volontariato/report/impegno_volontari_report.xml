@@ -23,7 +23,7 @@
                             <t t-foreach="docs" t-as="riga">
                                 <tr>
                                     <td><span t-esc="riga.employee_id.name"/></td>
-                                    <td><span t-field="riga.ruolo"/></td>
+                                    <td><span t-field="riga.ruolo_id"/></td>
                                     <td><span t-esc="riga.turno_id.codice"/></td>
                                     <td><span t-field="riga.data"/></td>
                                     <td><span t-field="riga.evento"/></td>

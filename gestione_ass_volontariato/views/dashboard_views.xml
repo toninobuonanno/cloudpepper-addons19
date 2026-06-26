@@ -81,7 +81,7 @@
         <field name="arch" type="xml">
             <pivot string="Volontari Attivi">
                 <field name="employee_id" type="row"/>
-                <field name="ruolo" type="col"/>
+                <field name="ruolo_id" type="col"/>
             </pivot>
         </field>
     </record>

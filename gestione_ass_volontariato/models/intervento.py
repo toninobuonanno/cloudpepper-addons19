@@ -7,6 +7,7 @@ class VolontariatoIntervento(models.Model):
     _name = 'volontariato.intervento'
     _description = 'Intervento (Foglio di Viaggio)'
     _order = 'data desc, ora_inizio desc'
+    _rec_name = 'codice'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # ───────── Identificazione ─────────
@@ -123,19 +124,19 @@ class VolontariatoIntervento(models.Model):
             else:
                 record.durata_ore = 0
 
-    @api.depends('squadra_ids.ruolo', 'squadra_ids.employee_id')
+    @api.depends('squadra_ids.ruolo_id', 'squadra_ids.employee_id')
     def _compute_caposquadra_autista(self):
         for record in self:
-            capo = record.squadra_ids.filtered(lambda r: r.ruolo == 'caposquadra')
-            autista = record.squadra_ids.filtered(lambda r: r.ruolo == 'autista')
+            capo = record.squadra_ids.filtered(lambda r: r.ruolo_id.name == 'Caposquadra')
+            autista = record.squadra_ids.filtered(lambda r: r.ruolo_id.name == 'Autista')
             record.caposquadra_id = capo[:1].employee_id
             record.autista_id = autista[:1].employee_id
 
-    @api.depends('squadra_ids.ruolo')
+    @api.depends('squadra_ids.ruolo_id')
     def _compute_numero_volontari(self):
         for record in self:
             record.numero_volontari = len(
-                record.squadra_ids.filtered(lambda r: r.ruolo == 'volontario')
+                record.squadra_ids.filtered(lambda r: r.ruolo_id.name == 'Volontario')
             )
 
     # ───────── Validazioni ─────────
@@ -148,22 +149,15 @@ class VolontariatoIntervento(models.Model):
                 )
 
     @api.constrains('squadra_ids')
-    def _check_caposquadra_unico(self):
+    def _check_ruolo_responsabile_unico(self):
         for record in self:
-            capi = record.squadra_ids.filtered(lambda r: r.ruolo == 'caposquadra')
-            if len(capi) > 1:
-                raise ValidationError(
-                    'Non è possibile assegnare più di un Caposquadra allo stesso intervento.'
-                )
-
-    @api.constrains('squadra_ids')
-    def _check_autista_unico(self):
-        for record in self:
-            autisti = record.squadra_ids.filtered(lambda r: r.ruolo == 'autista')
-            if len(autisti) > 1:
-                raise ValidationError(
-                    'Non è possibile assegnare più di un Autista allo stesso intervento.'
-                )
+            ruoli_responsabili = record.squadra_ids.filtered(lambda r: r.ruolo_id.is_responsabile).mapped('ruolo_id')
+            for ruolo in ruoli_responsabili:
+                membri = record.squadra_ids.filtered(lambda r: r.ruolo_id == ruolo)
+                if len(membri) > 1:
+                    raise ValidationError(
+                        'Non è possibile assegnare più di un "%s" allo stesso intervento.' % ruolo.name
+                    )
 
     # ───────── Workflow ─────────
     def action_confirm(self):

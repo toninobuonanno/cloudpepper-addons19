@@ -7,6 +7,7 @@ class VolontariatoEsercitazione(models.Model):
     _name = 'volontariato.esercitazione'
     _description = 'Esercitazione'
     _order = 'data desc, ora_inizio desc'
+    _rec_name = 'codice'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     codice = fields.Char(

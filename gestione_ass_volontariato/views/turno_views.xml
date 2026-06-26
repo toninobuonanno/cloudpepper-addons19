@@ -36,7 +36,7 @@
                             <field name="squadra_ids">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="ruolo"/>
+                                    <field name="ruolo_id"/>
                                     <field name="employee_id"/>
                                 </list>
                             </field>
@@ -67,6 +67,7 @@
                 <field name="luogo"/>
                 <field name="ora_inizio" widget="float_time"/>
                 <field name="ora_fine" widget="float_time"/>
+                <field name="durata_ore" widget="float_time" optional="hide"/>
                 <field name="numero_partecipanti"/>
                 <field name="stato_completo" widget="badge"
                        decoration-success="stato_completo == 'completo'"

@@ -176,6 +176,12 @@
               action="action_volontariato_qualifica"
               sequence="10"/>
 
+    <menuitem id="menu_volontariato_ruolo"
+              name="Ruoli Squadra/Turno"
+              parent="menu_volontariato_config"
+              action="action_volontariato_ruolo"
+              sequence="11"/>
+
     <menuitem id="menu_volontariato_tipo_esercitazione"
               name="Tipologie Esercitazione"
               parent="menu_volontariato_config"

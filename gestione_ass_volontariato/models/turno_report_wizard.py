@@ -65,7 +65,7 @@ class VolontariatoTurnoReportWizard(models.TransientModel):
                 sheet.write(row, 4, '%02d:%02d' % (int(turno.ora_inizio), int((turno.ora_inizio % 1) * 60)), cell_fmt)
                 sheet.write(row, 5, '%02d:%02d' % (int(turno.ora_fine), int((turno.ora_fine % 1) * 60)) if turno.ora_fine else '', cell_fmt)
                 if riga:
-                    sheet.write(row, 6, dict(riga._fields['ruolo'].selection).get(riga.ruolo, ''), cell_fmt)
+                    sheet.write(row, 6, riga.ruolo_id.name or '', cell_fmt)
                     sheet.write(row, 7, riga.employee_id.name or '', cell_fmt)
                     sheet.write(row, 8, riga.qualifica_id.name or '', cell_fmt)
                 else:

@@ -7,6 +7,7 @@ class VolontariatoTurno(models.Model):
     _name = 'volontariato.turno'
     _description = 'Turno Volontari'
     _order = 'data, ora_inizio'
+    _rec_name = 'codice'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     codice = fields.Char(
@@ -65,13 +66,15 @@ class VolontariatoTurno(models.Model):
                 record.stato_completo = 'completo'
 
     @api.constrains('squadra_ids')
-    def _check_caposquadra_unico(self):
+    def _check_ruolo_responsabile_unico(self):
         for record in self:
-            capi = record.squadra_ids.filtered(lambda r: r.ruolo == 'caposquadra')
-            if len(capi) > 1:
-                raise ValidationError(
-                    'Non è possibile assegnare più di un Caposquadra/Autista referente allo stesso turno.'
-                )
+            ruoli_responsabili = record.squadra_ids.filtered(lambda r: r.ruolo_id.is_responsabile).mapped('ruolo_id')
+            for ruolo in ruoli_responsabili:
+                membri = record.squadra_ids.filtered(lambda r: r.ruolo_id == ruolo)
+                if len(membri) > 1:
+                    raise ValidationError(
+                        'Non è possibile assegnare più di un "%s" allo stesso turno.' % ruolo.name
+                    )
 
     @api.model_create_multi
     def create(self, vals_list):

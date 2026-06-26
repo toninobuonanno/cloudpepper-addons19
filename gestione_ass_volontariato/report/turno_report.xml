@@ -40,7 +40,7 @@
                             <tbody>
                                 <t t-foreach="o.squadra_ids" t-as="riga">
                                     <tr>
-                                        <td><span t-field="riga.ruolo"/></td>
+                                        <td><span t-field="riga.ruolo_id"/></td>
                                         <td><span t-esc="riga.employee_id.name"/></td>
                                         <td><span t-esc="riga.qualifica_id.name or ''"/></td>
                                     </tr>

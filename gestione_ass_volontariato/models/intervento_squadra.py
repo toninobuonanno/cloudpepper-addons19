@@ -12,13 +12,9 @@ class VolontariatoInterventoSquadra(models.Model):
         required=True, ondelete='cascade',
     )
     sequence = fields.Integer(string='Sequenza', default=10)
-    ruolo = fields.Selection(
-        [
-            ('caposquadra', 'Caposquadra'),
-            ('autista', 'Autista'),
-            ('volontario', 'Volontario'),
-        ],
-        string='Ruolo', required=True, default='volontario',
+    ruolo_id = fields.Many2one(
+        'volontariato.ruolo', string='Ruolo', required=True,
+        default=lambda self: self.env.ref('gestione_ass_volontariato.ruolo_volontario', raise_if_not_found=False),
     )
     employee_id = fields.Many2one(
         'hr.employee', string='Volontario', required=True,
@@ -27,14 +23,12 @@ class VolontariatoInterventoSquadra(models.Model):
         related='intervento_id.data', string='Data Intervento', store=True,
     )
 
-    # Comodo per liste raggruppate o stampe: nome leggibile del ruolo + persona
     display_name_squadra = fields.Char(
         string='Descrizione', compute='_compute_display_name_squadra',
     )
 
     def _compute_display_name_squadra(self):
-        ruoli = dict(self._fields['ruolo'].selection)
         for record in self:
-            nome_ruolo = ruoli.get(record.ruolo, '')
+            nome_ruolo = record.ruolo_id.name or ''
             nome_persona = record.employee_id.name or ''
             record.display_name_squadra = f'{nome_ruolo}: {nome_persona}' if nome_persona else nome_ruolo

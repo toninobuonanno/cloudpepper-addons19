@@ -90,7 +90,7 @@
                             <field name="squadra_ids" readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="ruolo"/>
+                                    <field name="ruolo_id"/>
                                     <field name="employee_id"/>
                                 </list>
                             </field>

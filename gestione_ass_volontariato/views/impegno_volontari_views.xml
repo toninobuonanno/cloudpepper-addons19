@@ -7,13 +7,14 @@
         <field name="arch" type="xml">
             <list string="Impegno Volontari">
                 <field name="employee_id" string="Volontario"/>
-                <field name="ruolo"/>
+                <field name="ruolo_id"/>
                 <field name="turno_id" string="Turno"/>
                 <field name="data"/>
                 <field name="evento"/>
                 <field name="luogo"/>
                 <field name="ora_inizio" widget="float_time"/>
                 <field name="ora_fine" widget="float_time"/>
+                <field name="durata_ore" widget="float_time" optional="hide"/>
             </list>
         </field>
     </record>
