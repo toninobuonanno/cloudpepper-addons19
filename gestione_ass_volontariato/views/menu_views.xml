@@ -25,14 +25,25 @@
     <menuitem id="menu_volontariato_turni"
               name="Gestione Turni"
               parent="menu_volontariato_root"
-              action="action_volontariato_turno"
               sequence="17"/>
+
+    <menuitem id="menu_volontariato_turni_lista"
+              name="Elenco"
+              parent="menu_volontariato_turni"
+              action="action_volontariato_turno"
+              sequence="5"/>
 
     <menuitem id="menu_volontariato_turno_report"
               name="Report Turni per Periodo"
-              parent="menu_volontariato_root"
+              parent="menu_volontariato_turni"
               action="action_volontariato_turno_report_wizard"
-              sequence="18"/>
+              sequence="10"/>
+
+    <menuitem id="menu_volontariato_impegno_volontari"
+              name="Impegno Volontari"
+              parent="menu_volontariato_turni"
+              action="action_volontariato_impegno_volontari"
+              sequence="15"/>
 
     <!-- Sotto-menu Configurazione -->
     <menuitem id="menu_volontariato_config"

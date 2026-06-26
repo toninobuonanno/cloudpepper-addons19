@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_impegno_volontari_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Impegno Volontari</h2>
+                    <table class="table table-sm table-bordered" style="margin-top:12px;">
+                        <thead>
+                            <tr style="background-color:#2c3e50; color:white;">
+                                <th>Volontario</th>
+                                <th>Ruolo</th>
+                                <th>Turno</th>
+                                <th>Data</th>
+                                <th>Evento</th>
+                                <th>Luogo</th>
+                                <th>Ora Inizio</th>
+                                <th>Ora Fine</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="riga">
+                                <tr>
+                                    <td><span t-esc="riga.employee_id.name"/></td>
+                                    <td><span t-field="riga.ruolo"/></td>
+                                    <td><span t-esc="riga.turno_id.codice"/></td>
+                                    <td><span t-field="riga.data"/></td>
+                                    <td><span t-field="riga.evento"/></td>
+                                    <td><span t-field="riga.luogo"/></td>
+                                    <td><span t-field="riga.ora_inizio" t-options='{"widget": "float_time"}'/></td>
+                                    <td><span t-field="riga.ora_fine" t-options='{"widget": "float_time"}'/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_impegno_volontari" model="ir.actions.report">
+        <field name="name">Impegno Volontari</field>
+        <field name="model">volontariato.turno.squadra</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato.report_impegno_volontari_document</field>
+        <field name="report_file">gestione_ass_volontariato.report_impegno_volontari_document</field>
+        <field name="binding_model_id" ref="model_volontariato_turno_squadra"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Impegno_Volontari'</field>
+    </record>
+
+</odoo>

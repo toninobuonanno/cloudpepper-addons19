@@ -27,3 +27,19 @@ class VolontariatoTurnoSquadra(models.Model):
         related='employee_id.volontariato_qualifica_id',
         string='Qualifica', readonly=True, store=True,
     )
+
+    data = fields.Date(
+        related='turno_id.data', string='Data', readonly=True, store=True,
+    )
+    evento = fields.Char(
+        related='turno_id.evento', string='Evento', readonly=True, store=True,
+    )
+    luogo = fields.Char(
+        related='turno_id.luogo', string='Luogo', readonly=True, store=True,
+    )
+    ora_inizio = fields.Float(
+        related='turno_id.ora_inizio', string='Ora Inizio', readonly=True, store=True,
+    )
+    ora_fine = fields.Float(
+        related='turno_id.ora_fine', string='Ora Fine', readonly=True, store=True,
+    )
