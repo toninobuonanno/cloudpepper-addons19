@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, time, timedelta
+import pytz
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -95,8 +96,13 @@ class VolontariatoTurno(models.Model):
         CalendarEvent = self.env['calendar.event']
         categ = self.env.ref('gestione_ass_volontariato.calendar_event_type_turno', raise_if_not_found=False)
 
-        start = datetime.combine(self.data, time()) + timedelta(hours=self.ora_inizio)
-        stop = datetime.combine(self.data, time()) + timedelta(hours=(self.ora_fine or self.ora_inizio + 1))
+        user_tz = pytz.timezone(self.env.user.tz or 'UTC')
+
+        start_naive = datetime.combine(self.data, time()) + timedelta(hours=self.ora_inizio)
+        stop_naive = datetime.combine(self.data, time()) + timedelta(hours=(self.ora_fine or self.ora_inizio + 1))
+
+        start = user_tz.localize(start_naive).astimezone(pytz.utc).replace(tzinfo=None)
+        stop = user_tz.localize(stop_naive).astimezone(pytz.utc).replace(tzinfo=None)
 
         tipo_label = dict(self._fields['tipo_intervento'].selection).get(self.tipo_intervento, '')
         titolo = '%s%s' % (self.evento, ' (%s)' % tipo_label if tipo_label else '')
