@@ -28,9 +28,9 @@
                 <field name="evento"/>
                 <field name="luogo"/>
                 <field name="data"/>
-                <filter string="Caposquadra" name="filter_caposquadra" domain="[('ruolo', '=', 'caposquadra')]"/>
-                <filter string="Autista" name="filter_autista" domain="[('ruolo', '=', 'autista')]"/>
-                <filter string="Volontario" name="filter_volontario" domain="[('ruolo', '=', 'volontario')]"/>
+                <filter string="Caposquadra" name="filter_caposquadra" domain="[('ruolo_id.name', '=', 'Caposquadra')]"/>
+                <filter string="Autista" name="filter_autista" domain="[('ruolo_id.name', '=', 'Autista')]"/>
+                <filter string="Volontario" name="filter_volontario" domain="[('ruolo_id.name', '=', 'Volontario')]"/>
             </search>
         </field>
     </record>
