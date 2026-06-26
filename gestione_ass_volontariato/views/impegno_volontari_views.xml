@@ -30,12 +30,6 @@
                 <filter string="Caposquadra" name="filter_caposquadra" domain="[('ruolo', '=', 'caposquadra')]"/>
                 <filter string="Autista" name="filter_autista" domain="[('ruolo', '=', 'autista')]"/>
                 <filter string="Volontario" name="filter_volontario" domain="[('ruolo', '=', 'volontario')]"/>
-                <group expand="0" string="Raggruppa per">
-                    <filter string="Volontario" name="group_employee" context="{'group_by': 'employee_id'}"/>
-                    <filter string="Ruolo" name="group_ruolo" context="{'group_by': 'ruolo'}"/>
-                    <filter string="Evento" name="group_evento" context="{'group_by': 'evento'}"/>
-                    <filter string="Data" name="group_data" context="{'group_by': 'data'}"/>
-                </group>
             </search>
         </field>
     </record>
