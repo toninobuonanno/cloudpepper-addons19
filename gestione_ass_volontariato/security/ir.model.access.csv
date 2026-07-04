@@ -18,3 +18,4 @@ access_volontariato_esercitazione,volontariato.esercitazione.user,model_volontar
 access_volontariato_turno,volontariato.turno.user,model_volontariato_turno,base.group_user,1,1,1,1
 access_volontariato_turno_squadra,volontariato.turno.squadra.user,model_volontariato_turno_squadra,base.group_user,1,1,1,1
 access_volontariato_turno_report_wizard,volontariato.turno.report.wizard.user,model_volontariato_turno_report_wizard,base.group_user,1,1,1,1
+access_volontariato_cf_wizard,volontariato.codice.fiscale.wizard.user,model_volontariato_codice_fiscale_wizard,base.group_user,1,1,1,1

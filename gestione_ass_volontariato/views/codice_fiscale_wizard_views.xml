@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_volontariato_cf_wizard_form" model="ir.ui.view">
+        <field name="name">volontariato.codice.fiscale.wizard.form</field>
+        <field name="model">volontariato.codice.fiscale.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Calcola Codice Fiscale">
+                <div class="alert alert-info" role="alert">
+                    Verifica i dati precompilati (in particolare la divisione
+                    tra <b>Cognome</b> e <b>Nome</b>) e conferma per calcolare
+                    il codice fiscale.
+                </div>
+                <group>
+                    <group>
+                        <field name="employee_id" readonly="1"/>
+                        <field name="cognome"/>
+                        <field name="nome"/>
+                        <field name="sesso" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                    <group>
+                        <field name="data_nascita"/>
+                        <field name="luogo_nascita"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_calcola" type="object"
+                            string="Calcola e Salva" class="btn-primary"/>
+                    <button string="Annulla" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

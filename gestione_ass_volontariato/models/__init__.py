@@ -21,3 +21,4 @@ from . import esercitazione
 from . import turno_squadra
 from . import turno
 from . import turno_report_wizard
+from . import codice_fiscale_wizard

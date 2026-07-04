@@ -10,12 +10,32 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
 
+            <!-- Il campo nativo 'birthday' è la data di nascita:
+                 lo rietichettiamo per chiarezza (la traduzione IT standard è "Compleanno") -->
+            <xpath expr="//field[@name='birthday']" position="attributes">
+                <attribute name="string">Data di Nascita</attribute>
+            </xpath>
+
+            <!-- Codice Fiscale in testata, sotto i recapiti -->
+            <xpath expr="//field[@name='category_ids']" position="after">
+                <field name="volontariato_codice_fiscale"
+                       placeholder="Codice Fiscale"/>
+                <button name="action_open_cf_wizard" type="object"
+                        string="Calcola CF" icon="fa-magic"
+                        class="btn btn-link p-0 text-start"
+                        help="Calcola il codice fiscale dai dati anagrafici"/>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
                 <page string="Dati Volontariato" name="volontariato_dati">
                     <group>
                         <group string="Qualifica e Identificazione">
                             <field name="volontariato_qualifica_id"/>
                             <field name="volontariato_nr_primis"/>
+                        </group>
+                        <group string="Iscrizione">
+                            <field name="volontariato_data_iscrizione"/>
+                            <field name="volontariato_data_accettazione"/>
                         </group>
                     </group>
                     <separator string="Certificazioni"/>
@@ -36,6 +56,23 @@
                 </page>
             </xpath>
 
+        </field>
+    </record>
+
+    <!-- List view dipendenti: nuovi campi selezionabili come colonne opzionali -->
+    <record id="view_employee_tree_volontariato" model="ir.ui.view">
+        <field name="name">hr.employee.list.volontariato</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="birthday" optional="hide" string="Data di Nascita"/>
+                <field name="volontariato_codice_fiscale" optional="hide"/>
+                <field name="volontariato_data_iscrizione" optional="hide"/>
+                <field name="volontariato_data_accettazione" optional="hide"/>
+                <field name="volontariato_qualifica_id" optional="hide"/>
+                <field name="volontariato_nr_primis" optional="hide"/>
+            </xpath>
         </field>
     </record>
 

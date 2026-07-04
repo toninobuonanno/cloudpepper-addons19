@@ -18,14 +18,12 @@ class VolontariatoTurno(models.Model):
     )
 
     evento = fields.Char(string='Evento', required=True, help="Es. Calcetto / Volley, Assistenza Parrocchia...")
-    tipo_intervento = fields.Selection(
-        [
-            ('emergenza', 'Emergenza'),
-            ('assistenza', 'Assistenza'),
-            ('trasporto', 'Trasporto'),
-            ('altro', 'Altro'),
-        ],
-        string='Tipo Intervento', default='emergenza',
+    tipo_intervento_id = fields.Many2one(
+        'volontariato.tipo.intervento', string='Tipo Intervento',
+        default=lambda self: self.env.ref(
+            'gestione_ass_volontariato.tipo_intervento_emergenza',
+            raise_if_not_found=False,
+        ),
     )
     luogo = fields.Char(string='Luogo')
     data = fields.Date(string='Data', required=True, default=fields.Date.context_today)
@@ -104,7 +102,7 @@ class VolontariatoTurno(models.Model):
         start = user_tz.localize(start_naive).astimezone(pytz.utc).replace(tzinfo=None)
         stop = user_tz.localize(stop_naive).astimezone(pytz.utc).replace(tzinfo=None)
 
-        tipo_label = dict(self._fields['tipo_intervento'].selection).get(self.tipo_intervento, '')
+        tipo_label = self.tipo_intervento_id.name or ''
         titolo = '%s%s' % (self.evento, ' (%s)' % tipo_label if tipo_label else '')
 
         descrizione = 'Turno %s\nTipo Intervento: %s\nPartecipanti: %s' % (

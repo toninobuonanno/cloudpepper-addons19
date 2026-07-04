@@ -21,7 +21,7 @@
                     <group>
                         <group string="Dati Turno">
                             <field name="evento"/>
-                            <field name="tipo_intervento"/>
+                            <field name="tipo_intervento_id"/>
                             <field name="luogo"/>
                             <field name="data"/>
                         </group>
@@ -69,7 +69,7 @@
                 <field name="codice"/>
                 <field name="data"/>
                 <field name="evento"/>
-                <field name="tipo_intervento" optional="show"/>
+                <field name="tipo_intervento_id" optional="show"/>
                 <field name="luogo"/>
                 <field name="ora_inizio" widget="float_time"/>
                 <field name="ora_fine" widget="float_time"/>
@@ -91,7 +91,7 @@
             <search>
                 <field name="codice"/>
                 <field name="evento"/>
-                <field name="tipo_intervento"/>
+                <field name="tipo_intervento_id"/>
                 <field name="luogo"/>
                 <field name="data"/>
                 <field name="squadra_ids"/>
