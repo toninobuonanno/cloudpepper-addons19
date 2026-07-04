@@ -182,6 +182,12 @@
               action="action_volontariato_ruolo"
               sequence="11"/>
 
+    <menuitem id="menu_volontariato_tipo_intervento"
+              name="Tipi Intervento"
+              parent="menu_volontariato_config"
+              action="action_volontariato_tipo_intervento"
+              sequence="12"/>
+
     <menuitem id="menu_volontariato_tipo_esercitazione"
               name="Tipologie Esercitazione"
               parent="menu_volontariato_config"

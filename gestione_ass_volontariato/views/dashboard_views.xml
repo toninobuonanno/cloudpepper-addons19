@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <pivot string="Statistiche Interventi">
                 <field name="vehicle_id" type="row"/>
-                <field name="tipo_intervento" type="col"/>
+                <field name="tipo_intervento_id" type="col"/>
                 <field name="km_totali" type="measure"/>
                 <field name="numero_volontari" type="measure"/>
             </pivot>
@@ -45,7 +45,7 @@
         <field name="model">volontariato.intervento</field>
         <field name="arch" type="xml">
             <graph string="Interventi per Tipo" type="pie">
-                <field name="tipo_intervento"/>
+                <field name="tipo_intervento_id"/>
             </graph>
         </field>
     </record>

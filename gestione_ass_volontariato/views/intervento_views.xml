@@ -26,7 +26,7 @@
                     <group invisible="state != 'draft'">
                         <group string="Sezione 1 - Dati Intervento">
                             <field name="vehicle_id"/>
-                            <field name="tipo_intervento"/>
+                            <field name="tipo_intervento_id"/>
                             <field name="data"/>
                             <field name="ora_inizio" widget="float_time"/>
                             <field name="ora_fine" widget="float_time"/>
@@ -45,7 +45,7 @@
                     <group invisible="state == 'draft'">
                         <group string="Sezione 1 - Dati Intervento">
                             <field name="vehicle_id" readonly="1"/>
-                            <field name="tipo_intervento" readonly="1"/>
+                            <field name="tipo_intervento_id" readonly="1"/>
                             <field name="data" readonly="1"/>
                             <field name="ora_inizio" widget="float_time" readonly="1"/>
                             <field name="ora_fine" widget="float_time" readonly="1"/>
@@ -63,9 +63,9 @@
 
                     <group>
                         <group string="Richiedente">
-                            <field name="richiedente" readonly="state != 'draft'"/>
-                            <field name="richiedente_citta" readonly="state != 'draft'"/>
-                            <field name="richiedente_provincia" readonly="state != 'draft'"/>
+                            <field name="richiedente_id" readonly="state != 'draft'"/>
+                            <field name="richiedente_citta"/>
+                            <field name="richiedente_provincia"/>
                         </group>
                         <group string="Luogo">
                             <field name="luogo" readonly="state != 'draft'"/>
@@ -144,8 +144,8 @@
                 <field name="codice"/>
                 <field name="data"/>
                 <field name="vehicle_id"/>
-                <field name="tipo_intervento"/>
-                <field name="richiedente"/>
+                <field name="tipo_intervento_id"/>
+                <field name="richiedente_id"/>
                 <field name="luogo"/>
                 <field name="luogo_citta" optional="hide"/>
                 <field name="luogo_provincia" optional="hide"/>
@@ -173,7 +173,8 @@
             <search>
                 <field name="codice"/>
                 <field name="vehicle_id"/>
-                <field name="richiedente"/>
+                <field name="tipo_intervento_id"/>
+                <field name="richiedente_id"/>
                 <field name="luogo"/>
                 <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Confermato" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>

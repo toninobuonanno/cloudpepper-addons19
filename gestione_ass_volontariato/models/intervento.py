@@ -29,14 +29,12 @@ class VolontariatoIntervento(models.Model):
     vehicle_id = fields.Many2one(
         'fleet.vehicle', string='Automezzo', required=True,
     )
-    tipo_intervento = fields.Selection(
-        [
-            ('emergenza', 'Emergenza'),
-            ('assistenza', 'Assistenza'),
-            ('trasporto', 'Trasporto'),
-            ('altro', 'Altro'),
-        ],
-        string='Tipo Intervento', required=True, default='emergenza',
+    tipo_intervento_id = fields.Many2one(
+        'volontariato.tipo.intervento', string='Tipo Intervento', required=True,
+        default=lambda self: self.env.ref(
+            'gestione_ass_volontariato.tipo_intervento_emergenza',
+            raise_if_not_found=False,
+        ),
     )
     data = fields.Date(string='Data Intervento', required=True, default=fields.Date.context_today)
 
@@ -56,9 +54,17 @@ class VolontariatoIntervento(models.Model):
         string='Km Totali', compute='_compute_km_totali', store=True,
     )
 
-    richiedente = fields.Char(string='Intervento Richiesto da')
-    richiedente_citta = fields.Char(string='Città Richiedente')
-    richiedente_provincia = fields.Char(string='Provincia Richiedente')
+    richiedente_id = fields.Many2one(
+        'res.partner', string='Intervento Richiesto da',
+    )
+    richiedente_citta = fields.Char(
+        string='Città Richiedente', related='richiedente_id.city',
+        store=True, readonly=True,
+    )
+    richiedente_provincia = fields.Char(
+        string='Provincia Richiedente', related='richiedente_id.state_id.name',
+        store=True, readonly=True,
+    )
 
     luogo = fields.Char(string="Luogo dell'Intervento")
     luogo_citta = fields.Char(string='Città')

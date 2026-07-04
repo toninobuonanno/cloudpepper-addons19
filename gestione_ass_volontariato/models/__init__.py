@@ -14,6 +14,7 @@ from . import contratto
 from . import intervento_squadra
 from . import intervento_paziente
 from . import intervento_consenso
+from . import tipo_intervento
 from . import intervento
 from . import tipo_esercitazione
 from . import esercitazione
