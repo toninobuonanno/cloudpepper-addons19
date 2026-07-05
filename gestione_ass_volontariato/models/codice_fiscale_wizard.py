@@ -55,8 +55,15 @@ class VolontariatoCodiceFiscaleWizard(models.TransientModel):
         if employee.birthday:
             res['data_nascita'] = employee.birthday
 
+        # In Odoo 19 il campo si chiama 'sex' (su hr.version, delegato a
+        # hr.employee); nelle versioni precedenti era 'gender'.
         gender_map = {'male': 'M', 'female': 'F'}
-        res['sesso'] = gender_map.get(employee.gender, False)
+        sex_value = False
+        for field_name in ('sex', 'gender'):
+            if field_name in employee._fields:
+                sex_value = employee[field_name]
+                break
+        res['sesso'] = gender_map.get(sex_value, False)
 
         # Luogo: se nato all'estero usa lo Stato, altrimenti il comune
         italy = self.env.ref('base.it', raise_if_not_found=False)
