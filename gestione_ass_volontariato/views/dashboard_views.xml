@@ -82,6 +82,8 @@
             <pivot string="Volontari Attivi">
                 <field name="employee_id" type="row"/>
                 <field name="ruolo_id" type="col"/>
+                <field name="durata_ore" type="measure"/>
+                <field name="km_totali" type="measure"/>
             </pivot>
         </field>
     </record>
@@ -103,7 +105,53 @@
             <search>
                 <field name="employee_id"/>
                 <field name="data_intervento"/>
+                <field name="codice_intervento"/>
+                <field name="tipo_intervento_id"/>
+                <field name="vehicle_id"/>
+                <field name="richiedente_id"/>
+                <field name="ruolo_id"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter name="group_volontario" string="Volontario"
+                            context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_ruolo" string="Ruolo"
+                            context="{'group_by': 'ruolo_id'}"/>
+                    <filter name="group_tipo" string="Tipo Intervento"
+                            context="{'group_by': 'tipo_intervento_id'}"/>
+                    <filter name="group_automezzo" string="Automezzo"
+                            context="{'group_by': 'vehicle_id'}"/>
+                    <filter name="group_mese" string="Mese"
+                            context="{'group_by': 'data_intervento:month'}"/>
+                </group>
             </search>
+        </field>
+    </record>
+
+    <!-- ═══════════ LIST VIEW: una riga per volontario per intervento ═══════════ -->
+    <record id="view_volontariato_intervento_squadra_list" model="ir.ui.view">
+        <field name="name">volontariato.intervento.squadra.list</field>
+        <field name="model">volontariato.intervento.squadra</field>
+        <field name="arch" type="xml">
+            <list string="Dashboard Volontari" create="false" edit="false" delete="false"
+                  default_order="data_intervento desc, codice_intervento desc">
+                <field name="data_intervento"/>
+                <field name="employee_id"/>
+                <field name="ruolo_id"/>
+                <field name="codice_intervento"/>
+                <field name="tipo_intervento_id"/>
+                <field name="vehicle_id" optional="show"/>
+                <field name="richiedente_id" optional="hide"/>
+                <field name="luogo" optional="hide"/>
+                <field name="luogo_citta" optional="hide"/>
+                <field name="luogo_destinazione" optional="hide"/>
+                <field name="ora_inizio" optional="hide" widget="float_time"/>
+                <field name="ora_fine" optional="hide" widget="float_time"/>
+                <field name="durata_ore" optional="show" widget="float_time" sum="Totale Ore"/>
+                <field name="km_totali" optional="hide" sum="Totale Km"/>
+                <field name="state" optional="show" widget="badge"
+                       decoration-success="state == 'confirmed'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="intervento_id" optional="hide"/>
+            </list>
         </field>
     </record>
 
@@ -114,7 +162,8 @@
         <field name="search_view_id" ref="view_volontariato_intervento_squadra_search"/>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'graph', 'view_id': ref('view_volontariato_intervento_squadra_graph')}),
-            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_volontariato_intervento_squadra_pivot')})]"/>
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_volontariato_intervento_squadra_pivot')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_volontariato_intervento_squadra_list')})]"/>
     </record>
 
 </odoo>
