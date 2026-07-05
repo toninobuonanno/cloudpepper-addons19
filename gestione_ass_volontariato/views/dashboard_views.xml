@@ -110,7 +110,7 @@
                 <field name="vehicle_id"/>
                 <field name="richiedente_id"/>
                 <field name="ruolo_id"/>
-                <group expand="0" string="Raggruppa per">
+                <group>
                     <filter name="group_volontario" string="Volontario"
                             context="{'group_by': 'employee_id'}"/>
                     <filter name="group_ruolo" string="Ruolo"
