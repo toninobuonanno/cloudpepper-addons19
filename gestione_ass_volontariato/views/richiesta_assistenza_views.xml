@@ -116,7 +116,7 @@
                 <filter string="Confermata" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
                 <filter string="Accettata" name="state_accepted" domain="[('state', '=', 'accepted')]"/>
                 <filter string="Respinta" name="state_refused" domain="[('state', '=', 'refused')]"/>
-                <group expand="0" string="Raggruppa per">
+                <group>
                     <filter string="Stato" name="group_state" context="{'group_by': 'state'}"/>
                 </group>
             </search>
