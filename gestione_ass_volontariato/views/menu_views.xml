@@ -14,6 +14,13 @@
               action="action_volontariato_intervento"
               sequence="10"/>
 
+    <!-- Richieste di Assistenza -->
+    <menuitem id="menu_volontariato_richieste_assistenza"
+              name="Richieste di Assistenza"
+              parent="menu_volontariato_root"
+              action="action_volontariato_richiesta_assistenza"
+              sequence="12"/>
+
     <!-- Registro Esercitazioni -->
     <menuitem id="menu_volontariato_esercitazioni"
               name="Registro Esercitazioni"

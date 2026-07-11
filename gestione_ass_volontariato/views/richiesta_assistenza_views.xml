@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_volontariato_richiesta_assistenza_form" model="ir.ui.view">
+        <field name="name">volontariato.richiesta.assistenza.form</field>
+        <field name="model">volontariato.richiesta.assistenza</field>
+        <field name="arch" type="xml">
+            <form string="Richiesta di Assistenza">
+                <header>
+                    <button name="action_confirm" type="object" string="Conferma"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_accept" type="object" string="Accetta"
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_refuse" type="object" string="Respingi"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_set_draft" type="object" string="Imposta a Bozza"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,accepted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="codice" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <field name="data_richiesta" readonly="state != 'draft'"/>
+                    </group>
+
+                    <group string="Richiedente">
+                        <group>
+                            <field name="richiedente_nome_cognome" readonly="state != 'draft'"/>
+                            <field name="richiedente_data_nascita" readonly="state != 'draft'"/>
+                            <field name="richiedente_citta_nascita" readonly="state != 'draft'"/>
+                            <field name="richiedente_telefono" readonly="state != 'draft'"/>
+                            <field name="richiedente_email" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="richiedente_citta_residenza" readonly="state != 'draft'"/>
+                            <field name="richiedente_indirizzo_residenza" readonly="state != 'draft'"/>
+                            <field name="richiedente_provincia_residenza" readonly="state != 'draft'"/>
+                            <field name="richiedente_organizzazione" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <group string="Richiesta">
+                        <group>
+                            <field name="manifestazione" readonly="state != 'draft'"/>
+                            <field name="data_da" readonly="state != 'draft'"/>
+                            <field name="data_a" readonly="state != 'draft'"/>
+                            <field name="ora_da" widget="float_time" readonly="state != 'draft'"/>
+                            <field name="ora_a" widget="float_time" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="indirizzo_manifestazione" readonly="state != 'draft'"/>
+                            <field name="citta_manifestazione" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <group string="Presenza Medico">
+                        <field name="presenza_medico" readonly="state != 'draft'"/>
+                        <field name="medico_nome_cognome" invisible="not presenza_medico"
+                               required="presenza_medico" readonly="state != 'draft'"/>
+                        <field name="medico_fornito_da" invisible="not presenza_medico"
+                               required="presenza_medico" readonly="state != 'draft'"/>
+                    </group>
+
+                    <group>
+                        <field name="note" nolabel="1"
+                               placeholder="Note aggiuntive..."
+                               readonly="state != 'draft'"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_volontariato_richiesta_assistenza_list" model="ir.ui.view">
+        <field name="name">volontariato.richiesta.assistenza.list</field>
+        <field name="model">volontariato.richiesta.assistenza</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'refused'" decoration-success="state == 'accepted'"
+                  decoration-info="state == 'confirmed'">
+                <field name="codice"/>
+                <field name="data_richiesta"/>
+                <field name="richiedente_nome_cognome"/>
+                <field name="manifestazione"/>
+                <field name="data_da"/>
+                <field name="data_a"/>
+                <field name="citta_manifestazione" optional="show"/>
+                <field name="presenza_medico" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'confirmed'"
+                       decoration-success="state == 'accepted'"
+                       decoration-danger="state == 'refused'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_volontariato_richiesta_assistenza_search" model="ir.ui.view">
+        <field name="name">volontariato.richiesta.assistenza.search</field>
+        <field name="model">volontariato.richiesta.assistenza</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="codice"/>
+                <field name="richiedente_nome_cognome"/>
+                <field name="manifestazione"/>
+                <field name="citta_manifestazione"/>
+                <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confermata" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Accettata" name="state_accepted" domain="[('state', '=', 'accepted')]"/>
+                <filter string="Respinta" name="state_refused" domain="[('state', '=', 'refused')]"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter string="Stato" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_volontariato_richiesta_assistenza" model="ir.actions.act_window">
+        <field name="name">Richieste di Assistenza</field>
+        <field name="res_model">volontariato.richiesta.assistenza</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

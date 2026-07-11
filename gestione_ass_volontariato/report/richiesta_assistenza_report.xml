@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_richiesta_assistenza_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            Richiesta di Assistenza <span t-field="o.codice"/>
+                        </h2>
+                        <table class="table table-sm" style="margin-top: 12px;">
+                            <tr>
+                                <td><strong>Data Richiesta:</strong></td>
+                                <td><span t-field="o.data_richiesta"/></td>
+                                <td><strong>Stato:</strong></td>
+                                <td><span t-field="o.state"/></td>
+                            </tr>
+                        </table>
+
+                        <h3 style="margin-top: 20px;">Richiedente</h3>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>Nome e Cognome:</strong></td>
+                                <td><span t-field="o.richiedente_nome_cognome"/></td>
+                                <td><strong>Data di Nascita:</strong></td>
+                                <td><span t-field="o.richiedente_data_nascita"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Città di Nascita:</strong></td>
+                                <td><span t-field="o.richiedente_citta_nascita"/></td>
+                                <td><strong>Telefono:</strong></td>
+                                <td><span t-field="o.richiedente_telefono"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Città di Residenza:</strong></td>
+                                <td><span t-field="o.richiedente_citta_residenza"/></td>
+                                <td><strong>Provincia di Residenza:</strong></td>
+                                <td><span t-field="o.richiedente_provincia_residenza"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Indirizzo di Residenza:</strong></td>
+                                <td colspan="3"><span t-field="o.richiedente_indirizzo_residenza"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td><span t-field="o.richiedente_email"/></td>
+                                <td><strong>In Rappresentanza di:</strong></td>
+                                <td><span t-field="o.richiedente_organizzazione"/></td>
+                            </tr>
+                        </table>
+
+                        <h3 style="margin-top: 20px;">Richiesta</h3>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>Manifestazione:</strong></td>
+                                <td colspan="3"><span t-field="o.manifestazione"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dal:</strong></td>
+                                <td><span t-field="o.data_da"/></td>
+                                <td><strong>Al:</strong></td>
+                                <td><span t-field="o.data_a"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dalle Ore:</strong></td>
+                                <td><span t-field="o.ora_da" t-options='{"widget": "float_time"}'/></td>
+                                <td><strong>Alle Ore:</strong></td>
+                                <td><span t-field="o.ora_a" t-options='{"widget": "float_time"}'/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Indirizzo Manifestazione:</strong></td>
+                                <td><span t-field="o.indirizzo_manifestazione"/></td>
+                                <td><strong>Città Manifestazione:</strong></td>
+                                <td><span t-field="o.citta_manifestazione"/></td>
+                            </tr>
+                        </table>
+
+                        <h3 style="margin-top: 20px;">Presenza Medico</h3>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>Presenza Medico:</strong></td>
+                                <td><span t-esc="'Sì' if o.presenza_medico else 'No'"/></td>
+                            </tr>
+                            <t t-if="o.presenza_medico">
+                                <tr>
+                                    <td><strong>Nome e Cognome Medico:</strong></td>
+                                    <td><span t-field="o.medico_nome_cognome"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fornito da:</strong></td>
+                                    <td><span t-field="o.medico_fornito_da"/></td>
+                                </tr>
+                            </t>
+                        </table>
+
+                        <t t-if="o.note">
+                            <h3 style="margin-top: 20px;">Note</h3>
+                            <p><span t-field="o.note"/></p>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_richiesta_assistenza" model="ir.actions.report">
+        <field name="name">Richiesta di Assistenza - Dettaglio</field>
+        <field name="model">volontariato.richiesta.assistenza</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato.report_richiesta_assistenza_document</field>
+        <field name="report_file">gestione_ass_volontariato.report_richiesta_assistenza_document</field>
+        <field name="binding_model_id" ref="model_volontariato_richiesta_assistenza"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Richiesta_Assistenza_%s' % (object.codice or 'Nuovo')</field>
+    </record>
+
+</odoo>
