@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -26,6 +28,14 @@ class VolontariatoCodiceFiscaleWizard(models.TransientModel):
         string='Comune / Stato di Nascita', required=True,
         help="Comune italiano di nascita (es. Airola) oppure, per i nati "
              "all'estero, il nome dello Stato (es. Germania).",
+    )
+    provincia_nascita_id = fields.Many2one(
+        'res.country.state', string='Provincia di Nascita',
+        domain="[('country_id.code', '=', 'IT')]",
+        help="Provincia del comune di nascita. Necessaria per calcolare "
+             "correttamente il codice fiscale quando più comuni italiani "
+             "hanno lo stesso nome in province diverse. Lasciare vuoto "
+             "per i nati all'estero.",
     )
     codice_fiscale = fields.Char(
         string='Codice Fiscale Calcolato', readonly=True,
@@ -75,8 +85,34 @@ class VolontariatoCodiceFiscaleWizard(models.TransientModel):
             res['luogo_nascita'] = employee.country_of_birth.name
         elif employee.place_of_birth:
             res['luogo_nascita'] = employee.place_of_birth
+            if employee.volontariato_provincia_nascita_id:
+                res['provincia_nascita_id'] = employee.volontariato_provincia_nascita_id.id
 
         return res
+
+    @staticmethod
+    def _birthplace_candidates(luogo, provincia_code):
+        """Varianti del luogo di nascita da tentare in ordine.
+
+        I registri anagrafici spesso abbreviano "Santo/Santa/Sant'" in
+        "S.": la libreria di calcolo richiede invece il nome ufficiale
+        ISTAT per esteso, quindi generiamo le espansioni più comuni.
+        La provincia, quando indicata, viene accodata tra parentesi per
+        distinguere i comuni omonimi in province diverse.
+        """
+        luogo = (luogo or '').strip()
+        candidates = [luogo]
+        match = re.match(r"^[Ss]\.?\s+(.+)$", luogo)
+        if match:
+            resto = match.group(1)
+            candidates += [
+                'San %s' % resto,
+                'Santa %s' % resto,
+                "Sant'%s" % resto,
+            ]
+        if provincia_code:
+            candidates = ['%s (%s)' % (c, provincia_code) for c in candidates]
+        return candidates
 
     def action_calcola(self):
         self.ensure_one()
@@ -88,21 +124,35 @@ class VolontariatoCodiceFiscaleWizard(models.TransientModel):
                 "oppure tramite il pannello di gestione dell'hosting "
                 "(dipendenze Python / requirements.txt)."
             ))
-        try:
-            codice = cf_lib.encode(
-                lastname=self.cognome,
-                firstname=self.nome,
-                gender=self.sesso,
-                birthdate=self.data_nascita.strftime('%d/%m/%Y'),
-                birthplace=self.luogo_nascita,
-            )
-        except Exception as e:
+        provincia_code = (
+            self.provincia_nascita_id.code if self.provincia_nascita_id else None
+        )
+        candidates = self._birthplace_candidates(self.luogo_nascita, provincia_code)
+
+        codice = None
+        last_error = None
+        for birthplace in candidates:
+            try:
+                codice = cf_lib.encode(
+                    lastname=self.cognome,
+                    firstname=self.nome,
+                    gender=self.sesso,
+                    birthdate=self.data_nascita.strftime('%d/%m/%Y'),
+                    birthplace=birthplace,
+                )
+                break
+            except Exception as e:
+                last_error = e
+
+        if codice is None:
             raise UserError(_(
                 "Impossibile calcolare il codice fiscale.\n\n"
                 "Verificare che il Comune/Stato di nascita sia scritto "
-                "correttamente e che la data sia coerente.\n\n"
+                "correttamente (nome ufficiale del comune) e che la data "
+                "sia coerente. Se il comune esiste in più province, "
+                "indicare anche la Provincia di nascita.\n\n"
                 "Dettaglio tecnico: %s"
-            ) % e)
+            ) % last_error)
 
         self.employee_id.write({
             'volontariato_codice_fiscale': codice,
@@ -110,5 +160,9 @@ class VolontariatoCodiceFiscaleWizard(models.TransientModel):
             'birthday': self.employee_id.birthday or self.data_nascita,
             'place_of_birth': self.employee_id.place_of_birth
             or self.luogo_nascita,
+            'volontariato_provincia_nascita_id': (
+                self.employee_id.volontariato_provincia_nascita_id.id
+                or self.provincia_nascita_id.id
+            ),
         })
         return {'type': 'ir.actions.act_window_close'}

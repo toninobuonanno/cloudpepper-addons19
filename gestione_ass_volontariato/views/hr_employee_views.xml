@@ -16,6 +16,14 @@
                 <attribute name="string">Data di Nascita</attribute>
             </xpath>
 
+            <!-- Provincia di nascita: manca nel form nativo hr.employee,
+                 serve sia come dato anagrafico sia per disambiguare il
+                 calcolo del codice fiscale quando più comuni condividono
+                 lo stesso nome in province diverse -->
+            <xpath expr="//field[@name='country_of_birth']" position="after">
+                <field name="volontariato_provincia_nascita_id" placeholder="Provincia"/>
+            </xpath>
+
             <!-- Codice Fiscale in testata, sotto i recapiti -->
             <xpath expr="//field[@name='category_ids']" position="after">
                 <field name="volontariato_codice_fiscale"
@@ -67,6 +75,7 @@
         <field name="arch" type="xml">
             <xpath expr="//list" position="inside">
                 <field name="birthday" optional="hide" string="Data di Nascita"/>
+                <field name="volontariato_provincia_nascita_id" optional="hide"/>
                 <field name="volontariato_codice_fiscale" optional="hide"/>
                 <field name="volontariato_data_iscrizione" optional="hide"/>
                 <field name="volontariato_data_accettazione" optional="hide"/>

@@ -21,6 +21,8 @@
                     <group>
                         <field name="data_nascita"/>
                         <field name="luogo_nascita"/>
+                        <field name="provincia_nascita_id"
+                               placeholder="Solo se nato in Italia"/>
                     </group>
                 </group>
                 <footer>

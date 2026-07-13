@@ -16,6 +16,13 @@ class HrEmployee(models.Model):
         string='Codice Fiscale', size=16,
         help='Codice fiscale del volontario',
     )
+    volontariato_provincia_nascita_id = fields.Many2one(
+        'res.country.state', string='Provincia di Nascita',
+        domain="[('country_id.code', '=', 'IT')]",
+        help='Provincia italiana di nascita. Necessaria per calcolare '
+             'correttamente il codice fiscale quando più comuni hanno '
+             'lo stesso nome in province diverse.',
+    )
     volontariato_data_iscrizione = fields.Date(
         string='Data Iscrizione',
         help="Data di iscrizione del volontario all'associazione",
