@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_intervento_form_contabilita" model="ir.ui.view">
+        <field name="name">volontariato.intervento.form.contabilita</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="inherit_id" ref="gestione_ass_volontariato.view_volontariato_intervento_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='offerta_euro']" position="after">
+                <button name="action_registra_offerta" type="object"
+                        string="Registra in Prima Nota" icon="fa-money"
+                        class="btn btn-link p-0 text-start"
+                        invisible="not offerta_euro"
+                        help="Registra l'incasso dell'offerta in contabilità"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_title']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_movimenti" type="object"
+                            class="oe_stat_button" icon="fa-book"
+                            invisible="movimento_count == 0">
+                        <field name="movimento_count" widget="statinfo"
+                               string="Movimenti"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

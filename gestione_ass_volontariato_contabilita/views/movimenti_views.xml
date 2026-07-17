@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_movimenti_list" model="ir.ui.view">
+        <field name="name">account.move.line.prima.nota.list</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Prima Nota" create="false" edit="false" delete="false"
+                  default_order="date desc, id desc"
+                  decoration-success="volontariato_tipo == 'entrata'"
+                  decoration-danger="volontariato_tipo == 'uscita'">
+                <field name="date"/>
+                <field name="volontariato_tipo"/>
+                <field name="name"/>
+                <field name="account_id" string="Natura"/>
+                <field name="volontariato_analitica_id" optional="show"/>
+                <field name="volontariato_sezione_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="journal_id" optional="hide"/>
+                <field name="move_id" optional="hide"/>
+                <field name="volontariato_importo" sum="Totale"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_movimenti_pivot" model="ir.ui.view">
+        <field name="name">account.move.line.prima.nota.pivot</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Entrate e Uscite">
+                <field name="account_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="volontariato_importo" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_movimenti_graph" model="ir.ui.view">
+        <field name="name">account.move.line.prima.nota.graph</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <graph string="Entrate e Uscite" type="bar" stacked="1">
+                <field name="date" interval="month"/>
+                <field name="volontariato_importo" type="measure"/>
+                <field name="volontariato_tipo"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_movimenti_search" model="ir.ui.view">
+        <field name="name">account.move.line.prima.nota.search</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="volontariato_analitica_id"/>
+                <field name="partner_id"/>
+                <filter name="filtro_entrate" string="Entrate"
+                        domain="[('volontariato_tipo', '=', 'entrata')]"/>
+                <filter name="filtro_uscite" string="Uscite"
+                        domain="[('volontariato_tipo', '=', 'uscita')]"/>
+                <separator/>
+                <filter name="filtro_anno" string="Anno corrente"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+                <group>
+                    <filter name="group_natura" string="Natura (conto)"
+                            context="{'group_by': 'account_id'}"/>
+                    <filter name="group_destinazione" string="Destinazione"
+                            context="{'group_by': 'volontariato_analitica_id'}"/>
+                    <filter name="group_sezione" string="Sezione Mod. D"
+                            context="{'group_by': 'volontariato_sezione_id'}"/>
+                    <filter name="group_partner" string="Da / A"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_mese" string="Mese"
+                            context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_movimenti_prima_nota" model="ir.actions.act_window">
+        <field name="name">Prima Nota</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="view_movimenti_search"/>
+        <field name="domain">[('volontariato_tipo', 'in', ('entrata', 'uscita')), ('parent_state', '=', 'posted')]</field>
+        <field name="context">{'search_default_filtro_anno': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_movimenti_list')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_movimenti_pivot')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_movimenti_graph')})]"/>
+    </record>
+
+</odoo>

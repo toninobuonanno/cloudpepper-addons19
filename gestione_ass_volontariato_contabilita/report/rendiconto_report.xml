@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_rendiconto" model="ir.actions.report">
+        <field name="name">Rendiconto per Cassa</field>
+        <field name="model">volontariato.rendiconto.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato_contabilita.rendiconto</field>
+        <field name="report_file">gestione_ass_volontariato_contabilita.rendiconto</field>
+        <field name="print_report_name">'Rendiconto per Cassa %s' % (object.anno)</field>
+    </record>
+
+    <template id="rendiconto">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 style="text-align:center; margin-bottom:2px;">
+                        Rendiconto per Cassa — Anno <t t-out="anno"/>
+                    </h2>
+                    <p style="text-align:center; color:#666; margin-top:0;">
+                        <t t-out="company.name"/> ·
+                        Mod. D — D.M. 5 marzo 2020 (art. 13 c. 2 D.Lgs. 117/2017)
+                    </p>
+
+                    <t t-foreach="sezioni" t-as="sez">
+                        <h4 style="margin-top:18px; border-bottom:1px solid #999; padding-bottom:2px;">
+                            Sezione <t t-out="sez['sezione'].code"/> —
+                            <t t-out="sez['sezione'].name"/>
+                        </h4>
+                        <table class="table table-sm" style="font-size:12px; width:100%;">
+                            <thead>
+                                <tr style="border-bottom:1px solid #ccc;">
+                                    <th style="width:38%; text-align:left;">Uscite</th>
+                                    <th style="width:12%; text-align:right;">€</th>
+                                    <th style="width:38%; text-align:left; padding-left:16px;">Entrate</th>
+                                    <th style="width:12%; text-align:right;">€</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="n_rows" t-value="max(len(sez['uscite']), len(sez['entrate']))"/>
+                                <t t-foreach="range(n_rows)" t-as="i">
+                                    <tr>
+                                        <td><t t-if="i &lt; len(sez['uscite'])" t-out="sez['uscite'][i][0].name"/></td>
+                                        <td style="text-align:right;">
+                                            <t t-if="i &lt; len(sez['uscite'])"
+                                               t-out="'%.2f' % sez['uscite'][i][1]"/>
+                                        </td>
+                                        <td style="padding-left:16px;"><t t-if="i &lt; len(sez['entrate'])" t-out="sez['entrate'][i][0].name"/></td>
+                                        <td style="text-align:right;">
+                                            <t t-if="i &lt; len(sez['entrate'])"
+                                               t-out="'%.2f' % sez['entrate'][i][1]"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr style="border-top:1px solid #ccc; font-weight:bold;">
+                                    <td>Totale uscite <t t-out="sez['sezione'].code"/></td>
+                                    <td style="text-align:right;"><t t-out="'%.2f' % sez['tot_uscite']"/></td>
+                                    <td style="padding-left:16px;">Totale entrate <t t-out="sez['sezione'].code"/></td>
+                                    <td style="text-align:right;"><t t-out="'%.2f' % sez['tot_entrate']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <t t-if="senza_sezione['entrate'] or senza_sezione['uscite']">
+                        <h4 style="margin-top:18px; border-bottom:1px solid #999; padding-bottom:2px; color:#a00;">
+                            Movimenti senza sezione (da classificare)
+                        </h4>
+                        <table class="table table-sm" style="font-size:12px; width:100%;">
+                            <tbody>
+                                <t t-foreach="senza_sezione['uscite']" t-as="voce">
+                                    <tr>
+                                        <td style="width:76%;">Uscita — <t t-out="voce[0].name"/></td>
+                                        <td style="width:24%; text-align:right;"><t t-out="'%.2f' % voce[1]"/></td>
+                                    </tr>
+                                </t>
+                                <t t-foreach="senza_sezione['entrate']" t-as="voce">
+                                    <tr>
+                                        <td>Entrata — <t t-out="voce[0].name"/></td>
+                                        <td style="text-align:right;"><t t-out="'%.2f' % voce[1]"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <div style="margin-top:24px; border-top:2px solid #333; padding-top:8px;">
+                        <table style="width:100%; font-size:13px;">
+                            <tr>
+                                <td style="width:33%;"><b>Totale entrate:</b>
+                                    <t t-out="'%.2f' % tot_entrate"/> €</td>
+                                <td style="width:33%;"><b>Totale uscite:</b>
+                                    <t t-out="'%.2f' % tot_uscite"/> €</td>
+                                <td style="width:34%;"><b>
+                                    <t t-if="avanzo &gt;= 0">Avanzo</t>
+                                    <t t-else="">Disavanzo</t> di gestione:</b>
+                                    <t t-out="'%.2f' % avanzo"/> €</td>
+                            </tr>
+                        </table>
+                        <table style="width:100%; font-size:12px; margin-top:10px; color:#444;">
+                            <tr>
+                                <td>Cassa e banca all'1/1: <t t-out="'%.2f' % saldo_iniziale"/> €</td>
+                                <td>Cassa e banca al 31/12: <t t-out="'%.2f' % saldo_finale"/> €</td>
+                            </tr>
+                            <tr t-foreach="conti_liq" t-as="cl">
+                                <td colspan="2" style="padding-left:12px;">
+                                    <t t-out="cl[0].code"/> <t t-out="cl[0].name"/>:
+                                    <t t-out="'%.2f' % cl[1]"/> €
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="margin-top:40px;">
+                        <table style="width:100%; font-size:12px;">
+                            <tr>
+                                <td style="width:50%;">Il Presidente<br/><br/>_______________________</td>
+                                <td style="width:50%;">Il Tesoriere<br/><br/>_______________________</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

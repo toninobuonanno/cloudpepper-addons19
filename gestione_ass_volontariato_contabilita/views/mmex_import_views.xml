@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mmex_import_wizard_form" model="ir.ui.view">
+        <field name="name">volontariato.mmex.import.wizard.form</field>
+        <field name="model">volontariato.mmex.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importa da Money Manager Ex">
+                <div class="alert alert-info" role="alert" invisible="esito">
+                    I dati verranno importati nell'associazione
+                    <b><field name="company_id" readonly="1" nolabel="1" class="oe_inline"/></b>.
+                    Per importare un'altra associazione, cambiare company dal
+                    selettore in alto a destra prima di procedere.
+                    L'importazione è rieseguibile: i movimenti già presenti
+                    vengono riconosciuti e saltati.
+                </div>
+                <group invisible="esito">
+                    <field name="file_mmb" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                </group>
+                <group invisible="not esito">
+                    <field name="esito" nolabel="1" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_importa" type="object" string="Importa"
+                            class="btn-primary" invisible="esito"/>
+                    <button string="Chiudi" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mmex_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importa da Money Manager Ex</field>
+        <field name="res_model">volontariato.mmex.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
