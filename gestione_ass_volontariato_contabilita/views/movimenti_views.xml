@@ -9,6 +9,7 @@
                   default_order="date desc, id desc"
                   decoration-success="volontariato_tipo == 'entrata'"
                   decoration-danger="volontariato_tipo == 'uscita'">
+                <field name="move_id" column_invisible="True"/>
                 <field name="date"/>
                 <field name="volontariato_tipo"/>
                 <field name="name"/>
@@ -17,7 +18,8 @@
                 <field name="volontariato_sezione_id" optional="show"/>
                 <field name="partner_id" optional="show"/>
                 <field name="journal_id" optional="hide"/>
-                <field name="move_id" optional="hide"/>
+                <field name="move_name" string="Registrazione"
+                       widget="open_move_widget" optional="show"/>
                 <field name="volontariato_importo" sum="Totale"/>
                 <field name="company_id" optional="hide" groups="base.group_multi_company"/>
             </list>
