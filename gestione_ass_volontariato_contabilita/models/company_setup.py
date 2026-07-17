@@ -86,13 +86,12 @@ class ResCompany(models.Model):
                 Journal.create(vals)
 
         # ── Piano analitico + destinazione di default ──
+        # In Odoo 19 il piano analitico è condiviso tra le company;
+        # sono i singoli conti analitici ad avere la company.
         Plan = self.env['account.analytic.plan'].sudo()
-        plan = Plan.search([
-            ('name', '=', 'Destinazioni'),
-            '|', ('company_id', '=', self.id), ('company_id', '=', False),
-        ], limit=1)
+        plan = Plan.search([('name', '=', 'Destinazioni')], limit=1)
         if not plan:
-            plan = Plan.create({'name': 'Destinazioni', 'company_id': self.id})
+            plan = Plan.create({'name': 'Destinazioni'})
 
         Analytic = self.env['account.analytic.account'].sudo()
         default_analytic = Analytic.search([
