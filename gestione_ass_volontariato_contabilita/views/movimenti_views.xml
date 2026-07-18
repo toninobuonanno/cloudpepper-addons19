@@ -95,4 +95,56 @@
             (0, 0, {'view_mode': 'graph', 'view_id': ref('view_movimenti_graph')})]"/>
     </record>
 
+    <!-- ═══════════ SALDI CASSA E BANCA ═══════════ -->
+    <record id="view_saldi_list" model="ir.ui.view">
+        <field name="name">account.move.line.saldi.list</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Saldi" create="false" edit="false" delete="false"
+                  default_order="date desc, id desc">
+                <field name="move_id" column_invisible="True"/>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="account_id" string="Conto"/>
+                <field name="partner_id" optional="hide"/>
+                <field name="move_name" string="Registrazione"
+                       widget="open_move_widget" optional="show"/>
+                <field name="debit" sum="Totale Entrate"/>
+                <field name="credit" sum="Totale Uscite"/>
+                <field name="balance" sum="Saldo" string="Saldo"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_saldi_search" model="ir.ui.view">
+        <field name="name">account.move.line.saldi.search</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="account_id"/>
+                <filter name="filtro_anno_saldi" string="Anno corrente"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+                <group>
+                    <filter name="group_conto" string="Conto"
+                            context="{'group_by': 'account_id'}"/>
+                    <filter name="group_mese_saldi" string="Mese"
+                            context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_saldi" model="ir.actions.act_window">
+        <field name="name">Saldi Cassa e Banca</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_saldi_search"/>
+        <field name="domain">[('account_id.account_type', '=', 'asset_cash'), ('parent_state', '=', 'posted')]</field>
+        <field name="context">{'search_default_group_conto': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_saldi_list')})]"/>
+    </record>
+
 </odoo>

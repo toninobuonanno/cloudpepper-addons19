@@ -12,6 +12,12 @@
               action="action_movimenti_prima_nota"
               sequence="10"/>
 
+    <menuitem id="menu_saldi"
+              name="Saldi Cassa e Banca"
+              parent="menu_contabilita_root"
+              action="action_saldi"
+              sequence="15"/>
+
     <menuitem id="menu_nuovo_movimento"
               name="Nuovo Movimento"
               parent="menu_contabilita_root"
