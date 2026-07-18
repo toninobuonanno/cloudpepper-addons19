@@ -16,6 +16,9 @@
                 <group invisible="esito">
                     <field name="file_mmb" filename="file_name"/>
                     <field name="file_name" invisible="1"/>
+                    <field name="codice_archivio" placeholder="es. 2024"/>
+                    <field name="importa_aperture"/>
+                    <field name="salta_duplicati"/>
                 </group>
                 <group invisible="not esito">
                     <field name="esito" nolabel="1" readonly="1"/>
@@ -23,6 +26,10 @@
                 <footer>
                     <button name="action_importa" type="object" string="Importa"
                             class="btn-primary" invisible="esito"/>
+                    <button name="action_elimina_importati" type="object"
+                            string="Elimina Importazioni Precedenti"
+                            class="btn-danger" invisible="esito"
+                            confirm="Verranno eliminati TUTTI i movimenti importati da Money Manager Ex per questa associazione (i movimenti inseriti a mano restano). Continuare?"/>
                     <button string="Chiudi" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

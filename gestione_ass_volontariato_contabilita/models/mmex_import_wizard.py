@@ -50,8 +50,30 @@ class VolontariatoMmexImportWizard(models.TransientModel):
     _name = 'volontariato.mmex.import.wizard'
     _description = 'Importazione da Money Manager Ex'
 
-    file_mmb = fields.Binary(string='File .mmb', required=True)
+    file_mmb = fields.Binary(string='File .mmb')
     file_name = fields.Char(string='Nome File')
+    codice_archivio = fields.Char(
+        string='Codice Archivio', size=10,
+        help="Identificativo del file, es. '2024' o '2025'. Serve a "
+             "distinguere le transazioni quando si importano più file "
+             "MMEX (gli ID interni ripartono da 1 in ogni file).\n"
+             "Lasciare VUOTO se si sta re-importando il file già caricato "
+             "in precedenza senza codice, per riconoscerne i movimenti.",
+    )
+    importa_aperture = fields.Boolean(
+        string='Importa Saldi di Apertura', default=True,
+        help="Importa le righe 'ripresa saldo' come aperture patrimoniali. "
+             "Disattivare per i file successivi al primo: la loro ripresa "
+             "saldo duplicherebbe i saldi già costruiti dai movimenti "
+             "degli anni precedenti.",
+    )
+    salta_duplicati = fields.Boolean(
+        string='Salta Movimenti Identici', default=True,
+        help="Se un movimento con stessa data, stesso giornale, stessa "
+             "descrizione e stesso importo esiste già, non viene "
+             "re-importato. Utile quando i file di anni diversi si "
+             "sovrappongono parzialmente.",
+    )
     company_id = fields.Many2one(
         'res.company', string='Associazione (Company)',
         default=lambda self: self.env.company, required=True, readonly=True,
@@ -61,6 +83,33 @@ class VolontariatoMmexImportWizard(models.TransientModel):
     esito = fields.Text(string='Esito', readonly=True)
 
     # ─────────────────────────────────────────────────────────────
+    def action_elimina_importati(self):
+        """Elimina tutti i movimenti importati da MMEX per la company
+        attiva (riconosciuti dal riferimento 'MMEX:...'). I movimenti
+        inseriti manualmente non vengono toccati."""
+        self.ensure_one()
+        moves = self.env['account.move'].search([
+            ('company_id', '=', self.company_id.id),
+            ('ref', '=like', 'MMEX:%'),
+        ])
+        count = len(moves)
+        if moves:
+            moves.filtered(lambda m: m.state == 'posted').button_draft()
+            moves.with_context(force_delete=True).unlink()
+        self.esito = _(
+            'Eliminati %(n)d movimenti importati da MMEX per %(company)s.\n'
+            'Conti, destinazioni e beneficiari sono stati mantenuti.\n\n'
+            'Ora è possibile ripetere le importazioni nell\'ordine '
+            'cronologico dei file.',
+            n=count, company=self.company_id.name)
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
     def _apri_db(self):
         raw = base64.b64decode(self.file_mmb)
         if not raw.startswith(b'SQLite format 3'):
@@ -162,6 +211,8 @@ class VolontariatoMmexImportWizard(models.TransientModel):
     # ─────────────────────────────────────────────────────────────
     def action_importa(self):
         self.ensure_one()
+        if not self.file_mmb:
+            raise UserError(_('Caricare un file .mmb prima di importare.'))
         company = self.company_id
         plan = company._volontariato_setup_contabilita()
 
@@ -221,12 +272,16 @@ class VolontariatoMmexImportWizard(models.TransientModel):
             cache_partner = {}
 
             importati = saltati = aperture = 0
+            dup_contenuto = aperture_saltate = 0
             errori = []
 
             for row in cur.execute(query).fetchall():
                 (transid, accid, toaccid, payeeid, code, amount,
                  numero, note, categid, transdate) = row
-                ref = f'MMEX:{transid}'
+                if self.codice_archivio:
+                    ref = f'MMEX:{self.codice_archivio.strip()}:{transid}'
+                else:
+                    ref = f'MMEX:{transid}'
                 if Move.search_count([('ref', '=', ref),
                                       ('company_id', '=', company.id)]):
                     saltati += 1
@@ -243,8 +298,22 @@ class VolontariatoMmexImportWizard(models.TransientModel):
                 partner = self._get_or_create_partner(
                     payees.get(payeeid, ''), cache_partner)
 
+                # Duplicato per contenuto (file sovrapposti)
+                if self.salta_duplicati and Move.search_count([
+                        ('company_id', '=', company.id),
+                        ('date', '=', data),
+                        ('state', '=', 'posted'),
+                        ('line_ids.name', '=', descr),
+                        ('line_ids.debit', '=', amount),
+                ]):
+                    dup_contenuto += 1
+                    continue
+
                 try:
                     if (parent_name or '').strip().lower() == RIPRESA_SALDO:
+                        if not self.importa_aperture:
+                            aperture_saltate += 1
+                            continue
                         # Saldo di apertura: liquidità a patrimonio
                         lines = [
                             (0, 0, {'account_id': liquidita.id,
@@ -321,8 +390,11 @@ class VolontariatoMmexImportWizard(models.TransientModel):
                 'Importazione completata per %(company)s.\n'
                 '- Movimenti importati: %(n)d\n'
                 '- Saldi di apertura: %(a)d\n'
-                '- Già presenti (saltati): %(s)d',
-                company=company.name, n=importati, a=aperture, s=saltati)
+                '- Già presenti per ID (saltati): %(s)d\n'
+                '- Identici per contenuto (saltati): %(d)d\n'
+                '- Aperture escluse: %(x)d',
+                company=company.name, n=importati, a=aperture, s=saltati,
+                d=dup_contenuto, x=aperture_saltate)
             if errori:
                 esito += _('\n\nErrori (%d):\n') % len(errori)
                 esito += '\n'.join(errori[:15])

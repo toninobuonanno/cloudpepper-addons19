@@ -66,6 +66,20 @@
         <field name="code">action = env.company.action_volontariato_setup_contabilita()</field>
     </record>
 
+    <!-- Azione massiva: Reimposta a Bozza le registrazioni selezionate -->
+    <record id="action_server_moves_to_draft" model="ir.actions.server">
+        <field name="name">Reimposta a Bozza (selezione)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_manager'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.filtered(lambda m: m.state == 'posted').button_draft()
+        </field>
+    </record>
+
     <menuitem id="menu_setup_contabilita"
               name="Configura Contabilità ETS"
               parent="menu_contabilita_config"
