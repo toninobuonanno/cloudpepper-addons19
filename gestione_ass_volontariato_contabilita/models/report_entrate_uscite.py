@@ -249,8 +249,7 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
 
 
 class ReportEntrateUscitePdf(models.AbstractModel):
-    _name = ('report.gestione_ass_volontariato_contabilita.'
-             'report_entrate_uscite')
+    _name = 'report.gestione_ass_volontariato_contabilita.rep_eu'
     _description = 'Report Entrate/Uscite PDF'
 
     @api.model
