@@ -32,6 +32,14 @@ class AccountMoveLine(models.Model):
         string='Importo', compute='_compute_volontariato_tipo', store=True,
         currency_field='company_currency_id',
     )
+    volontariato_entrata = fields.Monetary(
+        string='Entrate', compute='_compute_volontariato_tipo', store=True,
+        currency_field='company_currency_id',
+    )
+    volontariato_uscita = fields.Monetary(
+        string='Uscite', compute='_compute_volontariato_tipo', store=True,
+        currency_field='company_currency_id',
+    )
 
     @api.depends('account_id.account_type', 'debit', 'credit')
     def _compute_volontariato_tipo(self):
@@ -40,10 +48,16 @@ class AccountMoveLine(models.Model):
             if acc_type in ('income', 'income_other'):
                 line.volontariato_tipo = 'entrata'
                 line.volontariato_importo = line.credit - line.debit
+                line.volontariato_entrata = line.credit - line.debit
+                line.volontariato_uscita = 0.0
             elif acc_type in ('expense', 'expense_depreciation',
                               'expense_direct_cost'):
                 line.volontariato_tipo = 'uscita'
                 line.volontariato_importo = line.debit - line.credit
+                line.volontariato_entrata = 0.0
+                line.volontariato_uscita = line.debit - line.credit
             else:
                 line.volontariato_tipo = False
                 line.volontariato_importo = 0.0
+                line.volontariato_entrata = 0.0
+                line.volontariato_uscita = 0.0

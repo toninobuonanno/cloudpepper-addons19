@@ -20,7 +20,9 @@
                 <field name="journal_id" optional="hide"/>
                 <field name="move_name" string="Registrazione"
                        widget="open_move_widget" optional="show"/>
-                <field name="volontariato_importo" sum="Totale"/>
+                <field name="volontariato_entrata" sum="Totale Entrate"/>
+                <field name="volontariato_uscita" sum="Totale Uscite"/>
+                <field name="volontariato_importo" sum="Totale" optional="hide"/>
                 <field name="company_id" optional="hide" groups="base.group_multi_company"/>
             </list>
         </field>
@@ -33,7 +35,8 @@
             <pivot string="Entrate e Uscite">
                 <field name="account_id" type="row"/>
                 <field name="date" interval="month" type="col"/>
-                <field name="volontariato_importo" type="measure"/>
+                <field name="volontariato_entrata" type="measure"/>
+                <field name="volontariato_uscita" type="measure"/>
             </pivot>
         </field>
     </record>
