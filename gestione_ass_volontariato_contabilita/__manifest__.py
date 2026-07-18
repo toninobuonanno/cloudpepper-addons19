@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Volontariato - Contabilità ETS',
-    'version': '19.0.1.1.2',
+    'version': '19.0.1.1.3',
     'category': 'Accounting',
     'summary': 'Prima nota semplificata, rendiconto per cassa Mod. D e '
                'importatore Money Manager Ex per associazioni di volontariato',

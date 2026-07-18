@@ -19,6 +19,13 @@
                         <div style="border-bottom:2px solid #333; margin-bottom:6px; padding-bottom:4px;">
                         <h3 style="margin:0;">
                             <span t-out="doc.company_id.name"/></h3>
+                        <p style="margin:0; font-size:11px; color:#444;">
+                            <t t-if="doc.company_id.street"><t t-out="doc.company_id.street"/><t t-if="doc.company_id.street2"> — <t t-out="doc.company_id.street2"/></t> · </t>
+                            <t t-if="doc.company_id.zip"><t t-out="doc.company_id.zip"/> </t>
+                            <t t-if="doc.company_id.city"><t t-out="doc.company_id.city"/></t>
+                            <t t-if="doc.company_id.state_id"> (<t t-out="doc.company_id.state_id.code"/>)</t>
+                            <t t-if="doc.company_id.vat"> · C.F.: <t t-out="doc.company_id.vat"/></t>
+                        </p>
                         </div>
                         <h4 style="margin-bottom:2px;">
                             Report Entrate/Uscite —

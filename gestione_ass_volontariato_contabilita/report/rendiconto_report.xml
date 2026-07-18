@@ -17,6 +17,13 @@
                     <h3 style="text-align:center; margin-bottom:0;">
                         <span t-out="company.name"/>
                     </h3>
+                    <p style="text-align:center; margin:0; font-size:11px; color:#444;">
+                        <t t-if="company.street"><t t-out="company.street"/><t t-if="company.street2"> — <t t-out="company.street2"/></t> · </t>
+                        <t t-if="company.zip"><t t-out="company.zip"/> </t>
+                        <t t-if="company.city"><t t-out="company.city"/></t>
+                        <t t-if="company.state_id"> (<t t-out="company.state_id.code"/>)</t>
+                        <t t-if="company.vat"> · C.F.: <t t-out="company.vat"/></t>
+                    </p>
                     <h2 style="text-align:center; margin-bottom:2px; margin-top:2px;">
                         Rendiconto per Cassa — Anno <t t-out="anno"/>
                     </h2>
