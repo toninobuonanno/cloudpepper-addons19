@@ -4,3 +4,4 @@ access_volontariato_sezione_rendiconto_admin,volontariato.sezione.rendiconto.adm
 access_volontariato_prima_nota_wizard,volontariato.prima.nota.wizard,model_volontariato_prima_nota_wizard,base.group_user,1,1,1,1
 access_volontariato_mmex_import_wizard,volontariato.mmex.import.wizard,model_volontariato_mmex_import_wizard,account.group_account_manager,1,1,1,1
 access_volontariato_rendiconto_wizard,volontariato.rendiconto.wizard,model_volontariato_rendiconto_wizard,base.group_user,1,1,1,1
+access_volontariato_report_entrate_uscite,volontariato.report.entrate.uscite,model_volontariato_report_entrate_uscite,base.group_user,1,1,1,1

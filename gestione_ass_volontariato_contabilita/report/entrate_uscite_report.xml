@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_entrate_uscite" model="ir.actions.report">
+        <field name="name">Report Entrate/Uscite</field>
+        <field name="model">volontariato.report.entrate.uscite</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato_contabilita.report_entrate_uscite</field>
+        <field name="report_file">gestione_ass_volontariato_contabilita.report_entrate_uscite</field>
+        <field name="print_report_name">'Report Entrate Uscite'</field>
+    </record>
+
+    <template id="report_entrate_uscite">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="d" t-value="dati[doc.id]"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 style="margin-bottom:2px;">
+                            Report Entrate/Uscite —
+                            <t t-out="doc.data_da.strftime('%d/%m/%Y')"/> →
+                            <t t-out="doc.data_a.strftime('%d/%m/%Y')"/>
+                        </h3>
+                        <p style="color:#666; margin-top:0; font-size:12px;">
+                            <t t-out="doc.company_id.name"/> ·
+                            <t t-out="d['n_righe']"/> movimenti
+                            <t t-if="doc.journal_ids">
+                                · Conti: <t t-out="', '.join(doc.journal_ids.mapped('name'))"/>
+                            </t>
+                            <t t-if="doc.analitica_ids">
+                                · Destinazioni: <t t-out="', '.join(doc.analitica_ids.mapped('name'))"/>
+                            </t>
+                            <t t-if="doc.partner_ids">
+                                · Beneficiari: <t t-out="', '.join(doc.partner_ids.mapped('name'))"/>
+                            </t>
+                        </p>
+
+                        <table class="table table-sm" style="font-size:11px; width:100%;">
+                            <thead>
+                                <tr style="background-color:#4472C4; color:white;">
+                                    <th style="width:11%;">Data</th>
+                                    <th style="width:41%;">Descrizione</th>
+                                    <th style="width:24%;">Beneficiario</th>
+                                    <th style="width:12%; text-align:right;">Entrate €</th>
+                                    <th style="width:12%; text-align:right;">Uscite €</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="d['gruppi']" t-as="g">
+                                    <tr style="background-color:#D9E1F2; font-weight:bold;">
+                                        <td colspan="3"><t t-out="g['nome']"/></td>
+                                        <td style="text-align:right;"><t t-out="'%.2f' % g['e']"/></td>
+                                        <td style="text-align:right;"><t t-out="'%.2f' % g['u']"/></td>
+                                    </tr>
+                                    <t t-foreach="g['sub']" t-as="s">
+                                        <tr t-if="s['nome']" style="font-style:italic; font-weight:bold;">
+                                            <td></td>
+                                            <td colspan="2"><t t-out="s['nome']"/></td>
+                                            <td style="text-align:right;"><t t-out="'%.2f' % s['e']"/></td>
+                                            <td style="text-align:right;"><t t-out="'%.2f' % s['u']"/></td>
+                                        </tr>
+                                        <t t-foreach="s['lines']" t-as="line">
+                                            <tr>
+                                                <td><t t-out="line.date.strftime('%d/%m/%Y')"/></td>
+                                                <td><t t-out="line.name"/></td>
+                                                <td><t t-out="line.partner_id.name or ''"/></td>
+                                                <td style="text-align:right;">
+                                                    <t t-if="line.volontariato_tipo == 'entrata'"
+                                                       t-out="'%.2f' % line.volontariato_importo"/>
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    <t t-if="line.volontariato_tipo == 'uscita'"
+                                                       t-out="'%.2f' % line.volontariato_importo"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="border-top:2px solid #333; font-weight:bold;">
+                                    <td colspan="3">TOTALE GENERALE</td>
+                                    <td style="text-align:right;"><t t-out="'%.2f' % d['tot_e']"/></td>
+                                    <td style="text-align:right;"><t t-out="'%.2f' % d['tot_u']"/></td>
+                                </tr>
+                                <tr style="font-weight:bold;">
+                                    <td colspan="3">
+                                        <t t-if="d['tot_e'] - d['tot_u'] &gt;= 0">Avanzo</t>
+                                        <t t-else="">Disavanzo</t>
+                                    </td>
+                                    <td colspan="2" style="text-align:right;">
+                                        <t t-out="'%.2f' % (d['tot_e'] - d['tot_u'])"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

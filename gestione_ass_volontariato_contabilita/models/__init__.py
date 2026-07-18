@@ -7,3 +7,4 @@ from . import intervento
 from . import prima_nota_wizard
 from . import mmex_import_wizard
 from . import rendiconto_report
+from . import report_entrate_uscite

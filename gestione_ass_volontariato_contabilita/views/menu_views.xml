@@ -24,6 +24,12 @@
               action="action_prima_nota_wizard"
               sequence="20"/>
 
+    <menuitem id="menu_report_entrate_uscite"
+              name="Report Entrate/Uscite"
+              parent="menu_contabilita_root"
+              action="action_report_entrate_uscite_wizard"
+              sequence="25"/>
+
     <menuitem id="menu_rendiconto"
               name="Rendiconto per Cassa"
               parent="menu_contabilita_root"

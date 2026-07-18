@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_report_entrate_uscite_form" model="ir.ui.view">
+        <field name="name">volontariato.report.entrate.uscite.form</field>
+        <field name="model">volontariato.report.entrate.uscite</field>
+        <field name="arch" type="xml">
+            <form string="Report Entrate/Uscite">
+                <group>
+                    <group string="Periodo">
+                        <field name="company_id" invisible="1"/>
+                        <field name="data_da"/>
+                        <field name="data_a"/>
+                        <field name="raggruppamento" widget="radio"/>
+                    </group>
+                    <group string="Filtri (vuoto = tutto)">
+                        <field name="journal_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                        <field name="analitica_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                        <field name="conto_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                        <field name="partner_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_visualizza" type="object"
+                            string="Visualizza" class="btn-primary"
+                            icon="fa-television"/>
+                    <button name="action_pdf" type="object"
+                            string="Stampa PDF" icon="fa-file-pdf-o"/>
+                    <button name="action_excel" type="object"
+                            string="Esporta Excel" icon="fa-file-excel-o"/>
+                    <button string="Chiudi" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_report_entrate_uscite_wizard" model="ir.actions.act_window">
+        <field name="name">Report Entrate/Uscite</field>
+        <field name="res_model">volontariato.report.entrate.uscite</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

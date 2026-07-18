@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Volontariato - Contabilità ETS',
-    'version': '19.0.1.0.4',
+    'version': '19.0.1.1.0',
     'category': 'Accounting',
     'summary': 'Prima nota semplificata, rendiconto per cassa Mod. D e '
                'importatore Money Manager Ex per associazioni di volontariato',
@@ -33,8 +33,10 @@ Contabilità per Enti del Terzo Settore
         'views/movimenti_views.xml',
         'views/mmex_import_views.xml',
         'views/rendiconto_wizard_views.xml',
+        'views/report_entrate_uscite_views.xml',
         'views/intervento_views.xml',
         'report/rendiconto_report.xml',
+        'report/entrate_uscite_report.xml',
         'views/menu_views.xml',
     ],
     'installable': True,
