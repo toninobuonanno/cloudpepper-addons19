@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_volontariato_presidio,volontariato.presidio.user,model_volontariato_presidio,base.group_user,1,1,1,1
+access_volontariato_presidio_donazione,volontariato.presidio.donazione.user,model_volontariato_presidio_donazione,base.group_user,1,1,1,1
+access_volontariato_presidio_donazione_riga,volontariato.presidio.donazione.riga.user,model_volontariato_presidio_donazione_riga,base.group_user,1,1,1,1
+access_volontariato_presidio_prestito,volontariato.presidio.prestito.user,model_volontariato_presidio_prestito,base.group_user,1,1,1,1
+access_volontariato_presidio_prestito_riga,volontariato.presidio.prestito.riga.user,model_volontariato_presidio_prestito_riga,base.group_user,1,1,1,1

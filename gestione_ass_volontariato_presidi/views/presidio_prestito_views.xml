@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_volontariato_presidio_prestito_form" model="ir.ui.view">
+        <field name="name">volontariato.presidio.prestito.form</field>
+        <field name="model">volontariato.presidio.prestito</field>
+        <field name="arch" type="xml">
+            <form string="Prestito Presidi">
+                <header>
+                    <button name="action_confirm" type="object" string="Conferma"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_set_draft" type="object" string="Imposta a Bozza"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="codice" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="richiedente_id" readonly="state != 'draft'"/>
+                            <field name="data_richiesta" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="stato_rientro" widget="badge"
+                                   decoration-warning="stato_rientro == 'in_corso'"
+                                   decoration-info="stato_rientro == 'parziale'"
+                                   decoration-success="stato_rientro == 'rientrato'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Presidi Forniti / Rientrati" name="righe">
+                            <field name="riga_ids">
+                                <list editable="bottom" decoration-success="rientrato">
+                                    <field name="presidio_id"/>
+                                    <field name="consumabile" column_invisible="1"/>
+                                    <field name="quantita_fornita"/>
+                                    <field name="data_fornitura"/>
+                                    <field name="matricola" optional="show"/>
+                                    <field name="quantita_rientrata" invisible="consumabile"/>
+                                    <field name="data_rientro" invisible="consumabile"/>
+                                    <field name="condizione_rientro" invisible="consumabile" optional="show"/>
+                                    <field name="rientrato" invisible="1"/>
+                                    <field name="note" optional="hide"/>
+                                    <button name="action_registra_rientro" type="object"
+                                            string="Segna Rientrato" icon="fa-check"
+                                            invisible="rientrato or consumabile"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Note" name="note">
+                            <field name="note" nolabel="1" placeholder="Note aggiuntive sul prestito..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_volontariato_presidio_prestito_list" model="ir.ui.view">
+        <field name="name">volontariato.presidio.prestito.list</field>
+        <field name="model">volontariato.presidio.prestito</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'draft'">
+                <field name="codice"/>
+                <field name="data_richiesta"/>
+                <field name="richiedente_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"/>
+                <field name="stato_rientro" widget="badge"
+                       decoration-warning="stato_rientro == 'in_corso'"
+                       decoration-info="stato_rientro == 'parziale'"
+                       decoration-success="stato_rientro == 'rientrato'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_volontariato_presidio_prestito_search" model="ir.ui.view">
+        <field name="name">volontariato.presidio.prestito.search</field>
+        <field name="model">volontariato.presidio.prestito</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="codice"/>
+                <field name="richiedente_id"/>
+                <field name="riga_ids" string="Presidio" filter_domain="[('riga_ids.presidio_id.name', 'ilike', self)]"/>
+                <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confermato" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Non Rientrati" name="non_rientrati" domain="[('stato_rientro', '!=', 'rientrato')]"/>
+                <filter string="Rientrati" name="rientrati" domain="[('stato_rientro', '=', 'rientrato')]"/>
+                <group>
+                    <filter string="Richiedente" name="group_richiedente" context="{'group_by': 'richiedente_id'}"/>
+                    <filter string="Stato Rientro" name="group_stato_rientro" context="{'group_by': 'stato_rientro'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION: Prestiti (testate) -->
+    <record id="action_volontariato_presidio_prestito" model="ir.actions.act_window">
+        <field name="name">Prestiti Presidi</field>
+        <field name="res_model">volontariato.presidio.prestito</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registra il primo prestito
+            </p>
+            <p>
+                Gestisce la fornitura di presidi ai richiedenti e la
+                registrazione del rientro quando non servono più.
+            </p>
+        </field>
+    </record>
+
+    <!-- LIST VIEW trasversale sulle righe: presidi forniti e non ancora rientrati -->
+    <record id="view_volontariato_presidio_prestito_riga_list" model="ir.ui.view">
+        <field name="name">volontariato.presidio.prestito.riga.list</field>
+        <field name="model">volontariato.presidio.prestito.riga</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="prestito_id"/>
+                <field name="richiedente_id"/>
+                <field name="presidio_id"/>
+                <field name="quantita_fornita"/>
+                <field name="data_fornitura"/>
+                <field name="matricola" optional="show"/>
+                <field name="quantita_rientrata" optional="hide"/>
+                <field name="data_rientro" optional="show"/>
+                <field name="rientrato" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_volontariato_presidio_prestito_riga_search" model="ir.ui.view">
+        <field name="name">volontariato.presidio.prestito.riga.search</field>
+        <field name="model">volontariato.presidio.prestito.riga</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="richiedente_id"/>
+                <field name="presidio_id"/>
+                <field name="prestito_id"/>
+                <filter string="Non Rientrati" name="non_rientrati" domain="[('rientrato', '=', False)]"/>
+                <filter string="Rientrati" name="rientrati" domain="[('rientrato', '=', True)]"/>
+                <separator/>
+                <filter string="Forniti da più di 30 giorni" name="ritardo_30"
+                        domain="[('rientrato', '=', False),
+                                 ('data_fornitura', '&lt;=', (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter string="Richiedente" name="group_richiedente" context="{'group_by': 'richiedente_id'}"/>
+                    <filter string="Presidio" name="group_presidio" context="{'group_by': 'presidio_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_volontariato_presidio_non_rientrati" model="ir.actions.act_window">
+        <field name="name">Presidi Forniti Non Rientrati</field>
+        <field name="res_model">volontariato.presidio.prestito.riga</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('prestito_id.state', '=', 'confirmed'), ('consumabile', '=', False)]</field>
+        <field name="context">{'search_default_non_rientrati': 1}</field>
+        <field name="help" type="html">
+            <p>
+                Elenco trasversale di tutti i presidi forniti ai richiedenti,
+                per verificare chi li ha ancora e da quando.
+            </p>
+        </field>
+    </record>
+
+</odoo>

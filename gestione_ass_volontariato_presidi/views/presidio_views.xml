@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_volontariato_presidio_form" model="ir.ui.view">
+        <field name="name">volontariato.presidio.form</field>
+        <field name="model">volontariato.presidio</field>
+        <field name="arch" type="xml">
+            <form string="Presidio">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Es. Letto ortopedico elettrico"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="categoria"/>
+                            <field name="consumabile"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Magazzino">
+                            <field name="qty_donata"/>
+                            <field name="qty_in_prestito"/>
+                            <field name="qty_disponibile"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Descrizione" name="descrizione">
+                            <field name="descrizione" nolabel="1"/>
+                        </page>
+                        <page string="Note" name="note">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW: Presidi a Magazzino -->
+    <record id="view_volontariato_presidio_list" model="ir.ui.view">
+        <field name="name">volontariato.presidio.list</field>
+        <field name="model">volontariato.presidio</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="qty_disponibile &lt;= 0">
+                <field name="name"/>
+                <field name="categoria"/>
+                <field name="consumabile" optional="hide"/>
+                <field name="qty_donata"/>
+                <field name="qty_in_prestito"/>
+                <field name="qty_disponibile" decoration-danger="qty_disponibile &lt;= 0"
+                       decoration-success="qty_disponibile &gt; 0"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_volontariato_presidio_search" model="ir.ui.view">
+        <field name="name">volontariato.presidio.search</field>
+        <field name="model">volontariato.presidio</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="categoria"/>
+                <filter string="Disponibili" name="disponibili" domain="[('qty_disponibile', '&gt;', 0)]"/>
+                <filter string="Esauriti" name="esauriti" domain="[('qty_disponibile', '&lt;=', 0)]"/>
+                <filter string="Materiale di Consumo" name="consumabili" domain="[('consumabile', '=', True)]"/>
+                <separator/>
+                <filter string="Archiviati" name="archiviati" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Categoria" name="group_categoria" context="{'group_by': 'categoria'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_volontariato_presidio" model="ir.actions.act_window">
+        <field name="name">Presidi a Magazzino</field>
+        <field name="res_model">volontariato.presidio</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_disponibili': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea il primo presidio
+            </p>
+            <p>
+                Anagrafica dei presidi sanitari (letti, materassi, aspiratori,
+                pannoloni, ecc.) con la quantità disponibile a magazzino
+                calcolata automaticamente da donazioni e prestiti.
+            </p>
+        </field>
+    </record>
+
+</odoo>

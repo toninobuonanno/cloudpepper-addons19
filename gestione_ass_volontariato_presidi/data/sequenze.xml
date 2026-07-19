@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_volontariato_presidio_donazione" model="ir.sequence">
+            <field name="name">Numerazione Donazioni Presidi</field>
+            <field name="code">volontariato.presidio.donazione</field>
+            <field name="prefix">DON-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_volontariato_presidio_prestito" model="ir.sequence">
+            <field name="name">Numerazione Prestiti Presidi</field>
+            <field name="code">volontariato.presidio.prestito</field>
+            <field name="prefix">PST-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

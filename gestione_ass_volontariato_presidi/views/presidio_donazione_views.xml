@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_volontariato_presidio_donazione_form" model="ir.ui.view">
+        <field name="name">volontariato.presidio.donazione.form</field>
+        <field name="model">volontariato.presidio.donazione</field>
+        <field name="arch" type="xml">
+            <form string="Donazione Presidi">
+                <header>
+                    <button name="action_confirm" type="object" string="Conferma"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_set_draft" type="object" string="Imposta a Bozza"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="codice" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="donatore_id" readonly="state != 'draft'"/>
+                            <field name="data" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="quantita_totale"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Presidi Donati" name="righe">
+                            <field name="riga_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="presidio_id"/>
+                                    <field name="quantita"/>
+                                    <field name="matricola"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Note" name="note">
+                            <field name="note" nolabel="1" placeholder="Note aggiuntive sulla donazione..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_volontariato_presidio_donazione_list" model="ir.ui.view">
+        <field name="name">volontariato.presidio.donazione.list</field>
+        <field name="model">volontariato.presidio.donazione</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'draft'">
+                <field name="codice"/>
+                <field name="data"/>
+                <field name="donatore_id"/>
+                <field name="quantita_totale"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_volontariato_presidio_donazione_search" model="ir.ui.view">
+        <field name="name">volontariato.presidio.donazione.search</field>
+        <field name="model">volontariato.presidio.donazione</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="codice"/>
+                <field name="donatore_id"/>
+                <field name="riga_ids" string="Presidio" filter_domain="[('riga_ids.presidio_id.name', 'ilike', self)]"/>
+                <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confermata" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <group>
+                    <filter string="Donatore" name="group_donatore" context="{'group_by': 'donatore_id'}"/>
+                    <filter string="Stato" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_volontariato_presidio_donazione" model="ir.actions.act_window">
+        <field name="name">Donazioni Presidi (Carico Magazzino)</field>
+        <field name="res_model">volontariato.presidio.donazione</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registra la prima donazione
+            </p>
+            <p>
+                Carica a magazzino i presidi ricevuti in donazione: donatore,
+                data e presidi donati.
+            </p>
+        </field>
+    </record>
+
+</odoo>
