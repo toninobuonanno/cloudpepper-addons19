@@ -177,11 +177,33 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
                 }
                 for nome, g in sorted(gruppi.items())
         ]
+        # ── Saldi di liquidità ──
+        Line = self.env['account.move.line']
+
+        def saldo_liq(extra):
+            res = Line._read_group([
+                ('company_id', '=', self.company_id.id),
+                ('parent_state', '=', 'posted'),
+                ('account_id.account_type', '=', 'asset_cash'),
+            ] + extra, [], ['balance:sum'])
+            return res[0][0] or 0.0
+
+        # Iniziale = saldo prima del periodo + eventuali aperture
+        # (ripresa saldo) datate dentro il periodo
+        saldo_iniziale = saldo_liq([('date', '<', self.data_da)]) + saldo_liq([
+            ('date', '>=', self.data_da),
+            ('date', '<=', self.data_a),
+            ('name', '=', 'Saldo di apertura'),
+        ])
+        saldo_finale = saldo_liq([('date', '<=', self.data_a)])
+
         return {
             'gruppi': gruppi_out,
             'tot_e': tot_e,
             'tot_u': tot_u,
             'n_righe': len(lines),
+            'saldo_iniziale': saldo_iniziale,
+            'saldo_finale': saldo_finale,
         }
 
     # ── A VIDEO ──────────────────────────────────────────────────
@@ -197,8 +219,13 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
             'gestione_ass_volontariato_contabilita.action_movimenti_prima_nota')
         action['domain'] = self._get_domain()
         action['context'] = {'group_by': groupby, 'expand': True}
-        action['display_name'] = _('Report %s → %s') % (
-            self.data_da.strftime('%d/%m/%Y'), self.data_a.strftime('%d/%m/%Y'))
+        dati = self._get_dati()
+        action['display_name'] = _(
+            'Report %(da)s → %(a)s · Saldo iniziale %(si).2f € · '
+            'Saldo finale %(sf).2f €',
+            da=self.data_da.strftime('%d/%m/%Y'),
+            a=self.data_a.strftime('%d/%m/%Y'),
+            si=dati['saldo_iniziale'], sf=dati['saldo_finale'])
         return action
 
     # ── PDF ──────────────────────────────────────────────────────
@@ -281,6 +308,12 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
         ws.write(row, 2, '', f_tot)
         ws.write_number(row, 3, dati['tot_e'] - dati['tot_u'], f_tot)
         ws.write(row, 4, '', f_tot)
+        row += 2
+        ws.write(row, 1, 'Saldo iniziale cassa e banca', f_g2)
+        ws.write_number(row, 3, dati['saldo_iniziale'], f_g2n)
+        row += 1
+        ws.write(row, 1, 'Saldo finale cassa e banca', f_g2)
+        ws.write_number(row, 3, dati['saldo_finale'], f_g2n)
 
         wb.close()
         filename = 'Report_Entrate_Uscite_%s_%s.xlsx' % (
