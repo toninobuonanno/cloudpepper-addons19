@@ -9,6 +9,11 @@
                   default_order="date desc, id desc"
                   decoration-success="volontariato_tipo == 'entrata'"
                   decoration-danger="volontariato_tipo == 'uscita'">
+                <header>
+                    <button name="%(action_prima_nota_wizard)d" type="action"
+                            string="Nuovo Movimento" display="always"
+                            class="btn-primary"/>
+                </header>
                 <field name="move_id" column_invisible="True"/>
                 <field name="date"/>
                 <field name="volontariato_tipo"/>
