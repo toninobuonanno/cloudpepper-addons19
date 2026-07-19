@@ -7,24 +7,27 @@
               sequence="50"
               web_icon="gestione_ass_volontariato,static/description/icon.svg"/>
 
-    <!-- Registro Interventi: voce principale, subito visibile -->
-    <menuitem id="menu_volontariato_interventi"
-              name="Registro Interventi"
+    <!-- Servizi: raggruppa interventi, richieste ed esercitazioni -->
+    <menuitem id="menu_volontariato_servizi"
+              name="Servizi"
               parent="menu_volontariato_root"
-              action="action_volontariato_intervento"
               sequence="10"/>
 
-    <!-- Richieste di Assistenza -->
+    <menuitem id="menu_volontariato_interventi"
+              name="Registro Interventi"
+              parent="menu_volontariato_servizi"
+              action="action_volontariato_intervento"
+              sequence="5"/>
+
     <menuitem id="menu_volontariato_richieste_assistenza"
               name="Richieste di Assistenza"
-              parent="menu_volontariato_root"
+              parent="menu_volontariato_servizi"
               action="action_volontariato_richiesta_assistenza"
-              sequence="12"/>
+              sequence="10"/>
 
-    <!-- Registro Esercitazioni -->
     <menuitem id="menu_volontariato_esercitazioni"
               name="Registro Esercitazioni"
-              parent="menu_volontariato_root"
+              parent="menu_volontariato_servizi"
               action="action_volontariato_esercitazione"
               sequence="15"/>
 
@@ -128,14 +131,14 @@
     </record>
     <menuitem id="menu_volontariato_dipendenti_tutti"
               name="Tutti i Dipendenti"
-              parent="menu_volontariato_root"
+              parent="menu_volontariato_volontari"
               action="action_volontariato_dipendenti_tutti"
-              sequence="31"/>
+              sequence="15"/>
 
     <!-- Dispositivi: l'azione action_volontariato_dispositivi è definita
          in maintenance_equipment_views.xml (con vista list personalizzata) -->
     <menuitem id="menu_volontariato_dispositivi"
-              name="Dispositivi"
+              name="Dispositivi e Contratti"
               parent="menu_volontariato_root"
               sequence="40"/>
 
@@ -155,9 +158,9 @@
     <!-- Contratti generali: modello custom proprio del modulo -->
     <menuitem id="menu_volontariato_contratti"
               name="Contratti e Assicurazioni"
-              parent="menu_volontariato_root"
+              parent="menu_volontariato_dispositivi"
               action="action_volontariato_contratto"
-              sequence="50"/>
+              sequence="15"/>
 
     <!-- Dashboard: cruscotti statistiche con filtro data -->
     <menuitem id="menu_volontariato_dashboard"
