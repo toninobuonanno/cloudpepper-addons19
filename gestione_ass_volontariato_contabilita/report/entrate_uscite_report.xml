@@ -71,16 +71,14 @@
                                         </tr>
                                         <t t-foreach="s['lines']" t-as="line">
                                             <tr>
-                                                <td><t t-out="line.date.strftime('%d/%m/%Y')"/></td>
-                                                <td><t t-out="line.name"/></td>
-                                                <td><t t-out="line.partner_id.name or ''"/></td>
+                                                <td><t t-out="line['date'].strftime('%d/%m/%Y')"/></td>
+                                                <td><t t-out="line['name']"/></td>
+                                                <td><t t-out="line['partner']"/></td>
                                                 <td style="text-align:right;">
-                                                    <t t-if="line.volontariato_tipo == 'entrata'"
-                                                       t-out="'%.2f' % line.volontariato_importo"/>
+                                                    <t t-if="line['e']" t-out="'%.2f' % line['e']"/>
                                                 </td>
                                                 <td style="text-align:right;">
-                                                    <t t-if="line.volontariato_tipo == 'uscita'"
-                                                       t-out="'%.2f' % line.volontariato_importo"/>
+                                                    <t t-if="line['u']" t-out="'%.2f' % line['u']"/>
                                                 </td>
                                             </tr>
                                         </t>

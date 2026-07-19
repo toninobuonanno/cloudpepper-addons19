@@ -12,6 +12,7 @@
                         <field name="data_da"/>
                         <field name="data_a"/>
                         <field name="raggruppamento" widget="radio"/>
+                        <field name="includi_aperture"/>
                     </group>
                     <group string="Filtri (vuoto = tutto)">
                         <field name="journal_ids" widget="many2many_tags"

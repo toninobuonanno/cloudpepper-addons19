@@ -38,6 +38,15 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
     partner_ids = fields.Many2many(
         'res.partner', string='Beneficiari', help='Vuoto = tutti',
     )
+    includi_aperture = fields.Boolean(
+        string='Includi Saldi di Apertura', default=False,
+        help="Aggiunge al report le riprese saldo (aperture patrimoniali) "
+             "come se fossero movimenti, replicando i totali del report "
+             "di Money Manager Ex. Contabilmente le aperture non sono "
+             "entrate/uscite dell'esercizio: usare solo per il confronto "
+             "con i report MMEX. (Solo PDF ed Excel, non nella vista a "
+             "video.)",
+    )
     raggruppamento = fields.Selection(
         [
             ('elenco', 'Elenco movimenti'),
@@ -106,7 +115,11 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
                        if line.volontariato_tipo == 'entrata' else 0.0)
             uscita = (line.volontariato_importo
                       if line.volontariato_tipo == 'uscita' else 0.0)
-            g2['lines'].append(line)
+            g2['lines'].append({
+                'date': line.date, 'name': line.name or '',
+                'partner': line.partner_id.name or '',
+                'e': entrata, 'u': uscita,
+            })
             g2['e'] += entrata
             g2['u'] += uscita
             g1['e'] += entrata
@@ -114,8 +127,44 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
             tot_e += entrata
             tot_u += uscita
 
-        return {
-            'gruppi': [
+        gruppi_out = []
+
+        # ── Saldi di apertura (opzionale, per confronto con MMEX) ──
+        if self.includi_aperture:
+            aperture = self.env['account.move.line'].search([
+                ('company_id', '=', self.company_id.id),
+                ('parent_state', '=', 'posted'),
+                ('account_id.account_type', '=', 'equity'),
+                ('name', '=', 'Saldo di apertura'),
+                ('date', '>=', self.data_da),
+                ('date', '<=', self.data_a),
+            ], order='date, id')
+            if aperture:
+                rows, ape, apu = [], 0.0, 0.0
+                for line in aperture:
+                    e = line.credit if line.credit else 0.0
+                    u = line.debit if line.debit else 0.0
+                    conto_liq = line.move_id.line_ids.filtered(
+                        lambda l: l.account_id.account_type == 'asset_cash'
+                    )[:1].account_id
+                    rows.append({
+                        'date': line.date,
+                        'name': 'Ripresa saldo %s' % (conto_liq.name or ''),
+                        'partner': '',
+                        'e': e, 'u': u,
+                    })
+                    ape += e
+                    apu += u
+                gruppi_out.append({
+                    'nome': _('Saldi di apertura (ripresa saldo)'),
+                    'e': ape, 'u': apu,
+                    'sub': [{'nome': None, 'lines': rows,
+                             'e': ape, 'u': apu}],
+                })
+                tot_e += ape
+                tot_u += apu
+
+        gruppi_out += [
                 {
                     'nome': nome,
                     'e': g['e'], 'u': g['u'],
@@ -127,7 +176,9 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
                     ],
                 }
                 for nome, g in sorted(gruppi.items())
-            ],
+        ]
+        return {
+            'gruppi': gruppi_out,
             'tot_e': tot_e,
             'tot_u': tot_u,
             'n_righe': len(lines),
@@ -210,16 +261,15 @@ class VolontariatoReportEntrateUscite(models.TransientModel):
                     ws.write_number(row, 4, s['u'], f_g2n)
                     row += 1
                 for line in s['lines']:
-                    ws.write_datetime(row, 0, fields.Date.to_date(line.date),
+                    ws.write_datetime(row, 0,
+                                      fields.Date.to_date(line['date']),
                                       f_date)
-                    ws.write(row, 1, line.name or '')
-                    ws.write(row, 2, line.partner_id.name or '')
-                    if line.volontariato_tipo == 'entrata':
-                        ws.write_number(row, 3, line.volontariato_importo,
-                                        f_num)
-                    else:
-                        ws.write_number(row, 4, line.volontariato_importo,
-                                        f_num)
+                    ws.write(row, 1, line['name'])
+                    ws.write(row, 2, line['partner'])
+                    if line['e']:
+                        ws.write_number(row, 3, line['e'], f_num)
+                    if line['u']:
+                        ws.write_number(row, 4, line['u'], f_num)
                     row += 1
 
         ws.write(row, 1, 'TOTALE GENERALE', f_tot)

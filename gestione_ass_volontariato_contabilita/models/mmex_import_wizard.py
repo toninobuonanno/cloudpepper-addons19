@@ -314,15 +314,26 @@ class VolontariatoMmexImportWizard(models.TransientModel):
                         if not self.importa_aperture:
                             aperture_saltate += 1
                             continue
-                        # Saldo di apertura: liquidità a patrimonio
-                        lines = [
-                            (0, 0, {'account_id': liquidita.id,
-                                    'debit': amount, 'credit': 0,
-                                    'name': 'Saldo di apertura'}),
-                            (0, 0, {'account_id': patrimonio.id,
-                                    'debit': 0, 'credit': amount,
-                                    'name': 'Saldo di apertura'}),
-                        ]
+                        # Rispetta il segno: Deposit = apertura positiva,
+                        # Withdrawal = apertura negativa (saldo a debito)
+                        if code == 'Deposit':
+                            lines = [
+                                (0, 0, {'account_id': liquidita.id,
+                                        'debit': amount, 'credit': 0,
+                                        'name': 'Saldo di apertura'}),
+                                (0, 0, {'account_id': patrimonio.id,
+                                        'debit': 0, 'credit': amount,
+                                        'name': 'Saldo di apertura'}),
+                            ]
+                        else:
+                            lines = [
+                                (0, 0, {'account_id': patrimonio.id,
+                                        'debit': amount, 'credit': 0,
+                                        'name': 'Saldo di apertura'}),
+                                (0, 0, {'account_id': liquidita.id,
+                                        'debit': 0, 'credit': amount,
+                                        'name': 'Saldo di apertura'}),
+                            ]
                         move = Move.create({
                             'move_type': 'entry', 'journal_id': pnv.id,
                             'date': data, 'ref': ref,
