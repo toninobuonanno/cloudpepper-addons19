@@ -1,56 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Intera area Contabilità riservata al ruolo Responsabile del
+         modulo Volontariato -->
     <menuitem id="menu_contabilita_root"
               name="Contabilità"
               parent="gestione_ass_volontariato.menu_volontariato_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="45"/>
 
     <menuitem id="menu_prima_nota"
               name="Prima Nota"
               parent="menu_contabilita_root"
               action="action_movimenti_prima_nota"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_saldi"
               name="Saldi Cassa e Banca"
               parent="menu_contabilita_root"
               action="action_saldi"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="15"/>
 
     <menuitem id="menu_report_entrate_uscite"
               name="Report Entrate/Uscite"
               parent="menu_contabilita_root"
               action="action_report_entrate_uscite_wizard"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="25"/>
 
     <menuitem id="menu_rendiconto"
               name="Rendiconto per Cassa (Mod. D)"
               parent="menu_contabilita_root"
               action="action_rendiconto_wizard"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="30"/>
 
     <menuitem id="menu_contabilita_config"
               name="Configurazione Contabilità"
               parent="menu_contabilita_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="90"/>
 
     <menuitem id="menu_destinazioni"
               name="Destinazioni"
               parent="menu_contabilita_config"
               action="action_destinazioni"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_sezioni_rendiconto"
               name="Sezioni Rendiconto (Mod. D)"
               parent="menu_contabilita_config"
               action="action_sezione_rendiconto"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="20"/>
 
     <menuitem id="menu_mmex_import"
               name="Importa da Money Manager Ex"
               parent="menu_contabilita_config"
               action="action_mmex_import_wizard"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="30"/>
 
     <record id="action_setup_contabilita" model="ir.actions.server">
@@ -78,6 +89,7 @@ if records:
               name="Configura Contabilità ETS"
               parent="menu_contabilita_config"
               action="action_setup_contabilita"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="40"/>
 
 </odoo>

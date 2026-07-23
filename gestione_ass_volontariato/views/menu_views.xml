@@ -7,28 +7,34 @@
               sequence="50"
               web_icon="gestione_ass_volontariato,static/description/icon.svg"/>
 
-    <!-- Servizi: raggruppa interventi, richieste ed esercitazioni -->
+    <!-- Servizi: raggruppa interventi, richieste ed esercitazioni.
+         Riservato ai Responsabili: contiene dati sanitari sui pazienti
+         (diagnosi, consensi, rifiuto ricovero) non destinati ai volontari. -->
     <menuitem id="menu_volontariato_servizi"
               name="Servizi"
               parent="menu_volontariato_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_volontariato_interventi"
               name="Registro Interventi"
               parent="menu_volontariato_servizi"
               action="action_volontariato_intervento"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="5"/>
 
     <menuitem id="menu_volontariato_richieste_assistenza"
               name="Richieste di Assistenza"
               parent="menu_volontariato_servizi"
               action="action_volontariato_richiesta_assistenza"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_volontariato_esercitazioni"
               name="Registro Esercitazioni"
               parent="menu_volontariato_servizi"
               action="action_volontariato_esercitazione"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="15"/>
 
     <!-- Gestione Turni -->
@@ -55,10 +61,11 @@
               action="action_volontariato_impegno_volontari"
               sequence="15"/>
 
-    <!-- Sotto-menu Configurazione -->
+    <!-- Sotto-menu Configurazione: riservato ai Responsabili -->
     <menuitem id="menu_volontariato_config"
               name="Configurazione"
               parent="menu_volontariato_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="90"/>
 
     <!-- Automezzi: azione propria che punta al modello fleet.vehicle nativo -->
@@ -136,16 +143,19 @@
               sequence="15"/>
 
     <!-- Dispositivi: l'azione action_volontariato_dispositivi è definita
-         in maintenance_equipment_views.xml (con vista list personalizzata) -->
+         in maintenance_equipment_views.xml (con vista list personalizzata).
+         Riservato ai Responsabili. -->
     <menuitem id="menu_volontariato_dispositivi"
               name="Dispositivi e Contratti"
               parent="menu_volontariato_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="40"/>
 
     <menuitem id="menu_volontariato_dispositivi_lista"
               name="Elenco"
               parent="menu_volontariato_dispositivi"
               action="action_volontariato_dispositivi"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="5"/>
 
     <!-- Certificazioni/Revisioni Dispositivi: vista trasversale -->
@@ -153,6 +163,7 @@
               name="Certificazioni / Revisioni"
               parent="menu_volontariato_dispositivi"
               action="action_volontariato_certificazione_attrezzatura_global"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <!-- Contratti generali: modello custom proprio del modulo -->
@@ -160,6 +171,7 @@
               name="Contratti e Assicurazioni"
               parent="menu_volontariato_dispositivi"
               action="action_volontariato_contratto"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="15"/>
 
     <!-- Dashboard: cruscotti statistiche con filtro data -->
@@ -184,42 +196,49 @@
               name="Qualifiche Volontari"
               parent="menu_volontariato_config"
               action="action_volontariato_qualifica"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_volontariato_ruolo"
               name="Ruoli Squadra/Turno"
               parent="menu_volontariato_config"
               action="action_volontariato_ruolo"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="11"/>
 
     <menuitem id="menu_volontariato_tipo_intervento"
               name="Tipi Intervento"
               parent="menu_volontariato_config"
               action="action_volontariato_tipo_intervento"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="12"/>
 
     <menuitem id="menu_volontariato_tipo_esercitazione"
               name="Tipologie Esercitazione"
               parent="menu_volontariato_config"
               action="action_volontariato_tipo_esercitazione"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="15"/>
 
     <menuitem id="menu_volontariato_tipo_cert_volontario"
               name="Tipi Certificazione Volontari"
               parent="menu_volontariato_config"
               action="action_volontariato_tipo_cert_volontario"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="20"/>
 
     <menuitem id="menu_volontariato_tipo_cert_attrezzatura"
               name="Tipi Certificazione Attrezzature"
               parent="menu_volontariato_config"
               action="action_volontariato_tipo_cert_attrezzatura"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="30"/>
 
     <menuitem id="menu_volontariato_tipo_contratto"
               name="Tipi Contratto / Assicurazione"
               parent="menu_volontariato_config"
               action="action_volontariato_tipo_contratto"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="40"/>
 
 </odoo>

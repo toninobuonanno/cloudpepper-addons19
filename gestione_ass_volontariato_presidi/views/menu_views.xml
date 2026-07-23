@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Intera area Prestito Presidi riservata al ruolo Responsabile del
+         modulo Volontariato -->
     <menuitem id="menu_presidi_root"
               name="Prestito Presidi"
               parent="gestione_ass_volontariato.menu_volontariato_root"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="42"/>
 
     <menuitem id="menu_presidi_prestiti"
               name="Prestiti ai Richiedenti"
               parent="menu_presidi_root"
               action="action_volontariato_presidio_prestito"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="10"/>
 
     <menuitem id="menu_presidi_non_rientrati"
               name="Presidi Forniti Non Rientrati"
               parent="menu_presidi_root"
               action="action_volontariato_presidio_non_rientrati"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="15"/>
 
     <menuitem id="menu_presidi_donazioni"
               name="Donazioni (Carico Magazzino)"
               parent="menu_presidi_root"
               action="action_volontariato_presidio_donazione"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="20"/>
 
     <menuitem id="menu_presidi_magazzino"
               name="Presidi a Magazzino"
               parent="menu_presidi_root"
               action="action_volontariato_presidio"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="25"/>
 
 </odoo>

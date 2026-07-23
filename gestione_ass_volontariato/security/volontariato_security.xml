@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_volontariato" model="ir.module.category">
+        <field name="name">Volontariato</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Ruolo base: accesso operativo limitato (turni in sola consultazione,
+         nessun accesso a dati sanitari degli interventi, dispositivi/contratti,
+         contabilità, prestito presidi e configurazione) -->
+    <record id="group_volontariato_volontario" model="res.groups">
+        <field name="name">Volontario</field>
+        <field name="category_id" ref="module_category_volontariato"/>
+        <field name="comment">Accesso limitato per i volontari operativi: Gestione Turni (sola
+consultazione) e Calendario. Nessun accesso a Servizi (Registro Interventi,
+Richieste di Assistenza, Registro Esercitazioni - contengono dati sanitari),
+Dispositivi e Contratti, Contabilità, Prestito Presidi e Configurazione.</field>
+    </record>
+
+    <!-- Ruolo esteso: accesso completo a tutte le aree del modulo.
+         L'amministratore principale viene aggiunto automaticamente; gli altri
+         referenti/coordinatori vanno assegnati manualmente da Impostazioni > Utenti. -->
+    <record id="group_volontariato_responsabile" model="res.groups">
+        <field name="name">Responsabile</field>
+        <field name="category_id" ref="module_category_volontariato"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Accesso completo al modulo Volontariato: Servizi, Dispositivi e
+Contratti, Contabilità, Prestito Presidi e Configurazione, oltre a tutto
+quanto già visibile a tutti gli utenti interni (Gestione Turni, Automezzi,
+Volontari, Dashboard).</field>
+    </record>
+
+</odoo>
