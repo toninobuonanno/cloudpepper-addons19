@@ -68,6 +68,8 @@
         <field name="name">volontariato.turno.form.volontario</field>
         <field name="model">volontariato.turno</field>
         <field name="inherit_id" ref="view_volontariato_turno_form"/>
+        <field name="mode">primary</field>
+        <field name="priority">1</field>
         <field name="group_ids" eval="[(4, ref('group_volontariato_volontario'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
@@ -109,6 +111,8 @@
         <field name="name">volontariato.turno.list.volontario</field>
         <field name="model">volontariato.turno</field>
         <field name="inherit_id" ref="view_volontariato_turno_list"/>
+        <field name="mode">primary</field>
+        <field name="priority">1</field>
         <field name="group_ids" eval="[(4, ref('group_volontariato_volontario'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//list" position="attributes">
