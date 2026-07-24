@@ -13,11 +13,10 @@ Dispositivi e Contratti, Contabilità, Prestito Presidi e Configurazione.</field
     </record>
 
     <!-- Ruolo esteso: accesso completo a tutte le aree del modulo.
-         L'amministratore principale viene aggiunto automaticamente; gli altri
-         referenti/coordinatori vanno assegnati manualmente da Impostazioni > Utenti. -->
+         Nessun utente viene assegnato automaticamente: va fatto manualmente
+         da Impostazioni > Utenti per ogni amministratore/coordinatore. -->
     <record id="group_volontariato_responsabile" model="res.groups">
         <field name="name">Volontariato / Responsabile</field>
-        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
         <field name="comment">Accesso completo al modulo Volontariato: Servizi, Dispositivi e
 Contratti, Contabilità, Prestito Presidi e Configurazione, oltre a tutto
 quanto già visibile a tutti gli utenti interni (Gestione Turni, Automezzi,
