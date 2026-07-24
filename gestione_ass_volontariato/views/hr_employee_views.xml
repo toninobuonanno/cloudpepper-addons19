@@ -19,23 +19,33 @@
             <!-- Provincia di nascita: manca nel form nativo hr.employee,
                  serve sia come dato anagrafico sia per disambiguare il
                  calcolo del codice fiscale quando più comuni condividono
-                 lo stesso nome in province diverse -->
+                 lo stesso nome in province diverse.
+                 Riservato ai Responsabili: il modello ridotto "pubblico"
+                 usato per i dipendenti senza permessi HR (es. dal widget
+                 colleghi del Calendario) non conosce questo campo custom,
+                 quindi va nascosto a chi non ha accesso HR completo. -->
             <xpath expr="//field[@name='country_of_birth']" position="after">
-                <field name="volontariato_provincia_nascita_id" placeholder="Provincia"/>
+                <field name="volontariato_provincia_nascita_id" placeholder="Provincia"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
             </xpath>
 
-            <!-- Codice Fiscale in testata, sotto i recapiti -->
+            <!-- Codice Fiscale in testata, sotto i recapiti. Riservato ai
+                 Responsabili per lo stesso motivo di cui sopra. -->
             <xpath expr="//field[@name='category_ids']" position="after">
                 <field name="volontariato_codice_fiscale"
-                       placeholder="Codice Fiscale"/>
+                       placeholder="Codice Fiscale"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
                 <button name="action_open_cf_wizard" type="object"
                         string="Calcola CF" icon="fa-magic"
                         class="btn btn-link p-0 text-start"
-                        help="Calcola il codice fiscale dai dati anagrafici"/>
+                        help="Calcola il codice fiscale dai dati anagrafici"
+                        groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
             </xpath>
 
+            <!-- Pagina riservata ai Responsabili per lo stesso motivo -->
             <xpath expr="//notebook" position="inside">
-                <page string="Dati Volontariato" name="volontariato_dati">
+                <page string="Dati Volontariato" name="volontariato_dati"
+                      groups="gestione_ass_volontariato.group_volontariato_responsabile">
                     <group>
                         <group string="Qualifica e Identificazione">
                             <field name="volontariato_qualifica_id"/>
@@ -75,12 +85,18 @@
         <field name="arch" type="xml">
             <xpath expr="//list" position="inside">
                 <field name="birthday" optional="hide" string="Data di Nascita"/>
-                <field name="volontariato_provincia_nascita_id" optional="hide"/>
-                <field name="volontariato_codice_fiscale" optional="hide"/>
-                <field name="volontariato_data_iscrizione" optional="hide"/>
-                <field name="volontariato_data_accettazione" optional="hide"/>
-                <field name="volontariato_qualifica_id" optional="hide"/>
-                <field name="volontariato_nr_primis" optional="hide"/>
+                <field name="volontariato_provincia_nascita_id" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
+                <field name="volontariato_codice_fiscale" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
+                <field name="volontariato_data_iscrizione" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
+                <field name="volontariato_data_accettazione" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
+                <field name="volontariato_qualifica_id" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
+                <field name="volontariato_nr_primis" optional="hide"
+                       groups="gestione_ass_volontariato.group_volontariato_responsabile"/>
             </xpath>
         </field>
     </record>
