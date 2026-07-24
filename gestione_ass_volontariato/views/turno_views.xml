@@ -152,4 +152,21 @@
         </field>
     </record>
 
+    <!-- Calendario condiviso dei turni: mostra gli eventi generati da
+         "Aggiungi a Calendario" (categoria "Turno Volontari") per TUTTI i
+         volontari, senza il filtro predefinito "solo i miei eventi"
+         dell'app Calendario nativa. -->
+    <record id="action_volontariato_turno_calendario" model="ir.actions.act_window">
+        <field name="name">Calendario Turni</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="domain">[('categ_ids', 'in', [ref('calendar_event_type_turno')])]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nessun turno ancora aggiunto al calendario
+            </p>
+        </field>
+    </record>
+
 </odoo>

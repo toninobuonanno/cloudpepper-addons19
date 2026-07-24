@@ -49,6 +49,12 @@
               action="action_volontariato_turno"
               sequence="5"/>
 
+    <menuitem id="menu_volontariato_turno_calendario"
+              name="Calendario Turni"
+              parent="menu_volontariato_turni"
+              action="action_volontariato_turno_calendario"
+              sequence="7"/>
+
     <menuitem id="menu_volontariato_turno_report"
               name="Report Turni per Periodo"
               parent="menu_volontariato_turni"
