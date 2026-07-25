@@ -24,4 +24,11 @@ quanto già visibile a tutti gli utenti interni (Gestione Turni, Automezzi,
 Volontari, Dashboard).</field>
     </record>
 
+    <!-- Il menù "Applicazioni" nativo di Odoo dovrebbe essere di serie
+         riservato agli Amministratori (groups="base.group_system"), ma su
+         questo database la restrizione risultava rimossa, rendendolo
+         visibile a qualunque utente interno, incluso il ruolo Volontario.
+         La ripristiniamo esplicitamente. -->
+    <menuitem id="base.menu_management" groups="base.group_system"/>
+
 </odoo>
