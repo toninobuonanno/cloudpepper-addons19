@@ -71,7 +71,7 @@
                 <filter string="Idoneo" name="idoneo_si" domain="[('idoneo', '=', 'si')]"/>
                 <filter string="Non Idoneo" name="idoneo_no" domain="[('idoneo', '=', 'no')]"/>
                 <filter string="Da Valutare" name="idoneo_vuoto" domain="[('idoneo', '=', False)]"/>
-                <group expand="0" string="Raggruppa per">
+                <group name="group_by">
                     <filter string="Data Donazione" name="group_data" context="{'group_by': 'data_donazione'}"/>
                     <filter string="Idoneità" name="group_idoneo" context="{'group_by': 'idoneo'}"/>
                 </group>

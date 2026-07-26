@@ -146,7 +146,7 @@
                 <filter string="Privacy Firmata" name="privacy_si" domain="[('privacy_firmata', '=', 'si')]"/>
                 <separator/>
                 <filter string="Archiviati" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Raggruppa per">
+                <group name="group_by">
                     <filter string="Gruppo Locale" name="group_gruppo_locale" context="{'group_by': 'gruppo_locale'}"/>
                     <filter string="Sezione" name="group_sezione" context="{'group_by': 'sezione'}"/>
                     <filter string="Gruppo Sanguigno" name="group_gruppo_sanguigno" context="{'group_by': 'gruppo_sanguigno'}"/>
