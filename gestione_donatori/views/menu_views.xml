@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu radice del modulo -->
+    <menuitem id="menu_donatori_root"
+              name="Donatori"
+              sequence="55"
+              web_icon="gestione_donatori,static/description/icon.svg"/>
+
+    <menuitem id="menu_donatori_anagrafica"
+              name="Anagrafica Donatori"
+              parent="menu_donatori_root"
+              action="action_donatori_donatore"
+              sequence="10"/>
+
+    <menuitem id="menu_donatori_parametri"
+              name="Parametri Donatori"
+              parent="menu_donatori_root"
+              action="action_donatori_parametro"
+              sequence="20"/>
+
+    <!-- Configurazione: riservato ai Responsabili -->
+    <menuitem id="menu_donatori_config"
+              name="Configurazione"
+              parent="menu_donatori_root"
+              groups="gestione_donatori.group_donatori_responsabile"
+              sequence="90"/>
+
+    <menuitem id="menu_donatori_import"
+              name="Importa da SIF Fratres"
+              parent="menu_donatori_config"
+              action="action_donatori_donatore_import_wizard"
+              groups="gestione_donatori.group_donatori_responsabile"
+              sequence="10"/>
+
+</odoo>

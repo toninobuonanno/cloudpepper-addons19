@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Ruolo base: registrazione parametri e consultazione anagrafica,
+         nessun accesso a import e configurazione -->
+    <record id="group_donatori_operatore" model="res.groups">
+        <field name="name">Donatori / Operatore</field>
+        <field name="comment">Può consultare l'Anagrafica Donatori e registrare i
+Parametri Donatori rilevati prima delle donazioni. Non può importare
+l'anagrafica né modificare i dati anagrafici dei donatori.</field>
+    </record>
+
+    <!-- Ruolo esteso: gestione completa anagrafica, import e parametri -->
+    <record id="group_donatori_responsabile" model="res.groups">
+        <field name="name">Donatori / Responsabile</field>
+        <field name="implied_ids" eval="[(4, ref('group_donatori_operatore'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Accesso completo al modulo Donatori: gestione
+dell'Anagrafica Donatori, importazione periodica da SIF Fratres e
+registrazione dei Parametri Donatori.</field>
+    </record>
+
+</odoo>

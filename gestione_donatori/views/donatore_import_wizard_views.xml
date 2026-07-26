@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_donatori_donatore_import_wizard_form" model="ir.ui.view">
+        <field name="name">donatori.donatore.import.wizard.form</field>
+        <field name="model">donatori.donatore.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importa Anagrafica Donatori">
+                <group invisible="state == 'done'">
+                    <div class="alert alert-info" role="alert">
+                        Seleziona il file Excel esportato dal sistema
+                        nazionale SIF Fratres. I donatori verranno
+                        riconosciuti tramite la <b>Tessera Nazionale</b>:
+                        se già presenti in anagrafica saranno aggiornati,
+                        altrimenti verranno creati come nuovi donatori.
+                    </div>
+                    <field name="file" filename="filename" required="1"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <group invisible="state != 'done'">
+                    <div class="alert alert-success" role="alert">
+                        Importazione completata.
+                    </div>
+                    <field name="created_count"/>
+                    <field name="updated_count"/>
+                    <field name="error_count"/>
+                    <field name="log" invisible="not error_count"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Importa"
+                            class="btn-primary" invisible="state == 'done'"/>
+                    <button string="Chiudi" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_donatori_donatore_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importa Anagrafica da SIF Fratres</field>
+        <field name="res_model">donatori.donatore.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_donatori_donatore_list" model="ir.ui.view">
+        <field name="name">donatori.donatore.list</field>
+        <field name="model">donatori.donatore</field>
+        <field name="arch" type="xml">
+            <list string="Donatori">
+                <field name="tessera_nazionale"/>
+                <field name="name"/>
+                <field name="sesso" optional="show"/>
+                <field name="data_nascita" optional="show"/>
+                <field name="gruppo_locale" optional="show"/>
+                <field name="gruppo_sanguigno" optional="show"/>
+                <field name="rh" optional="show"/>
+                <field name="numero_donazioni" optional="show"/>
+                <field name="data_ultima_donazione"/>
+                <field name="cellulare" optional="hide"/>
+                <field name="recapiti_mail" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_donatori_donatore_form" model="ir.ui.view">
+        <field name="name">donatori.donatore.form</field>
+        <field name="model">donatori.donatore</field>
+        <field name="arch" type="xml">
+            <form string="Donatore">
+                <header/>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_parametri" type="object"
+                                class="oe_stat_button" icon="fa-heartbeat">
+                            <field name="parametro_count" widget="statinfo" string="Parametri"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archiviato" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Cognome Nome"/></h1>
+                    </div>
+                    <group>
+                        <group string="Anagrafica">
+                            <field name="tessera_nazionale"/>
+                            <field name="sesso"/>
+                            <field name="data_nascita"/>
+                            <field name="eta"/>
+                            <field name="codice_fiscale"/>
+                            <field name="comune_nascita"/>
+                            <field name="nazionalita"/>
+                            <field name="cittadinanza"/>
+                        </group>
+                        <group string="Fratres">
+                            <field name="tipologia"/>
+                            <field name="gruppo_locale"/>
+                            <field name="tessera_gruppo_locale"/>
+                            <field name="sezione"/>
+                            <field name="data_iscrizione"/>
+                            <field name="data_prenotazione"/>
+                            <field name="privacy_firmata"/>
+                            <field name="riconoscimenti_assegnati"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Donazioni">
+                            <field name="tipo_ultima_donazione"/>
+                            <field name="data_ultima_donazione"/>
+                            <field name="giorni_da_ultima_donazione"/>
+                            <field name="numero_donazioni"/>
+                        </group>
+                        <group string="Dati Sanitari">
+                            <field name="gruppo_sanguigno"/>
+                            <field name="rh"/>
+                            <field name="fenotipo"/>
+                            <field name="kell"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Contatti">
+                            <field name="telefono_fisso"/>
+                            <field name="cellulare"/>
+                            <field name="recapiti_telefonici"/>
+                            <field name="recapiti_mail"/>
+                            <field name="ultima_mail"/>
+                            <field name="ultimo_sms"/>
+                            <field name="ultima_telefonata"/>
+                        </group>
+                        <group string="Residenza">
+                            <field name="indirizzo_residenza"/>
+                            <field name="localita_residenza"/>
+                            <field name="cap_residenza"/>
+                            <field name="comune_residenza"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Domicilio">
+                            <field name="indirizzo_domicilio"/>
+                            <field name="localita_domicilio"/>
+                            <field name="comune_domicilio"/>
+                            <field name="cap_domicilio"/>
+                        </group>
+                        <group string="Import">
+                            <field name="data_ultimo_import"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Note">
+                            <field name="note"/>
+                        </page>
+                        <page string="Parametri Rilevati">
+                            <field name="parametro_ids">
+                                <list editable="bottom">
+                                    <field name="data_donazione"/>
+                                    <field name="pressione_arteriosa"/>
+                                    <field name="frequenza_cardiaca"/>
+                                    <field name="emoglobina"/>
+                                    <field name="peso"/>
+                                    <field name="idoneo"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_donatori_donatore_search" model="ir.ui.view">
+        <field name="name">donatori.donatore.search</field>
+        <field name="model">donatori.donatore</field>
+        <field name="arch" type="xml">
+            <search string="Cerca Donatori">
+                <field name="name"/>
+                <field name="tessera_nazionale"/>
+                <field name="codice_fiscale"/>
+                <field name="gruppo_locale"/>
+                <field name="cellulare"/>
+                <field name="recapiti_mail"/>
+                <filter string="Maschi" name="maschi" domain="[('sesso', '=', 'M')]"/>
+                <filter string="Femmine" name="femmine" domain="[('sesso', '=', 'F')]"/>
+                <separator/>
+                <filter string="Privacy Firmata" name="privacy_si" domain="[('privacy_firmata', '=', 'si')]"/>
+                <separator/>
+                <filter string="Archiviati" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter string="Gruppo Locale" name="group_gruppo_locale" context="{'group_by': 'gruppo_locale'}"/>
+                    <filter string="Sezione" name="group_sezione" context="{'group_by': 'sezione'}"/>
+                    <filter string="Gruppo Sanguigno" name="group_gruppo_sanguigno" context="{'group_by': 'gruppo_sanguigno'}"/>
+                    <filter string="Sesso" name="group_sesso" context="{'group_by': 'sesso'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_donatori_donatore" model="ir.actions.act_window">
+        <field name="name">Anagrafica Donatori</field>
+        <field name="res_model">donatori.donatore</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_donatori_donatore_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nessun donatore in anagrafica
+            </p>
+            <p>
+                Crea un nuovo donatore oppure importa l'anagrafica dal file
+                esportato dal sistema nazionale SIF Fratres.
+            </p>
+        </field>
+    </record>
+
+</odoo>
