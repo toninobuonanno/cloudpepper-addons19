@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_donatori_parametro_list" model="ir.ui.view">
+        <field name="name">donatori.parametro.list</field>
+        <field name="model">donatori.parametro</field>
+        <field name="arch" type="xml">
+            <list string="Parametri Donatori" editable="bottom" default_order="data_donazione desc">
+                <field name="data_donazione"/>
+                <field name="cognome"/>
+                <field name="nome"/>
+                <field name="luogo_nascita" optional="show"/>
+                <field name="data_nascita" optional="show"/>
+                <field name="donatore_id" optional="show"/>
+                <field name="pressione_arteriosa"/>
+                <field name="frequenza_cardiaca"/>
+                <field name="emoglobina"/>
+                <field name="peso"/>
+                <field name="idoneo" widget="badge"
+                       decoration-success="idoneo == 'si'"
+                       decoration-danger="idoneo == 'no'"/>
+                <field name="altri_parametri" optional="hide"/>
+                <field name="note" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_donatori_parametro_form" model="ir.ui.view">
+        <field name="name">donatori.parametro.form</field>
+        <field name="model">donatori.parametro</field>
+        <field name="arch" type="xml">
+            <form string="Parametro Donatore">
+                <sheet>
+                    <group>
+                        <group string="Donatore">
+                            <field name="data_donazione"/>
+                            <field name="cognome"/>
+                            <field name="nome"/>
+                            <field name="luogo_nascita"/>
+                            <field name="data_nascita"/>
+                            <field name="donatore_id"/>
+                        </group>
+                        <group string="Parametri Rilevati">
+                            <field name="pressione_arteriosa"/>
+                            <field name="frequenza_cardiaca"/>
+                            <field name="emoglobina"/>
+                            <field name="peso"/>
+                            <field name="idoneo"/>
+                            <field name="altri_parametri"/>
+                        </group>
+                    </group>
+                    <group string="Note">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_donatori_parametro_search" model="ir.ui.view">
+        <field name="name">donatori.parametro.search</field>
+        <field name="model">donatori.parametro</field>
+        <field name="arch" type="xml">
+            <search string="Cerca Parametri Donatori">
+                <field name="cognome"/>
+                <field name="nome"/>
+                <field name="donatore_id"/>
+                <field name="data_donazione"/>
+                <filter string="Oggi" name="oggi"
+                        domain="[('data_donazione', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Idoneo" name="idoneo_si" domain="[('idoneo', '=', 'si')]"/>
+                <filter string="Non Idoneo" name="idoneo_no" domain="[('idoneo', '=', 'no')]"/>
+                <filter string="Da Valutare" name="idoneo_vuoto" domain="[('idoneo', '=', False)]"/>
+                <group expand="0" string="Raggruppa per">
+                    <filter string="Data Donazione" name="group_data" context="{'group_by': 'data_donazione'}"/>
+                    <filter string="Idoneità" name="group_idoneo" context="{'group_by': 'idoneo'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_donatori_parametro" model="ir.actions.act_window">
+        <field name="name">Parametri Donatori</field>
+        <field name="res_model">donatori.parametro</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_donatori_parametro_search"/>
+        <field name="context">{'search_default_oggi': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Nessun parametro registrato
+            </p>
+            <p>
+                Registra i parametri sanitari rilevati durante le fasi
+                preliminari alle donazioni (peso, pressione arteriosa,
+                frequenza cardiaca, emoglobina, idoneità).
+            </p>
+        </field>
+    </record>
+
+</odoo>

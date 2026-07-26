@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_donatori_donatore_operatore,donatori.donatore.operatore,model_donatori_donatore,group_donatori_operatore,1,0,0,0
+access_donatori_donatore_responsabile,donatori.donatore.responsabile,model_donatori_donatore,group_donatori_responsabile,1,1,1,1
+access_donatori_parametro_operatore,donatori.parametro.operatore,model_donatori_parametro,group_donatori_operatore,1,1,1,0
+access_donatori_parametro_responsabile,donatori.parametro.responsabile,model_donatori_parametro,group_donatori_responsabile,1,1,1,1
+access_donatori_import_wizard_responsabile,donatori.donatore.import.wizard.responsabile,model_donatori_donatore_import_wizard,group_donatori_responsabile,1,1,1,1
