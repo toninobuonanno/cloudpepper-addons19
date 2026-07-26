@@ -7,11 +7,11 @@
         <field name="arch" type="xml">
             <list string="Parametri Donatori" editable="bottom" default_order="data_donazione desc">
                 <field name="data_donazione"/>
-                <field name="cognome"/>
-                <field name="nome"/>
-                <field name="luogo_nascita" optional="show"/>
-                <field name="data_nascita" optional="show"/>
-                <field name="donatore_id" optional="show"/>
+                <field name="donatore_id"/>
+                <field name="cognome" optional="show"/>
+                <field name="nome" optional="show"/>
+                <field name="luogo_nascita" optional="hide"/>
+                <field name="data_nascita" optional="hide"/>
                 <field name="pressione_arteriosa"/>
                 <field name="frequenza_cardiaca"/>
                 <field name="emoglobina"/>
@@ -34,11 +34,11 @@
                     <group>
                         <group string="Donatore">
                             <field name="data_donazione"/>
+                            <field name="donatore_id"/>
                             <field name="cognome"/>
                             <field name="nome"/>
                             <field name="luogo_nascita"/>
                             <field name="data_nascita"/>
-                            <field name="donatore_id"/>
                         </group>
                         <group string="Parametri Rilevati">
                             <field name="pressione_arteriosa"/>

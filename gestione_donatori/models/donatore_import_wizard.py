@@ -15,9 +15,10 @@ except ImportError:
 # Corrispondenza tra le intestazioni del file esportato da SIF Fratres
 # e i campi di donatori.donatore. 'Età' e 'Giorni da Ultima Donazione'
 # non compaiono perché sono calcolati automaticamente dal modulo.
+# 'Soggetto' non compare: viene gestita a parte per essere divisa in
+# Cognome e Nome (vedi _split_soggetto).
 FIELD_MAP = {
     'Tessera Nazionale': 'tessera_nazionale',
-    'Soggetto': 'name',
     'Sesso': 'sesso',
     'Data Nascita': 'data_nascita',
     'Codice Fiscale': 'codice_fiscale',
@@ -124,6 +125,20 @@ class DonatoriDonatoreImportWizard(models.TransientModel):
             return 'no'
         return False
 
+    @staticmethod
+    def _split_soggetto(value):
+        """Divide il campo 'Soggetto' (es. 'BORRECA NUNZIO') in Cognome e
+        Nome: la prima parola è il cognome, il resto è il nome. Non gestisce
+        correttamente i cognomi composti da più parole (es. 'DE GREGORIO'):
+        va corretto manualmente in anagrafica quando necessario."""
+        text = str(value).strip() if value is not None else ''
+        if not text:
+            return False, False
+        parts = text.split()
+        cognome = parts[0]
+        nome = ' '.join(parts[1:]) if len(parts) > 1 else parts[0]
+        return cognome, nome
+
     def action_import(self):
         self.ensure_one()
         if openpyxl is None:
@@ -150,10 +165,13 @@ class DonatoriDonatoreImportWizard(models.TransientModel):
             raise UserError(_("Il file selezionato è vuoto."))
 
         header_index = {}
+        soggetto_idx = None
         for idx, label in enumerate(header):
             if isinstance(label, str):
                 label = label.strip()
-            if label in FIELD_MAP:
+            if label == 'Soggetto':
+                soggetto_idx = idx
+            elif label in FIELD_MAP:
                 header_index[FIELD_MAP[label]] = idx
 
         if 'tessera_nazionale' not in header_index:
@@ -187,14 +205,26 @@ class DonatoriDonatoreImportWizard(models.TransientModel):
                     else:
                         values[field_name] = self._parse_str(raw)
 
+                cognome = nome = False
+                if soggetto_idx is not None and soggetto_idx < len(row):
+                    cognome, nome = self._split_soggetto(row[soggetto_idx])
+
                 donatore = Donatore.search(
                     [('tessera_nazionale', '=', tessera)], limit=1,
                 )
                 if donatore:
+                    # Non sovrascrive Cognome/Nome se già valorizzati, per
+                    # preservare eventuali correzioni manuali (il divisore
+                    # automatico non gestisce i cognomi composti).
+                    if not donatore.cognome and cognome:
+                        values['cognome'] = cognome
+                    if not donatore.nome and nome:
+                        values['nome'] = nome
                     donatore.write(values)
                     updated += 1
                 else:
-                    values.setdefault('name', tessera)
+                    values['cognome'] = cognome or tessera
+                    values['nome'] = nome or values['cognome']
                     Donatore.create(values)
                     created += 1
             except Exception as e:

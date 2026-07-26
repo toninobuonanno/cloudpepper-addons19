@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <list string="Donatori">
                 <field name="tessera_nazionale"/>
-                <field name="name"/>
+                <field name="cognome"/>
+                <field name="nome"/>
                 <field name="sesso" optional="show"/>
                 <field name="data_nascita" optional="show"/>
                 <field name="gruppo_locale" optional="show"/>
@@ -38,8 +39,11 @@
                             invisible="active"/>
                     <field name="active" invisible="1"/>
                     <div class="oe_title">
-                        <label for="name"/>
-                        <h1><field name="name" placeholder="Cognome Nome"/></h1>
+                        <label for="cognome"/>
+                        <h1>
+                            <field name="cognome" placeholder="Cognome" class="oe_inline"/>
+                            <field name="nome" placeholder="Nome" class="oe_inline"/>
+                        </h1>
                     </div>
                     <group>
                         <group string="Anagrafica">
@@ -135,6 +139,8 @@
         <field name="arch" type="xml">
             <search string="Cerca Donatori">
                 <field name="name"/>
+                <field name="cognome"/>
+                <field name="nome"/>
                 <field name="tessera_nazionale"/>
                 <field name="codice_fiscale"/>
                 <field name="gruppo_locale"/>
