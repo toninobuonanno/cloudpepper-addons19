@@ -16,9 +16,7 @@
                 <field name="frequenza_cardiaca"/>
                 <field name="emoglobina"/>
                 <field name="peso"/>
-                <field name="idoneo" widget="badge"
-                       decoration-success="idoneo == 'si'"
-                       decoration-danger="idoneo == 'no'"/>
+                <field name="idoneo"/>
                 <field name="altri_parametri" optional="hide"/>
                 <field name="note" optional="show"/>
             </list>
