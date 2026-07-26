@@ -13,9 +13,11 @@ class DonatoriDonatore(models.Model):
 
     # Dati SIF Fratres / anagrafica
     tessera_nazionale = fields.Char(
-        string='Tessera Nazionale', required=True, index=True,
+        string='Tessera Nazionale', index=True,
         help="Chiave usata dall'importazione per riconoscere il donatore "
-             "nel file esportato da SIF Fratres.",
+             "nel file esportato da SIF Fratres. Può restare vuota per un "
+             "donatore creato al volo (es. dalla registrazione dei "
+             "Parametri) e non ancora presente nell'export nazionale.",
     )
     cognome = fields.Char(string='Cognome', required=True)
     nome = fields.Char(string='Nome', required=True)
@@ -97,6 +99,19 @@ class DonatoriDonatore(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = ' '.join(p for p in (record.cognome, record.nome) if p) or False
+
+    @api.model
+    def name_create(self, name):
+        """Permette di creare al volo un nuovo donatore digitando
+        semplicemente il nome nel campo di selezione (es. dalla lista
+        Parametri Donatori), dividendo il testo in Cognome/Nome con la
+        stessa euristica usata dall'importazione SIF Fratres."""
+        text = (name or '').strip()
+        parts = text.split()
+        cognome = parts[0] if parts else name
+        nome = ' '.join(parts[1:]) if len(parts) > 1 else cognome
+        donatore = self.create({'cognome': cognome, 'nome': nome})
+        return donatore.id, donatore.display_name
 
     @api.depends('data_nascita')
     def _compute_eta(self):

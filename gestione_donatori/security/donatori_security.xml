@@ -6,8 +6,9 @@
     <record id="group_donatori_operatore" model="res.groups">
         <field name="name">Donatori / Operatore</field>
         <field name="comment">Può consultare l'Anagrafica Donatori e registrare i
-Parametri Donatori rilevati prima delle donazioni. Non può importare
-l'anagrafica né modificare i dati anagrafici dei donatori.</field>
+Parametri Donatori rilevati prima delle donazioni, creando al volo un
+nuovo donatore se non ancora presente in anagrafica. Non può importare
+l'anagrafica né modificare o eliminare i dati anagrafici esistenti.</field>
     </record>
 
     <!-- Ruolo esteso: gestione completa anagrafica, import e parametri -->
