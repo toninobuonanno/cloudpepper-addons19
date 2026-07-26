@@ -17,7 +17,12 @@ class DonatoriDonatore(models.Model):
         help="Chiave usata dall'importazione per riconoscere il donatore "
              "nel file esportato da SIF Fratres.",
     )
-    name = fields.Char(string='Soggetto', required=True, help='Cognome e Nome')
+    cognome = fields.Char(string='Cognome', required=True)
+    nome = fields.Char(string='Nome', required=True)
+    name = fields.Char(
+        string='Soggetto', compute='_compute_name', store=True, index=True,
+        help='Cognome e Nome, calcolato automaticamente.',
+    )
     sesso = fields.Selection(
         [('M', 'Maschio'), ('F', 'Femmina')], string='Sesso',
     )
@@ -87,6 +92,11 @@ class DonatoriDonatore(models.Model):
         ('tessera_nazionale_uniq', 'unique(tessera_nazionale)',
          'Esiste già un donatore con questa Tessera Nazionale.'),
     ]
+
+    @api.depends('cognome', 'nome')
+    def _compute_name(self):
+        for record in self:
+            record.name = ' '.join(p for p in (record.cognome, record.nome) if p) or False
 
     @api.depends('data_nascita')
     def _compute_eta(self):

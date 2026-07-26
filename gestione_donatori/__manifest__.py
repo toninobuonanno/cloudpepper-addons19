@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Gestione Donatori',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Volontariato',
     'summary': 'Anagrafica donatori di sangue con import da SIF Fratres e '
                'registrazione parametri pre-donazione',
