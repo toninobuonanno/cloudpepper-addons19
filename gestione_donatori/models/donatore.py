@@ -81,7 +81,7 @@ class DonatoriDonatore(models.Model):
         [('si', 'Sì'), ('no', 'No')], string='Privacy Firmata',
     )
     riconoscimenti_assegnati = fields.Char(string='Riconoscimenti Assegnati')
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note', sanitize_style=True)
 
     data_ultimo_import = fields.Datetime(string='Ultimo Import', readonly=True)
 
