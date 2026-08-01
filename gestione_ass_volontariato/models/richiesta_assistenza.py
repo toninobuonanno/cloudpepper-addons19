@@ -60,7 +60,7 @@ class VolontariatoRichiestaAssistenza(models.Model):
         string='Medico Fornito da',
     )
 
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
 
     # ───────── Validazioni ─────────
     @api.constrains('data_da', 'data_a')

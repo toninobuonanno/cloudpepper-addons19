@@ -32,7 +32,7 @@ class VolontariatoTurno(models.Model):
     durata_ore = fields.Float(
         string='Durata (ore)', compute='_compute_durata_ore', store=True,
     )
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
 
     calendar_event_id = fields.Many2one(
         'calendar.event', string='Evento Calendario', copy=False,

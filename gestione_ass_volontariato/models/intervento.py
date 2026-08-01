@@ -84,7 +84,7 @@ class VolontariatoIntervento(models.Model):
     offerta_euro = fields.Float(string='Importo Offerta (€)')
     offerta_ricevuta = fields.Char(string='Rif. Ricevuta')
 
-    note = fields.Text(string='Modalità di Svolgimento e Annotazioni')
+    note = fields.Html(string='Modalità di Svolgimento e Annotazioni')
 
     # ───────── SEZIONE 2 — Squadra ─────────
     squadra_ids = fields.One2many(

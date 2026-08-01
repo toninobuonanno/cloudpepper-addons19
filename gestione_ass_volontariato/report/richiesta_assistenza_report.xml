@@ -96,7 +96,7 @@
 
                         <t t-if="o.note">
                             <h3 style="margin-top: 20px;">Note</h3>
-                            <p><span t-field="o.note"/></p>
+                            <div t-field="o.note"/>
                         </t>
                     </div>
                 </t>

@@ -54,9 +54,8 @@
                             </table>
 
                             <t t-if="turno.note">
-                                <p style="margin-top:8px; font-style:italic; color:#555;">
-                                    <span t-field="turno.note"/>
-                                </p>
+                                <div style="margin-top:8px; font-style:italic; color:#555;"
+                                     t-field="turno.note"/>
                             </t>
                         </div>
                     </t>
