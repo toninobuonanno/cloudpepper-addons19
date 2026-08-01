@@ -27,7 +27,7 @@ class VolontariatoPresidio(models.Model):
              'prestito da restituire.',
     )
     descrizione = fields.Text(string='Descrizione')
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
     active = fields.Boolean(string='Attivo', default=True)
 
     donazione_riga_ids = fields.One2many(

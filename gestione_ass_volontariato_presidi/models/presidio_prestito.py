@@ -39,7 +39,7 @@ class VolontariatoPresidioPrestito(models.Model):
         string='Rientro', compute='_compute_stato_rientro', store=True,
         tracking=True,
     )
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
 
     riga_ids = fields.One2many(
         'volontariato.presidio.prestito.riga', 'prestito_id',

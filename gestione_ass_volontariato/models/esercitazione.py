@@ -28,7 +28,7 @@ class VolontariatoEsercitazione(models.Model):
     )
 
     descrizione = fields.Char(string='Descrizione')
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
 
     partecipante_ids = fields.Many2many(
         'hr.employee',

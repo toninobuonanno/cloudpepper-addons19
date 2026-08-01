@@ -30,7 +30,7 @@ class VolontariatoPresidioDonazione(models.Model):
         string='Stato', default='draft', required=True, copy=False,
         tracking=True,
     )
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
 
     riga_ids = fields.One2many(
         'volontariato.presidio.donazione.riga', 'donazione_id',

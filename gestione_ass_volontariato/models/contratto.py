@@ -27,7 +27,7 @@ class VolontariatoContratto(models.Model):
     data_contratto = fields.Date(string='Data Contratto')
     data_scadenza = fields.Date(string='Scadenza')
     importo = fields.Float(string='Importo (€)')
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note')
     active = fields.Boolean(string='Attivo', default=True)
 
     rata_ids = fields.One2many(
