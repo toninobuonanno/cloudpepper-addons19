@@ -28,4 +28,4 @@ class DonatoriParametro(models.Model):
         [('si', 'Sì'), ('no', 'No')], string='Idoneo',
     )
     altri_parametri = fields.Char(string='Altri Parametri')
-    note = fields.Text(string='Note')
+    note = fields.Html(string='Note', sanitize_style=True)
