@@ -52,20 +52,20 @@
                                         <td><t t-if="i &lt; len(sez['uscite'])" t-out="sez['uscite'][i][0].name"/></td>
                                         <td style="text-align:right;">
                                             <t t-if="i &lt; len(sez['uscite'])"
-                                               t-out="'%.2f' % sez['uscite'][i][1]"/>
+                                               t-out="fmt(sez['uscite'][i][1])"/>
                                         </td>
                                         <td style="padding-left:16px;"><t t-if="i &lt; len(sez['entrate'])" t-out="sez['entrate'][i][0].name"/></td>
                                         <td style="text-align:right;">
                                             <t t-if="i &lt; len(sez['entrate'])"
-                                               t-out="'%.2f' % sez['entrate'][i][1]"/>
+                                               t-out="fmt(sez['entrate'][i][1])"/>
                                         </td>
                                     </tr>
                                 </t>
                                 <tr style="border-top:1px solid #ccc; font-weight:bold;">
                                     <td>Totale uscite <t t-out="sez['sezione'].code"/></td>
-                                    <td style="text-align:right;"><t t-out="'%.2f' % sez['tot_uscite']"/></td>
+                                    <td style="text-align:right;"><t t-out="fmt(sez['tot_uscite'])"/></td>
                                     <td style="padding-left:16px;">Totale entrate <t t-out="sez['sezione'].code"/></td>
-                                    <td style="text-align:right;"><t t-out="'%.2f' % sez['tot_entrate']"/></td>
+                                    <td style="text-align:right;"><t t-out="fmt(sez['tot_entrate'])"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -80,13 +80,13 @@
                                 <t t-foreach="senza_sezione['uscite']" t-as="voce">
                                     <tr>
                                         <td style="width:76%;">Uscita — <t t-out="voce[0].name"/></td>
-                                        <td style="width:24%; text-align:right;"><t t-out="'%.2f' % voce[1]"/></td>
+                                        <td style="width:24%; text-align:right;"><t t-out="fmt(voce[1])"/></td>
                                     </tr>
                                 </t>
                                 <t t-foreach="senza_sezione['entrate']" t-as="voce">
                                     <tr>
                                         <td>Entrata — <t t-out="voce[0].name"/></td>
-                                        <td style="text-align:right;"><t t-out="'%.2f' % voce[1]"/></td>
+                                        <td style="text-align:right;"><t t-out="fmt(voce[1])"/></td>
                                     </tr>
                                 </t>
                             </tbody>
@@ -97,24 +97,24 @@
                         <table style="width:100%; font-size:13px;">
                             <tr>
                                 <td style="width:33%;"><b>Totale entrate:</b>
-                                    <t t-out="'%.2f' % tot_entrate"/> €</td>
+                                    <t t-out="fmt(tot_entrate)"/> €</td>
                                 <td style="width:33%;"><b>Totale uscite:</b>
-                                    <t t-out="'%.2f' % tot_uscite"/> €</td>
+                                    <t t-out="fmt(tot_uscite)"/> €</td>
                                 <td style="width:34%;"><b>
                                     <t t-if="avanzo &gt;= 0">Avanzo</t>
                                     <t t-else="">Disavanzo</t> di gestione:</b>
-                                    <t t-out="'%.2f' % avanzo"/> €</td>
+                                    <t t-out="fmt(avanzo)"/> €</td>
                             </tr>
                         </table>
                         <table style="width:100%; font-size:12px; margin-top:10px; color:#444;">
                             <tr>
-                                <td>Cassa e banca all'1/1: <t t-out="'%.2f' % saldo_iniziale"/> €</td>
-                                <td>Cassa e banca al 31/12: <t t-out="'%.2f' % saldo_finale"/> €</td>
+                                <td>Cassa e banca all'1/1: <t t-out="fmt(saldo_iniziale)"/> €</td>
+                                <td>Cassa e banca al 31/12: <t t-out="fmt(saldo_finale)"/> €</td>
                             </tr>
                             <tr t-foreach="conti_liq" t-as="cl">
                                 <td colspan="2" style="padding-left:12px;">
                                     <t t-out="cl[0].code"/> <t t-out="cl[0].name"/>:
-                                    <t t-out="'%.2f' % cl[1]"/> €
+                                    <t t-out="fmt(cl[1])"/> €
                                 </td>
                             </tr>
                         </table>

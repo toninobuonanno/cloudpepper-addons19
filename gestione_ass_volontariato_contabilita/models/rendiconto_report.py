@@ -3,6 +3,7 @@ from collections import defaultdict
 from datetime import date
 
 from odoo import api, fields, models
+from odoo.tools.misc import formatLang
 
 
 class VolontariatoRendicontoWizard(models.TransientModel):
@@ -127,5 +128,6 @@ class ReportRendicontoCassa(models.AbstractModel):
             'doc_model': 'volontariato.rendiconto.wizard',
             'anno': anno,
             'company': company,
+            'fmt': lambda v: formatLang(self.env, v, digits=2),
             **valori,
         }

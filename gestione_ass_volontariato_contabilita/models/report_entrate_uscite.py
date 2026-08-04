@@ -4,6 +4,7 @@ import io
 from collections import defaultdict
 
 from odoo import api, fields, models, _
+from odoo.tools.misc import formatLang
 
 
 class VolontariatoReportEntrateUscite(models.TransientModel):
@@ -343,4 +344,5 @@ class ReportEntrateUscitePdf(models.AbstractModel):
             'doc_model': 'volontariato.report.entrate.uscite',
             'docs': wizard,
             'dati': {w.id: w._get_dati() for w in wizard},
+            'fmt': lambda v: formatLang(self.env, v, digits=2),
         }

@@ -59,15 +59,15 @@
                                 <t t-foreach="d['gruppi']" t-as="g">
                                     <tr style="background-color:#D9E1F2; font-weight:bold;">
                                         <td colspan="3"><t t-out="g['nome']"/></td>
-                                        <td style="text-align:right;"><t t-out="'%.2f' % g['e']"/></td>
-                                        <td style="text-align:right;"><t t-out="'%.2f' % g['u']"/></td>
+                                        <td style="text-align:right;"><t t-out="fmt(g['e'])"/></td>
+                                        <td style="text-align:right;"><t t-out="fmt(g['u'])"/></td>
                                     </tr>
                                     <t t-foreach="g['sub']" t-as="s">
                                         <tr t-if="s['nome']" style="font-style:italic; font-weight:bold;">
                                             <td></td>
                                             <td colspan="2"><t t-out="s['nome']"/></td>
-                                            <td style="text-align:right;"><t t-out="'%.2f' % s['e']"/></td>
-                                            <td style="text-align:right;"><t t-out="'%.2f' % s['u']"/></td>
+                                            <td style="text-align:right;"><t t-out="fmt(s['e'])"/></td>
+                                            <td style="text-align:right;"><t t-out="fmt(s['u'])"/></td>
                                         </tr>
                                         <t t-foreach="s['lines']" t-as="line">
                                             <tr>
@@ -75,10 +75,10 @@
                                                 <td><t t-out="line['name']"/></td>
                                                 <td><t t-out="line['partner']"/></td>
                                                 <td style="text-align:right;">
-                                                    <t t-if="line['e']" t-out="'%.2f' % line['e']"/>
+                                                    <t t-if="line['e']" t-out="fmt(line['e'])"/>
                                                 </td>
                                                 <td style="text-align:right;">
-                                                    <t t-if="line['u']" t-out="'%.2f' % line['u']"/>
+                                                    <t t-if="line['u']" t-out="fmt(line['u'])"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -88,8 +88,8 @@
                             <tfoot>
                                 <tr style="border-top:2px solid #333; font-weight:bold;">
                                     <td colspan="3">TOTALE GENERALE</td>
-                                    <td style="text-align:right;"><t t-out="'%.2f' % d['tot_e']"/></td>
-                                    <td style="text-align:right;"><t t-out="'%.2f' % d['tot_u']"/></td>
+                                    <td style="text-align:right;"><t t-out="fmt(d['tot_e'])"/></td>
+                                    <td style="text-align:right;"><t t-out="fmt(d['tot_u'])"/></td>
                                 </tr>
                                 <tr style="font-weight:bold;">
                                     <td colspan="3">
@@ -97,19 +97,19 @@
                                         <t t-else="">Disavanzo</t>
                                     </td>
                                     <td colspan="2" style="text-align:right;">
-                                        <t t-out="'%.2f' % (d['tot_e'] - d['tot_u'])"/>
+                                        <t t-out="fmt(d['tot_e'] - d['tot_u'])"/>
                                     </td>
                                 </tr>
                                 <tr style="color:#444;">
                                     <td colspan="3">Saldo iniziale cassa e banca</td>
                                     <td colspan="2" style="text-align:right;">
-                                        <t t-out="'%.2f' % d['saldo_iniziale']"/>
+                                        <t t-out="fmt(d['saldo_iniziale'])"/>
                                     </td>
                                 </tr>
                                 <tr style="color:#444;">
                                     <td colspan="3">Saldo finale cassa e banca</td>
                                     <td colspan="2" style="text-align:right;">
-                                        <t t-out="'%.2f' % d['saldo_finale']"/>
+                                        <t t-out="fmt(d['saldo_finale'])"/>
                                     </td>
                                 </tr>
                             </tfoot>
