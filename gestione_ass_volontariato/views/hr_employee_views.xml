@@ -71,7 +71,10 @@
                                    decoration-muted="stato_scadenza == 'none'"/>
                             <field name="certificato_filename" column_invisible="1"/>
                             <field name="certificato_file" widget="binary"
-                                   filename="certificato_filename" string="Allegato"/>
+                                   filename="certificato_filename" string="Allegato"
+                                   invisible="certificato_file" nolabel="1"/>
+                            <button name="action_download_certificato" type="object" string="Visualizza"
+                                    icon="fa-eye" invisible="not certificato_file"/>
                         </list>
                     </field>
                 </page>
