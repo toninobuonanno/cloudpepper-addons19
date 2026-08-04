@@ -51,13 +51,3 @@ class VolontariatoCertificazioneVolontario(models.Model):
         aggiornerebbe automaticamente con il solo passare dei giorni."""
         records = self.search([])
         records._compute_stato_scadenza()
-
-    def action_download_certificato(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_url',
-            'url': '/web/content/volontariato.certificazione.volontario/%s/certificato_file/%s?download=true' % (
-                self.id, self.certificato_filename or 'certificato',
-            ),
-            'target': 'self',
-        }

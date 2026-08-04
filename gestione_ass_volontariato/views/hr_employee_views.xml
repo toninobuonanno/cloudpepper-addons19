@@ -16,6 +16,16 @@
                 <attribute name="string">Data di Nascita</attribute>
             </xpath>
 
+            <!-- Smart button Certificazioni: apre l'elenco condiviso
+                 "Certificazioni Volontari" filtrato su questo dipendente -->
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="%(action_volontariato_certificazione_volontario_global)d"
+                        type="action" class="oe_stat_button" icon="fa-certificate"
+                        context="{'search_default_employee_id': active_id, 'default_employee_id': active_id}">
+                    <field name="volontariato_cert_count" widget="statinfo" string="Certificazioni"/>
+                </button>
+            </xpath>
+
             <!-- Provincia di nascita: manca nel form nativo hr.employee,
                  serve sia come dato anagrafico sia per disambiguare il
                  calcolo del codice fiscale quando più comuni condividono
@@ -71,10 +81,7 @@
                                    decoration-muted="stato_scadenza == 'none'"/>
                             <field name="certificato_filename" column_invisible="1"/>
                             <field name="certificato_file" widget="binary"
-                                   filename="certificato_filename" string="Allegato"
-                                   invisible="certificato_file" nolabel="1"/>
-                            <button name="action_download_certificato" type="object" string="Visualizza"
-                                    icon="fa-eye" invisible="not certificato_file"/>
+                                   filename="certificato_filename" string="Allegato"/>
                         </list>
                     </field>
                 </page>
