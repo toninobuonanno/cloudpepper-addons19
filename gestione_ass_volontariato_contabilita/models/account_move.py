@@ -9,6 +9,10 @@ class AccountMove(models.Model):
         'volontariato.intervento', string='Intervento Collegato',
         index=True, copy=False,
     )
+    volontariato_presidio_prestito_id = fields.Many2one(
+        'volontariato.presidio.prestito', string='Prestito Presidi Collegato',
+        index=True, copy=False,
+    )
 
 
 class AccountMoveLine(models.Model):

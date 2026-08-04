@@ -41,6 +41,9 @@ class VolontariatoPrimaNotaWizard(models.TransientModel):
     intervento_id = fields.Many2one(
         'volontariato.intervento', string='Intervento Collegato',
     )
+    presidio_prestito_id = fields.Many2one(
+        'volontariato.presidio.prestito', string='Prestito Presidi Collegato',
+    )
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company, required=True,
     )
@@ -90,6 +93,7 @@ class VolontariatoPrimaNotaWizard(models.TransientModel):
             'ref': self.descrizione,
             'partner_id': self.partner_id.id or False,
             'volontariato_intervento_id': self.intervento_id.id or False,
+            'volontariato_presidio_prestito_id': self.presidio_prestito_id.id or False,
             'line_ids': [(0, 0, line_liq), (0, 0, line_nat)],
         })
         move.action_post()

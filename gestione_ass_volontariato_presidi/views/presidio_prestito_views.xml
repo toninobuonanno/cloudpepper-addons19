@@ -34,6 +34,12 @@
                         </group>
                     </group>
 
+                    <group string="Offerta">
+                        <field name="offerta" readonly="state != 'draft'"/>
+                        <field name="offerta_euro" readonly="state != 'draft'"/>
+                        <field name="offerta_ricevuta" readonly="state != 'draft'"/>
+                    </group>
+
                     <notebook>
                         <page string="Presidi Forniti / Rientrati" name="righe">
                             <field name="riga_ids">

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Volontariato - Contabilità ETS',
-    'version': '19.0.1.3.5',
+    'version': '19.0.1.4.0',
     'category': 'Accounting',
     'summary': 'Prima nota semplificata, rendiconto per cassa Mod. D e '
                'importatore Money Manager Ex per associazioni di volontariato',
@@ -15,12 +15,14 @@ Contabilità per Enti del Terzo Settore
 - Prima nota semplificata: entrate/uscite senza partita doppia manuale
 - Rendiconto per cassa PDF per anno
 - Importatore da Money Manager Ex (.mmb), multi-company e rieseguibile
-- Registrazione offerte direttamente dal Registro Interventi
+- Registrazione offerte direttamente dal Registro Interventi e dai
+  Prestiti Presidi
 """,
     'author': 'Confraternita di Misericordia',
     'license': 'LGPL-3',
     'depends': [
         'gestione_ass_volontariato',
+        'gestione_ass_volontariato_presidi',
         'account',
         'analytic',
     ],
@@ -35,6 +37,7 @@ Contabilità per Enti del Terzo Settore
         'views/rendiconto_wizard_views.xml',
         'views/report_entrate_uscite_views.xml',
         'views/intervento_views.xml',
+        'views/presidio_prestito_views.xml',
         'report/rendiconto_report.xml',
         'report/entrate_uscite_report.xml',
         'views/menu_views.xml',

@@ -4,6 +4,7 @@ from . import analytic_account
 from . import account_move
 from . import company_setup
 from . import intervento
+from . import presidio_prestito
 from . import prima_nota_wizard
 from . import mmex_import_wizard
 from . import rendiconto_report

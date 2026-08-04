@@ -41,6 +41,10 @@ class VolontariatoPresidioPrestito(models.Model):
     )
     note = fields.Html(string='Note')
 
+    offerta = fields.Boolean(string='Offerta Ricevuta')
+    offerta_euro = fields.Float(string='Importo Offerta (€)')
+    offerta_ricevuta = fields.Char(string='Rif. Ricevuta')
+
     riga_ids = fields.One2many(
         'volontariato.presidio.prestito.riga', 'prestito_id',
         string='Presidi Forniti',
