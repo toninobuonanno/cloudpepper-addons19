@@ -20,6 +20,9 @@ class VolontariatoIntervento(models.Model):
 
     def action_registra_offerta(self):
         self.ensure_one()
+        descrizione = 'Offerta intervento %s' % (self.codice or '')
+        if self.offerta_ricevuta:
+            descrizione += ' ric. %s' % self.offerta_ricevuta
         conto_offerte = self.env.company._volontariato_get_account('3.01')
         journal = self.env['account.journal'].search([
             ('code', '=', 'PNC'),
@@ -47,8 +50,7 @@ class VolontariatoIntervento(models.Model):
                 'default_conto_natura_id':
                     conto_offerte.id if conto_offerte else False,
                 'default_analitica_id': analitica.id if analitica else False,
-                'default_descrizione': 'Offerta intervento %s' % (
-                    self.codice or ''),
+                'default_descrizione': descrizione,
                 'default_intervento_id': self.id,
             },
         }
