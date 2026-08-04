@@ -13,6 +13,7 @@
                 <field name="stato_scadenza" widget="badge"/>
                 <field name="certificato_filename" column_invisible="1"/>
                 <field name="certificato_file" widget="binary" filename="certificato_filename" string="Allegato"/>
+                <button name="action_open_form" type="object" string="Apri" icon="fa-external-link"/>
             </list>
         </field>
     </record>
