@@ -11,7 +11,36 @@
                 <field name="data_conseguimento"/>
                 <field name="data_scadenza"/>
                 <field name="stato_scadenza" widget="badge"/>
+                <field name="certificato_filename" column_invisible="1"/>
+                <field name="certificato_file" widget="binary" filename="certificato_filename" string="Allegato"/>
             </list>
+        </field>
+    </record>
+
+    <record id="view_certificazione_volontario_form" model="ir.ui.view">
+        <field name="name">volontariato.certificazione.volontario.form</field>
+        <field name="model">volontariato.certificazione.volontario</field>
+        <field name="arch" type="xml">
+            <form string="Certificazione Volontario">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="tipo_cert_id"/>
+                        </group>
+                        <group>
+                            <field name="data_conseguimento"/>
+                            <field name="data_scadenza"/>
+                            <field name="stato_scadenza" widget="badge"/>
+                        </group>
+                    </group>
+                    <group string="Allegato">
+                        <field name="certificato_filename" invisible="1"/>
+                        <field name="certificato_file" widget="binary"
+                               filename="certificato_filename" string="Certificato"/>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 

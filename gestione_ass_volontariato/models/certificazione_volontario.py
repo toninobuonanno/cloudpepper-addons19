@@ -16,6 +16,9 @@ class VolontariatoCertificazioneVolontario(models.Model):
     data_conseguimento = fields.Date(string='Data Conseguimento')
     data_scadenza = fields.Date(string='Data Scadenza')
 
+    certificato_file = fields.Binary(string='Allegato Certificato', attachment=True)
+    certificato_filename = fields.Char(string='Nome File Allegato')
+
     stato_scadenza = fields.Selection(
         [
             ('ok', 'Valida'),
