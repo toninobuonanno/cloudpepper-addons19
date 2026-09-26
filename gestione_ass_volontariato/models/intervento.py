@@ -12,8 +12,12 @@ class VolontariatoIntervento(models.Model):
 
     # ───────── Identificazione ─────────
     codice = fields.Char(
-        string='Codice', required=True, copy=False, readonly=True,
+        string='Codice', required=True, copy=False,
         default=lambda self: 'Nuovo',
+        help='Modificabile per correggere manualmente eventuali buchi '
+             'nella numerazione. In quel caso ricordarsi di allineare '
+             'anche il numero successivo della sequenza (Impostazioni > '
+             'Funzioni Tecniche > Sequenze > Numerazione Interventi).',
     )
     state = fields.Selection(
         [
