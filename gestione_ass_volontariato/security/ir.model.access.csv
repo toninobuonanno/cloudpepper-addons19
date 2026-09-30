@@ -21,3 +21,4 @@ access_volontariato_turno_squadra,volontariato.turno.squadra.user,model_volontar
 access_volontariato_turno_report_wizard,volontariato.turno.report.wizard.user,model_volontariato_turno_report_wizard,base.group_user,1,1,1,1
 access_volontariato_cf_wizard,volontariato.codice.fiscale.wizard.user,model_volontariato_codice_fiscale_wizard,base.group_user,1,1,1,1
 access_volontariato_richiesta_assistenza,volontariato.richiesta.assistenza.user,model_volontariato_richiesta_assistenza,base.group_user,1,1,1,1
+access_ir_sequence_volontariato_responsabile,ir.sequence.volontariato.responsabile,base.model_ir_sequence,gestione_ass_volontariato.group_volontariato_responsabile,1,1,0,0

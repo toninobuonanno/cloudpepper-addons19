@@ -31,4 +31,19 @@ Volontari, Dashboard).</field>
          La ripristiniamo esplicitamente. -->
     <menuitem id="base.menu_management" groups="base.group_system"/>
 
+    <!-- Il Responsabile può modificare (solo write, non creare/eliminare)
+         le sole numerazioni (ir.sequence) introdotte da questo modulo,
+         per correggere buchi di numerazione senza poter toccare le
+         sequenze di altri moduli (es. fatturazione). -->
+    <record id="ir_sequence_rule_volontariato_responsabile" model="ir.rule">
+        <field name="name">Sequenze Volontariato: solo le sequenze del modulo</field>
+        <field name="model_id" ref="base.model_ir_sequence"/>
+        <field name="groups" eval="[(4, ref('group_volontariato_responsabile'))]"/>
+        <field name="domain_force">[('code', 'in', ['volontariato.intervento', 'volontariato.esercitazione', 'volontariato.turno', 'volontariato.richiesta.assistenza'])]</field>
+        <field name="perm_read">0</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
 </odoo>

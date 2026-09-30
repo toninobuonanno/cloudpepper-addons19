@@ -247,4 +247,18 @@
               groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="40"/>
 
+    <record id="action_volontariato_sequenze" model="ir.actions.act_window">
+        <field name="name">Numerazioni</field>
+        <field name="res_model">ir.sequence</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('code', 'in', ['volontariato.intervento', 'volontariato.esercitazione', 'volontariato.turno', 'volontariato.richiesta.assistenza'])]</field>
+    </record>
+
+    <menuitem id="menu_volontariato_sequenze"
+              name="Numerazioni"
+              parent="menu_volontariato_config"
+              action="action_volontariato_sequenze"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
+              sequence="50"/>
+
 </odoo>
