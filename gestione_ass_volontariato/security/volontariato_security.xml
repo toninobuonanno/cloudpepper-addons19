@@ -98,7 +98,7 @@ Volontari, Dashboard).</field>
          completamente non filtrati da questa regola. -->
     <record id="calendar_event_volontariato_comp_rule" model="ir.rule">
         <field name="name">Calendario: eventi Volontariato multi-company</field>
-        <field name="model_id" ref="base.model_calendar_event"/>
+        <field name="model_id" ref="calendar.model_calendar_event"/>
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
 
