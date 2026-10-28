@@ -16,6 +16,10 @@ class VolontariatoEsercitazione(models.Model):
         string='Codice', required=True, copy=False, readonly=True,
         default=lambda self: 'Nuovo',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
 
     tipo_id = fields.Many2one(
         'volontariato.tipo.esercitazione', string='Tipologia', required=True,
@@ -85,6 +89,7 @@ class VolontariatoEsercitazione(models.Model):
                 'start': start,
                 'stop': stop,
                 'description': descrizione,
+                'company_id': self.company_id.id,
             })
             event = self.calendar_event_id
         else:
@@ -93,6 +98,7 @@ class VolontariatoEsercitazione(models.Model):
                 'start': start,
                 'stop': stop,
                 'description': descrizione,
+                'company_id': self.company_id.id,
             }
             if categ:
                 vals['categ_ids'] = [(6, 0, [categ.id])]

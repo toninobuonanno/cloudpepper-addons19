@@ -8,6 +8,10 @@ class VolontariatoContratto(models.Model):
     _order = 'data_scadenza'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
     tipo_id = fields.Many2one(
         'volontariato.tipo.contratto', string='Tipo Contratto', required=True,
     )

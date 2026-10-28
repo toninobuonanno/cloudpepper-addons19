@@ -16,6 +16,10 @@ class VolontariatoTurno(models.Model):
         string='Codice', required=True, copy=False, readonly=True,
         default=lambda self: 'Nuovo',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
 
     evento = fields.Char(string='Evento', required=True, help="Es. Calcetto / Volley, Assistenza Parrocchia...")
     tipo_intervento_id = fields.Many2one(
@@ -118,6 +122,7 @@ class VolontariatoTurno(models.Model):
                 'stop': stop,
                 'location': self.luogo or '',
                 'description': descrizione,
+                'company_id': self.company_id.id,
             })
             event = self.calendar_event_id
         else:
@@ -127,6 +132,7 @@ class VolontariatoTurno(models.Model):
                 'stop': stop,
                 'location': self.luogo or '',
                 'description': descrizione,
+                'company_id': self.company_id.id,
             }
             if categ:
                 vals['categ_ids'] = [(6, 0, [categ.id])]

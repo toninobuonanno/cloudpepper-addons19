@@ -8,6 +8,10 @@ class VolontariatoPresidio(models.Model):
     _order = 'name'
 
     name = fields.Char(string='Presidio', required=True)
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
     categoria = fields.Selection(
         [
             ('letto', 'Letto Ortopedico'),

@@ -25,6 +25,7 @@
 
                     <group invisible="state != 'draft'">
                         <group string="Sezione 1 - Dati Intervento">
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="vehicle_id"/>
                             <field name="tipo_intervento_id"/>
                             <field name="data"/>
@@ -44,6 +45,7 @@
 
                     <group invisible="state == 'draft'">
                         <group string="Sezione 1 - Dati Intervento">
+                            <field name="company_id" readonly="1" groups="base.group_multi_company"/>
                             <field name="vehicle_id" readonly="1"/>
                             <field name="tipo_intervento_id" readonly="1"/>
                             <field name="data" readonly="1"/>
@@ -142,6 +144,7 @@
         <field name="arch" type="xml">
             <list decoration-muted="state == 'cancelled'" decoration-success="state == 'confirmed'">
                 <field name="codice"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="data"/>
                 <field name="vehicle_id"/>
                 <field name="tipo_intervento_id"/>
@@ -176,9 +179,13 @@
                 <field name="tipo_intervento_id"/>
                 <field name="richiedente_id"/>
                 <field name="luogo"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Confermato" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
                 <filter string="Annullato" name="state_cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
             </search>
         </field>
     </record>

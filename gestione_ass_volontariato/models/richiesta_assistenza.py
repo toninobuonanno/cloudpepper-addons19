@@ -24,6 +24,10 @@ class VolontariatoRichiestaAssistenza(models.Model):
         string='Stato', default='draft', required=True, copy=False,
         tracking=True,
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
     data_richiesta = fields.Date(
         string='Data Richiesta', required=True, default=fields.Date.context_today,
     )

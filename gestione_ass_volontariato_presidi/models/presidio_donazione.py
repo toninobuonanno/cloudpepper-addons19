@@ -14,6 +14,10 @@ class VolontariatoPresidioDonazione(models.Model):
         string='Codice', required=True, copy=False, readonly=True,
         default=lambda self: 'Nuovo',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
     donatore_id = fields.Many2one(
         'res.partner', string='Donatore', required=True,
         tracking=True,

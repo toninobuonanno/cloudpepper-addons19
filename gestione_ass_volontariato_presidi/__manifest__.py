@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Volontariato - Prestito Presidi',
-    'version': '19.0.1.2.0',
+    'version': '19.0.1.3.0',
     'category': 'Volontariato',
     'summary': 'Gestione a magazzino dei presidi sanitari donati: carico da '
                'donazioni e prestito/rientro ai richiedenti',
@@ -28,6 +28,7 @@ Funzionalità principali:
     'depends': ['gestione_ass_volontariato'],
     'data': [
         'security/ir.model.access.csv',
+        'security/multicompany_rules.xml',
         'data/sequenze.xml',
         'views/presidio_views.xml',
         'views/presidio_donazione_views.xml',

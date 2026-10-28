@@ -28,6 +28,10 @@ class VolontariatoIntervento(models.Model):
         string='Stato', default='draft', required=True, copy=False,
         tracking=True,
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
 
     # ───────── SEZIONE 1 — Dati Intervento ─────────
     vehicle_id = fields.Many2one(

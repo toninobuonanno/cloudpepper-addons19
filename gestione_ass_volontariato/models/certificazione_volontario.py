@@ -10,6 +10,10 @@ class VolontariatoCertificazioneVolontario(models.Model):
     employee_id = fields.Many2one(
         'hr.employee', string='Volontario', required=True, ondelete='cascade',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', related='employee_id.company_id',
+        store=True, readonly=True,
+    )
     tipo_cert_id = fields.Many2one(
         'volontariato.tipo.cert.volontario', string='Tipo Certificazione', required=True,
     )

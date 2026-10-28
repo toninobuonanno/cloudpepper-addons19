@@ -27,6 +27,7 @@
 
                     <group>
                         <field name="data_richiesta" readonly="state != 'draft'"/>
+                        <field name="company_id" readonly="state != 'draft'" groups="base.group_multi_company"/>
                     </group>
 
                     <group string="Richiedente">
@@ -86,6 +87,7 @@
             <list decoration-muted="state == 'refused'" decoration-success="state == 'accepted'"
                   decoration-info="state == 'confirmed'">
                 <field name="codice"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="data_richiesta"/>
                 <field name="richiedente_nome_cognome"/>
                 <field name="manifestazione"/>
@@ -112,12 +114,14 @@
                 <field name="richiedente_nome_cognome"/>
                 <field name="manifestazione"/>
                 <field name="citta_manifestazione"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <filter string="Bozza" name="state_draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Confermata" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
                 <filter string="Accettata" name="state_accepted" domain="[('state', '=', 'accepted')]"/>
                 <filter string="Respinta" name="state_refused" domain="[('state', '=', 'refused')]"/>
                 <group>
                     <filter string="Stato" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                 </group>
             </search>
         </field>

@@ -11,6 +11,10 @@ class VolontariatoCertificazioneAttrezzatura(models.Model):
         'maintenance.equipment', string='Dispositivo / Attrezzatura',
         required=True, ondelete='cascade',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', related='equipment_id.company_id',
+        store=True, readonly=True,
+    )
     tipo_cert_id = fields.Many2one(
         'volontariato.tipo.cert.attrezzatura', string='Tipo Certificazione', required=True,
     )

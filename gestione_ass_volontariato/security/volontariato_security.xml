@@ -46,4 +46,60 @@ Volontari, Dashboard).</field>
         <field name="perm_unlink">0</field>
     </record>
 
+    <!-- Multi-company: ogni record operativo del modulo è visibile solo
+         alla company a cui appartiene (o a tutte se company_id è vuoto,
+         caso che non si verifica più dopo la migrazione dei dati storici). -->
+    <record id="intervento_comp_rule" model="ir.rule">
+        <field name="name">Intervento: multi-company</field>
+        <field name="model_id" ref="model_volontariato_intervento"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="richiesta_assistenza_comp_rule" model="ir.rule">
+        <field name="name">Richiesta Assistenza: multi-company</field>
+        <field name="model_id" ref="model_volontariato_richiesta_assistenza"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="esercitazione_comp_rule" model="ir.rule">
+        <field name="name">Esercitazione: multi-company</field>
+        <field name="model_id" ref="model_volontariato_esercitazione"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="turno_comp_rule" model="ir.rule">
+        <field name="name">Turno: multi-company</field>
+        <field name="model_id" ref="model_volontariato_turno"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="contratto_comp_rule" model="ir.rule">
+        <field name="name">Contratto / Assicurazione: multi-company</field>
+        <field name="model_id" ref="model_volontariato_contratto"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="certificazione_volontario_comp_rule" model="ir.rule">
+        <field name="name">Certificazione Volontario: multi-company</field>
+        <field name="model_id" ref="model_volontariato_certificazione_volontario"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="certificazione_attrezzatura_comp_rule" model="ir.rule">
+        <field name="name">Certificazione Attrezzatura: multi-company</field>
+        <field name="model_id" ref="model_volontariato_certificazione_attrezzatura"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Gli eventi calendar.event generati da "Aggiungi a Calendario" su
+         Turni/Esercitazioni hanno company_id impostato esplicitamente dal
+         codice; tutti gli altri eventi di calendario (riunioni, eventi
+         personali, ecc.) hanno company_id vuoto e restano quindi
+         completamente non filtrati da questa regola. -->
+    <record id="calendar_event_volontariato_comp_rule" model="ir.rule">
+        <field name="name">Calendario: eventi Volontariato multi-company</field>
+        <field name="model_id" ref="base.model_calendar_event"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

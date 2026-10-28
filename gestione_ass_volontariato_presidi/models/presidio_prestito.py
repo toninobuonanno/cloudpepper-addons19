@@ -14,6 +14,10 @@ class VolontariatoPresidioPrestito(models.Model):
         string='Codice', required=True, copy=False, readonly=True,
         default=lambda self: 'Nuovo',
     )
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
     richiedente_id = fields.Many2one(
         'res.partner', string='Richiedente', required=True,
         tracking=True,
@@ -99,6 +103,9 @@ class VolontariatoPresidioPrestitoRiga(models.Model):
     )
     richiedente_id = fields.Many2one(
         related='prestito_id.richiedente_id', string='Richiedente', store=True,
+    )
+    company_id = fields.Many2one(
+        related='prestito_id.company_id', string='Sede', store=True, readonly=True,
     )
     presidio_id = fields.Many2one(
         'volontariato.presidio', string='Presidio', required=True,

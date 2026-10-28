@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Multi-company: ogni record operativo del modulo Prestito Presidi
+         è visibile solo alla company a cui appartiene (o a tutte se
+         company_id è vuoto, caso che non si verifica più dopo la
+         migrazione dei dati storici). -->
+    <record id="presidio_comp_rule" model="ir.rule">
+        <field name="name">Presidio: multi-company</field>
+        <field name="model_id" ref="model_volontariato_presidio"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="presidio_donazione_comp_rule" model="ir.rule">
+        <field name="name">Donazione Presidi: multi-company</field>
+        <field name="model_id" ref="model_volontariato_presidio_donazione"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="presidio_prestito_comp_rule" model="ir.rule">
+        <field name="name">Prestito Presidi: multi-company</field>
+        <field name="model_id" ref="model_volontariato_presidio_prestito"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="presidio_prestito_riga_comp_rule" model="ir.rule">
+        <field name="name">Riga Prestito Presidi: multi-company</field>
+        <field name="model_id" ref="model_volontariato_presidio_prestito_riga"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

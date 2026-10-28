@@ -15,6 +15,7 @@
 
                     <group>
                         <group string="Dati Contratto">
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="fornitore"/>
                             <field name="numero_contratto"/>
                             <field name="periodicita"/>
@@ -69,6 +70,7 @@
         <field name="model">volontariato.contratto</field>
         <field name="arch" type="xml">
             <list decoration-muted="not active">
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="tipo_id"/>
                 <field name="fornitore"/>
                 <field name="numero_contratto"/>
@@ -95,6 +97,10 @@
                 <field name="tipo_id"/>
                 <field name="fornitore"/>
                 <field name="numero_contratto"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <group>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
             </search>
         </field>
     </record>

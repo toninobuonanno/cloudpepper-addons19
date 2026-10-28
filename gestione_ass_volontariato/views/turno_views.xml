@@ -21,6 +21,7 @@
 
                     <group>
                         <group string="Dati Turno">
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="evento"/>
                             <field name="tipo_intervento_id"/>
                             <field name="luogo"/>
@@ -68,6 +69,7 @@
         <field name="arch" type="xml">
             <list decoration-danger="stato_completo == 'vuoto'" decoration-warning="stato_completo == 'parziale'">
                 <field name="codice"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="data"/>
                 <field name="evento"/>
                 <field name="tipo_intervento_id" optional="show"/>
@@ -96,8 +98,12 @@
                 <field name="luogo"/>
                 <field name="data"/>
                 <field name="squadra_ids"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <filter string="Da Completare" name="filter_parziale" domain="[('stato_completo', '=', 'parziale')]"/>
                 <filter string="Senza Volontari" name="filter_vuoto" domain="[('stato_completo', '=', 'vuoto')]"/>
+                <group>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
             </search>
         </field>
     </record>
