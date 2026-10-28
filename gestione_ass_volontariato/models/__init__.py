@@ -10,6 +10,7 @@ from . import hr_employee
 from . import fleet_vehicle
 from . import maintenance_equipment
 from . import calendar_event
+from . import company_setup
 from . import contratto_rata
 from . import contratto
 from . import intervento_squadra

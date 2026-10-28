@@ -261,4 +261,23 @@
               groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="50"/>
 
+    <!-- Crea (se mancanti) le numerazioni indipendenti per la company
+         corrente, così che ogni company abbia il proprio contatore
+         invece di condividerlo con le altre. Va eseguita una volta per
+         ciascuna company (anche quelle già esistenti, per smettere di
+         condividere il contatore globale da quel momento in avanti). -->
+    <record id="action_setup_sequenze_volontariato" model="ir.actions.server">
+        <field name="name">Configura Numerazioni per questa Sede</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">action = env.company.action_volontariato_setup_sequenze()</field>
+    </record>
+
+    <menuitem id="menu_setup_sequenze_volontariato"
+              name="Configura Numerazioni per questa Sede"
+              parent="menu_volontariato_config"
+              action="action_setup_sequenze_volontariato"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
+              sequence="55"/>
+
 </odoo>
