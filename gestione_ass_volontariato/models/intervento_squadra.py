@@ -22,6 +22,9 @@ class VolontariatoInterventoSquadra(models.Model):
     data_intervento = fields.Date(
         related='intervento_id.data', string='Data Intervento', store=True,
     )
+    company_id = fields.Many2one(
+        related='intervento_id.company_id', string='Sede', store=True, readonly=True,
+    )
 
     # ── Campi related dall'intervento: colonne per la Dashboard Volontari ──
     codice_intervento = fields.Char(

@@ -102,4 +102,20 @@ Volontari, Dashboard).</field>
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
 
+    <!-- Righe squadra di Interventi/Turni: usate anche come modello
+         principale in viste trasversali (Dashboard Volontari, Impegno
+         Volontari), quindi vanno filtrate per company come i rispettivi
+         record padre. -->
+    <record id="intervento_squadra_comp_rule" model="ir.rule">
+        <field name="name">Squadra Intervento: multi-company</field>
+        <field name="model_id" ref="model_volontariato_intervento_squadra"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="turno_squadra_comp_rule" model="ir.rule">
+        <field name="name">Squadra Turno: multi-company</field>
+        <field name="model_id" ref="model_volontariato_turno_squadra"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

@@ -23,6 +23,9 @@ class VolontariatoTurnoSquadra(models.Model):
         related='employee_id.volontariato_qualifica_id',
         string='Qualifica', readonly=True, store=True,
     )
+    company_id = fields.Many2one(
+        related='turno_id.company_id', string='Sede', readonly=True, store=True,
+    )
 
     data = fields.Date(
         related='turno_id.data', string='Data', readonly=True, store=True,
