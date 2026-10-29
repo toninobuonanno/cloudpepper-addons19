@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Gestione Associazione Volontariato',
-    'version': '19.0.2.16.2',
+    'version': '19.0.2.17.0',
     'category': 'Volontariato',
     'summary': 'Gestione interventi, automezzi, volontari e dispositivi per associazioni di volontariato',
     'description': """
@@ -60,6 +60,7 @@ e assistenza con ambulanza. Funzionalità principali:
         'views/richiesta_assistenza_views.xml',
         'report/richiesta_assistenza_report.xml',
         'views/dashboard_views.xml',
+        'views/res_partner_views.xml',
         'views/menu_views.xml',
     ],
     'installable': True,

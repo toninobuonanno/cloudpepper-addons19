@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sposta il campo Azienda (company_id) dalla scheda "Vendite e
+         acquisti" > Varie alla parte alta della form, accanto a Partita
+         IVA: con la separazione multi-company tra le sedi è un campo da
+         valorizzare spesso (es. sui richiedenti/donatori), quindi conviene
+         averlo subito visibile invece che dentro una scheda secondaria. -->
+    <record id="view_partner_form_company_id_in_evidenza" model="ir.ui.view">
+        <field name="name">res.partner.form.company.id.in.evidenza</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <xpath expr="//group[@name='misc']/field[@name='company_id'][@groups='base.group_multi_company']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
