@@ -68,6 +68,17 @@ class ResCompany(models.Model):
                 })
             conti[code] = account
 
+        # ── Conti predefiniti costi/ricavi (Impostazioni > Fatturazione) ──
+        # Senza questi, Odoo blocca alcune operazioni (es. impostare
+        # l'Azienda su un contatto) perché non trova nessun conto
+        # configurato per questa company e rimanda alla configurazione di
+        # un pacchetto di localizzazione fiscale completo, che per la
+        # contabilità ETS semplificata non serve.
+        if not self.income_account_id:
+            self.income_account_id = conti['3.99'].id
+        if not self.expense_account_id:
+            self.expense_account_id = conti['4.99'].id
+
         # ── Giornali ──
         for jcode, jname, jtype, default_code in GIORNALI_ETS:
             journal = Journal.search([
