@@ -20,4 +20,28 @@
         </field>
     </record>
 
+    <!-- Filtro "La mia Azienda", attivo di default nell'app Contatti: i
+         contatti senza Azienda impostata (condivisi) restano visibili,
+         quelli con Azienda impostata solo se è una delle sedi su cui si
+         sta lavorando. È un filtro rimovibile dall'utente, non una
+         restrizione di sicurezza - quella è già garantita dalla regola
+         nativa di Odoo "res.partner company" (ir.rule), che resta
+         invariata e si applica comunque anche togliendo il filtro. -->
+    <record id="view_res_partner_filter_mia_azienda" model="ir.ui.view">
+        <field name="name">res.partner.select.mia.azienda</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_company" position="after">
+                <separator/>
+                <filter name="filter_mia_azienda" string="La mia Azienda"
+                        domain="['|', ('company_id', '=', False), ('company_id', 'in', allowed_company_ids)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field name="context">{'default_is_company': True, 'search_default_filter_mia_azienda': 1}</field>
+    </record>
+
 </odoo>

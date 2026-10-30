@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Gestione Associazione Volontariato',
-    'version': '19.0.2.17.1',
+    'version': '19.0.2.18.0',
     'category': 'Volontariato',
     'summary': 'Gestione interventi, automezzi, volontari e dispositivi per associazioni di volontariato',
     'description': """
@@ -28,6 +28,7 @@ e assistenza con ambulanza. Funzionalità principali:
         'fleet',
         'maintenance',
         'calendar',
+        'contacts',
     ],
     'data': [
         'security/volontariato_security.xml',
