@@ -21,4 +21,19 @@ dell'Anagrafica Donatori, importazione periodica da SIF Fratres e
 registrazione dei Parametri Donatori.</field>
     </record>
 
+    <!-- Multi-company: ogni donatore (e i relativi parametri) è visibile
+         solo alla sede a cui appartiene (o a tutte se company_id è vuoto,
+         caso che non si verifica più dopo la migrazione dei dati storici). -->
+    <record id="donatore_comp_rule" model="ir.rule">
+        <field name="name">Donatore: multi-company</field>
+        <field name="model_id" ref="model_donatori_donatore"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="parametro_comp_rule" model="ir.rule">
+        <field name="name">Parametro Donatore: multi-company</field>
+        <field name="model_id" ref="model_donatori_parametro"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

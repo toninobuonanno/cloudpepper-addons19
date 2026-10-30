@@ -10,6 +10,10 @@ class DonatoriDonatore(models.Model):
     _rec_names_search = ['name', 'tessera_nazionale', 'codice_fiscale']
 
     active = fields.Boolean(string='Attivo', default=True)
+    company_id = fields.Many2one(
+        'res.company', string='Sede', required=True,
+        default=lambda self: self.env.company,
+    )
 
     # Dati SIF Fratres / anagrafica
     tessera_nazionale = fields.Char(

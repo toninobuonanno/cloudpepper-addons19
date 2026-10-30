@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <list string="Donatori">
                 <field name="tessera_nazionale"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="cognome"/>
                 <field name="nome"/>
                 <field name="sesso" optional="show"/>
@@ -47,6 +48,7 @@
                     </div>
                     <group>
                         <group string="Anagrafica">
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="tessera_nazionale"/>
                             <field name="sesso"/>
                             <field name="data_nascita"/>
@@ -146,6 +148,7 @@
                 <field name="gruppo_locale"/>
                 <field name="cellulare"/>
                 <field name="recapiti_mail"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <filter string="Maschi" name="maschi" domain="[('sesso', '=', 'M')]"/>
                 <filter string="Femmine" name="femmine" domain="[('sesso', '=', 'F')]"/>
                 <separator/>
@@ -157,6 +160,7 @@
                     <filter string="Sezione" name="group_sezione" context="{'group_by': 'sezione'}"/>
                     <filter string="Gruppo Sanguigno" name="group_gruppo_sanguigno" context="{'group_by': 'gruppo_sanguigno'}"/>
                     <filter string="Sesso" name="group_sesso" context="{'group_by': 'sesso'}"/>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                 </group>
             </search>
         </field>

@@ -8,6 +8,7 @@
             <list string="Parametri Donatori" editable="bottom" default_order="data_donazione desc">
                 <field name="data_donazione"/>
                 <field name="donatore_id"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="cognome" optional="show"/>
                 <field name="nome" optional="show"/>
                 <field name="luogo_nascita" optional="hide"/>
@@ -64,6 +65,7 @@
                 <field name="nome"/>
                 <field name="donatore_id"/>
                 <field name="data_donazione"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <filter string="Oggi" name="oggi"
                         domain="[('data_donazione', '=', context_today().strftime('%Y-%m-%d'))]"/>
                 <filter string="Idoneo" name="idoneo_si" domain="[('idoneo', '=', 'si')]"/>
@@ -72,6 +74,7 @@
                 <group name="group_by">
                     <filter string="Data Donazione" name="group_data" context="{'group_by': 'data_donazione'}"/>
                     <filter string="Idoneità" name="group_idoneo" context="{'group_by': 'idoneo'}"/>
+                    <filter string="Sede" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                 </group>
             </search>
         </field>

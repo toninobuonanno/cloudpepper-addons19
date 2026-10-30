@@ -12,6 +12,9 @@ class DonatoriParametro(models.Model):
     donatore_id = fields.Many2one(
         'donatori.donatore', string='Donatore', required=True, ondelete='restrict',
     )
+    company_id = fields.Many2one(
+        related='donatore_id.company_id', string='Sede', store=True, readonly=True,
+    )
     data_donazione = fields.Date(
         string='Data Donazione', required=True, default=fields.Date.context_today,
     )
