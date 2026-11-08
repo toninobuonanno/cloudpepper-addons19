@@ -65,7 +65,8 @@
 
                     <group>
                         <group string="Richiedente">
-                            <field name="richiedente_id" readonly="state != 'draft'"/>
+                            <field name="richiedente_id" readonly="state != 'draft'"
+                                   domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
                             <field name="richiedente_citta"/>
                             <field name="richiedente_provincia"/>
                         </group>
