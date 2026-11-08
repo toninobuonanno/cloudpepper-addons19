@@ -6,7 +6,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <h2 style="margin-top: 40px; margin-bottom: 4px;">
+                        <h2 style="margin-bottom: 4px;">
                             Foglio di Viaggio <span t-field="o.codice"/>
                         </h2>
                         <p style="margin-bottom: 12px;">
@@ -200,6 +200,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">gestione_ass_volontariato.report_intervento_document</field>
         <field name="report_file">gestione_ass_volontariato.report_intervento_document</field>
+        <field name="paperformat_id" ref="paperformat_intervento"/>
         <field name="binding_model_id" ref="model_volontariato_intervento"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Intervento_%s' % (object.codice or 'Nuovo')</field>

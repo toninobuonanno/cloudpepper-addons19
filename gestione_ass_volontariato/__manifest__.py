@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Gestione Associazione Volontariato',
-    'version': '19.0.2.19.1',
+    'version': '19.0.2.19.2',
     'category': 'Volontariato',
     'summary': 'Gestione interventi, automezzi, volontari e dispositivi per associazioni di volontariato',
     'description': """
@@ -38,6 +38,7 @@ e assistenza con ambulanza. Funzionalità principali:
         'data/ruoli.xml',
         'data/tipi_intervento.xml',
         'data/calendar_event_types.xml',
+        'data/report_paperformat.xml',
         'views/ruolo_views.xml',
         'views/qualifica_views.xml',
         'views/tipo_cert_volontario_views.xml',
