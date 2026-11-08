@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_elenco_interventi_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Registro Interventi</h2>
+
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr style="background-color: #2c3e50; color: white;">
+                                <th>Codice</th>
+                                <th>Data</th>
+                                <th>Automezzo</th>
+                                <th>Tipo</th>
+                                <th>Richiedente</th>
+                                <th>Luogo</th>
+                                <th>Km Totali</th>
+                                <th>Stato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td><span t-field="o.codice"/></td>
+                                    <td><span t-field="o.data"/></td>
+                                    <td><span t-field="o.vehicle_id"/></td>
+                                    <td><span t-field="o.tipo_intervento_id"/></td>
+                                    <td><span t-field="o.richiedente_id"/></td>
+                                    <td><span t-field="o.luogo"/></td>
+                                    <td><span t-field="o.km_totali"/></td>
+                                    <td><span t-field="o.state"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_elenco_interventi" model="ir.actions.report">
+        <field name="name">Registro Interventi - Elenco</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato.report_elenco_interventi_document</field>
+        <field name="report_file">gestione_ass_volontariato.report_elenco_interventi_document</field>
+        <field name="print_report_name">'Registro_Interventi'</field>
+    </record>
+
+</odoo>

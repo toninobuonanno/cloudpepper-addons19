@@ -23,6 +23,13 @@
               groups="gestione_ass_volontariato.group_volontariato_responsabile"
               sequence="5"/>
 
+    <menuitem id="menu_volontariato_intervento_report_wizard"
+              name="Elenco Interventi (PDF/Excel)"
+              parent="menu_volontariato_servizi"
+              action="action_volontariato_intervento_report_wizard"
+              groups="gestione_ass_volontariato.group_volontariato_responsabile"
+              sequence="6"/>
+
     <menuitem id="menu_volontariato_richieste_assistenza"
               name="Richieste di Assistenza"
               parent="menu_volontariato_servizi"

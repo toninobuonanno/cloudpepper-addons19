@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_intervento_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            Foglio di Viaggio <span t-field="o.codice"/>
+                            <span t-field="o.state" t-options='{"widget": "badge"}' style="font-size: 12px; margin-left: 8px;"/>
+                        </h2>
+
+                        <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                            Dati Intervento
+                        </h3>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>Automezzo:</strong></td>
+                                <td><span t-field="o.vehicle_id"/></td>
+                                <td><strong>Tipo Intervento:</strong></td>
+                                <td><span t-field="o.tipo_intervento_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data:</strong></td>
+                                <td><span t-field="o.data"/></td>
+                                <td><strong>Orario:</strong></td>
+                                <td>
+                                    <span t-field="o.ora_inizio" t-options='{"widget": "float_time"}'/>
+                                    -
+                                    <span t-field="o.ora_fine" t-options='{"widget": "float_time"}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Km Iniziali:</strong></td>
+                                <td><span t-field="o.km_iniziali"/></td>
+                                <td><strong>Km Finali:</strong></td>
+                                <td><span t-field="o.km_finali"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Km Totali:</strong></td>
+                                <td><span t-field="o.km_totali"/></td>
+                                <td><strong>Durata (ore):</strong></td>
+                                <td><span t-field="o.durata_ore" t-options='{"widget": "float_time"}'/></td>
+                            </tr>
+                        </table>
+
+                        <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                            Richiedente e Luogo
+                        </h3>
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>Intervento Richiesto da:</strong></td>
+                                <td colspan="3"><span t-field="o.richiedente_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Luogo dell'Intervento:</strong></td>
+                                <td><span t-field="o.luogo"/></td>
+                                <td><strong>Luogo di Destinazione:</strong></td>
+                                <td><span t-field="o.luogo_destinazione"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Città:</strong></td>
+                                <td><span t-field="o.luogo_citta"/></td>
+                                <td><strong>Provincia:</strong></td>
+                                <td><span t-field="o.luogo_provincia"/></td>
+                            </tr>
+                        </table>
+
+                        <t t-if="o.rifornimento or o.pulizia or o.offerta">
+                            <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                                Rifornimento, Pulizia, Offerta
+                            </h3>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td><strong>Rifornimento:</strong></td>
+                                    <td>
+                                        <span t-esc="'Sì' if o.rifornimento else 'No'"/>
+                                        <t t-if="o.rifornimento">
+                                            (<span t-field="o.rifornimento_euro"/> € -
+                                            <span t-field="o.rifornimento_litri"/> litri)
+                                        </t>
+                                    </td>
+                                    <td><strong>Pulizia Post-Intervento:</strong></td>
+                                    <td><span t-esc="'Sì' if o.pulizia else 'No'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Offerta Ricevuta:</strong></td>
+                                    <td colspan="3">
+                                        <span t-esc="'Sì' if o.offerta else 'No'"/>
+                                        <t t-if="o.offerta">
+                                            (<span t-field="o.offerta_euro"/> € -
+                                            rif. <span t-field="o.offerta_ricevuta"/>)
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+
+                        <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                            Squadra
+                        </h3>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr style="background-color: #2c3e50; color: white;">
+                                    <th>Ruolo</th>
+                                    <th>Nome e Cognome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.squadra_ids" t-as="riga">
+                                    <tr>
+                                        <td><span t-field="riga.ruolo_id"/></td>
+                                        <td><span t-esc="riga.employee_id.name"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <t t-if="o.paziente_ids">
+                            <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                                Dati Paziente
+                            </h3>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr style="background-color: #2c3e50; color: white;">
+                                        <th>Cognome e Nome</th>
+                                        <th>Nato/a a</th>
+                                        <th>Il</th>
+                                        <th>Residente a</th>
+                                        <th>Sospetta Diagnosi</th>
+                                        <th>Causato da</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.paziente_ids" t-as="paziente">
+                                        <tr>
+                                            <td><span t-field="paziente.cognome_nome"/></td>
+                                            <td><span t-field="paziente.nato_a"/></td>
+                                            <td><span t-field="paziente.nato_il"/></td>
+                                            <td><span t-field="paziente.residente_a"/></td>
+                                            <td><span t-field="paziente.sospetta_diagnosi"/></td>
+                                            <td><span t-field="paziente.causato_da"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <t t-if="o.consenso_ids">
+                            <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                                Consensi
+                            </h3>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr style="background-color: #2c3e50; color: white;">
+                                        <th>Ha Fornito il Consenso</th>
+                                        <th>Rifiuto Ricovero</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.consenso_ids" t-as="consenso">
+                                        <tr>
+                                            <td><span t-esc="'Sì' if consenso.consenso_fornito else 'No'"/></td>
+                                            <td><span t-esc="'Sì' if consenso.rifiuto_ricovero else 'No'"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <t t-if="o.note">
+                            <h3 style="border-bottom: 2px solid #2c3e50; padding-bottom: 4px; margin-top: 20px;">
+                                Modalità di Svolgimento e Annotazioni
+                            </h3>
+                            <div t-field="o.note"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_intervento" model="ir.actions.report">
+        <field name="name">Foglio di Viaggio - Scheda</field>
+        <field name="model">volontariato.intervento</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestione_ass_volontariato.report_intervento_document</field>
+        <field name="report_file">gestione_ass_volontariato.report_intervento_document</field>
+        <field name="binding_model_id" ref="model_volontariato_intervento"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Intervento_%s' % (object.codice or 'Nuovo')</field>
+    </record>
+
+</odoo>
