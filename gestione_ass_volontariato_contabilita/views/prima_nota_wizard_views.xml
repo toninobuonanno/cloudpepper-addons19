@@ -19,7 +19,8 @@
                         <field name="conto_natura_id" options="{'no_create': True}"/>
                         <field name="analitica_id" options="{'no_quick_create': True}"/>
                         <field name="partner_id"
-                               domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
+                               domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+                               context="{'default_company_id': company_id}"/>
                     </group>
                 </group>
                 <group>

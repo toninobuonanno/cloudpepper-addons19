@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Volontariato - Prestito Presidi',
-    'version': '19.0.1.4.1',
+    'version': '19.0.1.4.2',
     'category': 'Volontariato',
     'summary': 'Gestione a magazzino dei presidi sanitari donati: carico da '
                'donazioni e prestito/rientro ai richiedenti',
