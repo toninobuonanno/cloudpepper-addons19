@@ -24,9 +24,8 @@ class VolontariatoTurno(models.Model):
     evento = fields.Char(string='Evento', required=True, help="Es. Calcetto / Volley, Assistenza Parrocchia...")
     tipo_intervento_id = fields.Many2one(
         'volontariato.tipo.intervento', string='Tipo Intervento',
-        default=lambda self: self.env.ref(
-            'gestione_ass_volontariato.tipo_intervento_emergenza',
-            raise_if_not_found=False,
+        default=lambda self: self.env['volontariato.tipo.intervento'].search(
+            [], limit=1,
         ),
     )
     luogo = fields.Char(string='Luogo')

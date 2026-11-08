@@ -39,9 +39,8 @@ class VolontariatoIntervento(models.Model):
     )
     tipo_intervento_id = fields.Many2one(
         'volontariato.tipo.intervento', string='Tipo Intervento', required=True,
-        default=lambda self: self.env.ref(
-            'gestione_ass_volontariato.tipo_intervento_emergenza',
-            raise_if_not_found=False,
+        default=lambda self: self.env['volontariato.tipo.intervento'].search(
+            [], limit=1,
         ),
     )
     data = fields.Date(string='Data Intervento', required=True, default=fields.Date.context_today)
